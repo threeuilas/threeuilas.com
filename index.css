@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+body {
+  background-color: #fdfdfc;
+  height: 100%;
+}
+
+@property --primary-color {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #db1100;
+}
+
+@property --secondary-color {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #fdfdfc;
+}
