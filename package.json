@@ -10,6 +10,7 @@
     "watch": "tailwindcss -i src/index.css -o dist/index_output.css --watch",
     "serve": "cd dist && python3 -m http.server 8000",
     "dev": "npm run watch & npm run serve",
+    "stop": "pkill -f 'python3 -m http.server' || lsof -ti:8000 | xargs kill -9",
     "clean": "rm -rf dist && mkdir dist"
   },
   "dependencies": {
