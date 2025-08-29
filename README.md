@@ -1,116 +1,87 @@
-# Three Uilas Website - Development Guide
+# Three Uilas Website
 
-A static website built with modern web technologies for Three Uilas electric farm utility vehicles.
+A modern, responsive website for Three Uilas - Electric Farm Utility Vehicles in Hawaii.
 
-## 🛠️ Technology Stack
-
-- **HTML5**: Semantic markup with accessibility features
-- **Tailwind CSS v4**: Utility-first CSS framework
-- **Vanilla JavaScript**: ES6+ for interactions and mobile menu
-- **Custom Fonts**: Asap Condensed font family via Google Fonts
-- **Responsive Design**: Mobile-first approach with CSS Grid and Flexbox
-
-## 📁 Project Structure
+## Directory Structure
 
 ```
 threeuilas.com/
-├── index.html              # Main HTML file
-├── index.css               # Tailwind CSS source with custom styles
-├── index_output.css        # Compiled CSS (generated)
-├── fonts.css               # Custom font definitions
-├── script.js               # JavaScript functionality
-├── assets/                 # Logo and brand assets
-│   ├── three-uilas-logo-combined.svg
+├── src/                    # Source files
+│   ├── index.html         # Main HTML file
+│   ├── index.css          # Source CSS with Tailwind directives
+│   └── script.js          # JavaScript functionality
+├── dist/                   # Build outputs (deployable)
+│   ├── index.html         # Production HTML with updated paths
+│   ├── index_output.css   # Compiled CSS
+│   ├── script.js          # JavaScript file
+│   └── assets/            # All static assets (images, fonts, logos)
+├── assets/                 # Source static assets
+│   ├── images/            # Product and company images
+│   ├── fonts.css          # Font definitions
+│   ├── logo.svg           # Company logo
+│   ├── three-uilas-favicon.png
+│   ├── three-uilas-favicon.svg
 │   ├── three-uilas-logo-icon.svg
 │   └── three-uilas-logo-raw.svg
-├── images/                 # Product and company images
-│   ├── dump-bed-gate.jpg
-│   ├── dump-bed-rear-view.jpg
-│   ├── dump-bed-side-view.jpg
-│   └── three-uilas-production.jpeg
-├── package.json            # Dependencies
-└── README.md               # This file
+├── package.json           # Dependencies and scripts
+└── README.md              # This file
 ```
 
-## 🚀 Development Setup
+## Development
 
-1. **Install Dependencies**:
+### Prerequisites
+- Node.js and npm
+- Python 3 (for local development server)
+
+### Setup
+1. Install dependencies:
    ```bash
    npm install
    ```
 
-2. **Build CSS**:
+2. Build complete project:
    ```bash
-   npx tailwindcss -i index.css -o index_output.css
+   npm run build
    ```
 
-3. **View Website**:
-   Open `index.html` in your web browser
+### Development Commands
 
-## 🔧 Development Workflow
+- **Complete Build**: `npm run build` - Builds CSS, copies all assets, and updates HTML paths
+- **CSS Only**: `npm run build:css` - Just rebuild CSS
+- **Copy Assets**: `npm run copy:assets` - Copy assets and JS to dist
+- **Update HTML**: `npm run copy:html` - Copy HTML and fix paths
+- **Clean Build**: `npm run clean` - Remove dist folder and start fresh
+- **Watch CSS changes**: `npm run watch` - Watch for CSS changes
+- **Serve locally**: `npm run serve` - Serve from dist folder (production-ready)
+- **Development mode**: `npm run dev` - Watch CSS and serve simultaneously
 
-### CSS Development
-- **Source**: Edit `index.css` for all styles
-- **Build**: Run Tailwind CLI to compile to `index_output.css`
-- **Custom Styles**: Add custom CSS after Tailwind imports in `index.css`
+### Local Development
+The development server runs on `http://localhost:8000` and serves files from the `dist/` directory, giving you a production-like environment.
 
-### JavaScript
-- **File**: `script.js` contains all interactive functionality
-- **Features**: Mobile menu, smooth scrolling, keyboard navigation
-- **No Dependencies**: Pure vanilla JavaScript, no frameworks
+## Build Process
 
-### HTML Structure
-- **Semantic**: Uses proper HTML5 semantic elements
-- **Accessibility**: ARIA labels and keyboard navigation support
-- **SEO**: Meta tags and structured content
+The complete build process:
 
-## 📱 Responsive Design
+1. **CSS Build**: Processes `src/index.css` with Tailwind CSS v4 → `dist/index_output.css`
+2. **Asset Copy**: Copies entire `assets/` folder and `script.js` to `dist/`
+3. **HTML Processing**: Copies HTML and updates all file paths to be relative to `dist/`
+4. **Result**: A complete, deployable website in the `dist/` folder
 
-- **Mobile-First**: Default styles for mobile devices
-- **Breakpoints**: 
-  - Mobile: Default (320px+)
-  - Tablet: `md:` prefix (768px+)
-  - Desktop: `lg:` prefix (1024px+)
-- **Mobile Menu**: Hamburger menu with slide-out navigation
+## Features
 
-## 🎨 Design System
+- Responsive design optimized for all devices
+- Modern UI with Tailwind CSS
+- Mobile-first navigation
+- Optimized images and assets
+- Clean, maintainable code structure
+- **Production-ready builds** with all assets included
 
-- **Colors**: Defined as CSS custom properties in `index.css`
-- **Typography**: Asap Condensed font family
-- **Spacing**: Tailwind's spacing scale for consistency
-- **Components**: Reusable UI patterns with consistent styling
+## Deployment
 
-## 🔄 Build Process
+The `dist/` folder contains everything needed for production deployment:
+- All HTML, CSS, and JavaScript files
+- Complete assets folder with images, fonts, and logos
+- Properly configured file paths
+- No external dependencies (except CDN fonts)
 
-The CSS build process:
-1. **Source**: `index.css` imports Tailwind and adds custom styles
-2. **Build**: Tailwind CLI processes and optimizes
-3. **Output**: `index_output.css` contains all styles ready for production
-
-## 📝 File Management
-
-- **Images**: Optimize and compress before adding to `images/` folder
-- **Assets**: SVG logos in `assets/` folder for scalability
-- **Fonts**: Google Fonts loaded via CDN in HTML head
-
-## 🚀 Deployment
-
-This is a static site that can be deployed to:
-- **GitHub Pages**
-- **Netlify**
-- **Vercel**
-- **Any static hosting service**
-
-Simply upload all files excluding `node_modules/` and `package.json`.
-
-## 🔍 Browser Support
-
-- **Modern Browsers**: Chrome, Firefox, Safari, Edge (latest versions)
-- **Mobile**: iOS Safari, Chrome Mobile, Samsung Internet
-- **Fallbacks**: Graceful degradation for older browsers
-
-## 📚 Resources
-
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [HTML5 Semantic Elements](https://developer.mozilla.org/en-US/docs/Glossary/Semantics)
-- [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+Simply upload the entire contents of the `dist/` folder to your web server.
