@@ -860,6 +860,9 @@ body {
   border-radius: 6px;
   color: #374151;
   transition: all 0.2s ease-in-out;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 #mobile-menu-button:hover {
   color: #dc2626;
@@ -872,6 +875,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .hamburger-line {
   width: 24px;
@@ -879,19 +883,20 @@ body {
   background-color: currentColor;
   border-radius: 9999px;
   margin-bottom: 4px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: 10px 1px;
 }
 .hamburger-line:last-child {
   margin-bottom: 0;
 }
 .hamburger.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(1px, -1px);
+  transform: rotate(45deg) translate(0, 6px);
 }
 .hamburger.active .hamburger-line:nth-child(2) {
-  transform: rotate(-45deg) translate(1px, 1px);
+  opacity: 0;
 }
 .hamburger.active .hamburger-line:nth-child(3) {
-  opacity: 0;
+  transform: rotate(-45deg) translate(0, -6px);
 }
 #mobile-menu-overlay {
   position: fixed;
@@ -1040,6 +1045,9 @@ body {
   #mobile-menu-button {
     display: none;
   }
+}
+#mobile-menu-button {
+  z-index: 50;
 }
 @property --tw-rotate-x {
   syntax: "*";
