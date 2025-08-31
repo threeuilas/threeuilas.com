@@ -1,0 +1,7 @@
+product-images/blue-walkaround-alt.mp4 filter=lfs diff=lfs merge=lfs -text
+product-images/blue-walkaround.mp4 filter=lfs diff=lfs merge=lfs -text
+product-images/red-walkaround-alt.mp4 filter=lfs diff=lfs merge=lfs -text
+product-images/red-walkaround.mp4 filter=lfs diff=lfs merge=lfs -text
+product-images/blue-hydraulic-up-alt.mp4 filter=lfs diff=lfs merge=lfs -text
+product-images/blue-hydraulic-up.mp4 filter=lfs diff=lfs merge=lfs -text
+product-images/blue-video.mp4 filter=lfs diff=lfs merge=lfs -text
