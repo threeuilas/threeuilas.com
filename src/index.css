@@ -22,6 +22,36 @@ body {
   initial-value: #fdfdfc;
 }
 
+/* Custom red color classes to replace Tailwind red-600 */
+.text-red-custom {
+  color: #db1100;
+}
+
+.bg-red-custom {
+  background-color: #db1100;
+}
+
+.bg-red-custom-dark {
+  background-color: #b91c1c;
+}
+
+.bg-red-custom-light {
+  background-color: #fef2f2;
+}
+
+.text-red-custom-light {
+  color: #fecaca;
+}
+
+.from-red-custom {
+  --tw-gradient-from: #db1100;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(219, 17, 0, 0));
+}
+
+.to-red-custom-dark {
+  --tw-gradient-to: #b91c1c;
+}
+
 /* Mobile Menu Styles */
 #mobile-menu-button {
   display: none;
@@ -35,7 +65,7 @@ body {
 }
 
 #mobile-menu-button:hover {
-  color: #dc2626;
+  color: #db1100;
   background-color: #f3f4f6;
 }
 
@@ -145,7 +175,7 @@ body {
 .mobile-menu-logo-text .uilas {
   font-weight: 700;
   font-size: 18px;
-  color: #dc2626;
+  color: #db1100;
 }
 
 #mobile-menu-close {
@@ -191,7 +221,7 @@ body {
 }
 
 .mobile-menu-nav a:hover {
-  color: #dc2626;
+  color: #db1100;
   transform: translateX(8px);
 }
 
@@ -217,7 +247,7 @@ body {
 
 .mobile-menu-footer a {
   display: inline-block;
-  background-color: #dc2626;
+  background-color: #db1100;
   color: white;
   font-weight: 700;
   padding: 12px 24px;
