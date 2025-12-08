@@ -1,40 +1,26 @@
 # Three Uilas Website
 
-A static website for Three Uilas, a company that sells electric cargo tricycles.
+Website for [threeuilas.com](https://threeuilas.com) built with Astro and Tailwind CSS. Quality electric tricycles for all!
 
-Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
+## Getting Started
 
-## 🚀 Project Structure
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-```text
-/
-├── public/
-│   ├── favicon.svg
-│   └── logo.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   ├── pages/
-│   │   └── index.astro
-│   └── styles/
-│       └── global.css
-└── package.json
-```
+2. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+   The site will be available at `localhost:4321`
 
-## 🧞 Commands
+3. Build for production:
+   ```bash
+   pnpm build
+   ```
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`            | Installs dependencies                            |
-| `pnpm dev`                | Starts local dev server at `localhost:4321`      |
-| `pnpm build`              | Build your production site to `./dist/`          |
-| `pnpm preview`            | Preview your build locally, before deploying     |
-| `pnpm astro ...`          | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help`    | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-- [Astro Documentation](https://docs.astro.build)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+4. Preview production build:
+   ```bash
+   pnpm preview
+   ```
