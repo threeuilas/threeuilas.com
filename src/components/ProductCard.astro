@@ -1,0 +1,108 @@
+---
+import ProductCarousel from './ProductCarousel.astro';
+
+interface Spec {
+	label: string;
+	value: string;
+}
+
+interface Pricing {
+	originalPrice: number;
+	discountedPrice: number;
+	discountAmount: number;
+}
+
+interface DualPricing {
+	withDumpBed: Pricing;
+	withoutDumpBed: Pricing;
+}
+
+interface Props {
+	name: string;
+	description: string;
+	specs: Spec[];
+	images: string | string[];
+	alt?: string;
+	learnMoreLink?: string;
+	pricing?: Pricing | DualPricing;
+}
+
+const { 
+	name, 
+	description, 
+	specs, 
+	images, 
+	alt = name,
+	learnMoreLink = '/contact',
+	pricing
+} = Astro.props;
+
+const isMultipleImages = Array.isArray(images);
+const hasDualPricing = pricing && 'withDumpBed' in pricing;
+---
+
+<div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+	{isMultipleImages ? (
+		<ProductCarousel 
+			images={images}
+			alt={alt}
+		/>
+	) : (
+		<img src={images} alt={alt} class="w-full aspect-[4/3] object-cover" />
+	)}
+	<div class="p-6 flex flex-col flex-1">
+		<h3 class="text-2xl font-semibold mb-3 text-gray-800">{name}</h3>
+		<p class="text-base md:text-lg text-gray-600 mb-6">{description}</p>
+		
+		{pricing && (
+			<div class="mb-6 pb-6 border-b border-gray-200">
+				<div class="mb-2">
+					<span class="text-base font-semibold text-[#DB1100] uppercase tracking-wide">Early Bird Discount</span>
+				</div>
+				{hasDualPricing ? (
+					<div class="space-y-4">
+						<div>
+							<div class="flex items-baseline gap-2 mb-1">
+								<span class="text-base text-gray-600">With Hydraulic Auto-dump Bed:</span>
+							</div>
+							<div class="flex items-baseline gap-2">
+								<span class="text-2xl font-bold text-gray-800">${pricing.withDumpBed.discountedPrice.toLocaleString()}</span>
+								<span class="text-lg text-gray-400 line-through">${pricing.withDumpBed.originalPrice.toLocaleString()}</span>
+								<span class="text-base font-medium text-[#DB1100]">Save ${pricing.withDumpBed.discountAmount}</span>
+							</div>
+						</div>
+						<div>
+							<div class="flex items-baseline gap-2 mb-1">
+								<span class="text-base text-gray-600">With Standard Bed:</span>
+							</div>
+							<div class="flex items-baseline gap-2">
+								<span class="text-2xl font-bold text-gray-800">${pricing.withoutDumpBed.discountedPrice.toLocaleString()}</span>
+								<span class="text-lg text-gray-400 line-through">${pricing.withoutDumpBed.originalPrice.toLocaleString()}</span>
+								<span class="text-base font-medium text-[#DB1100]">Save ${pricing.withoutDumpBed.discountAmount}</span>
+							</div>
+						</div>
+					</div>
+				) : (
+					<div class="flex items-baseline gap-2">
+						<span class="text-2xl font-bold text-gray-800">${pricing.discountedPrice.toLocaleString()}</span>
+						<span class="text-lg text-gray-400 line-through">${pricing.originalPrice.toLocaleString()}</span>
+						<span class="text-base font-medium text-[#DB1100]">Save ${pricing.discountAmount}</span>
+					</div>
+				)}
+			</div>
+		)}
+		
+		<div class="space-y-2 mb-6">
+			{specs.map((spec) => (
+				<div class="flex justify-between text-base">
+					<span class="text-gray-600">{spec.label}:</span>
+					<span class="font-medium text-gray-800 text-right" set:html={spec.value}></span>
+				</div>
+			))}
+		</div>
+		
+		<a href={learnMoreLink} class="text-[#DB1100] hover:text-[#DB1100]/80 text-base font-medium inline-flex items-center mt-auto">
+			Learn more →
+		</a>
+	</div>
+</div>

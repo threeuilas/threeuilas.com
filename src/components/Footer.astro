@@ -1,0 +1,31 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-black text-[#FDFDFC] mt-auto">
+	<div class="container mx-auto px-4 py-8">
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+			<div>
+				<h3 class="font-semibold mb-4">Three Uilas</h3>
+				<p class="text-sm text-[#FDFDFC]/80">Quality electric tricycles for all</p>
+			</div>
+			<div>
+				<h3 class="font-semibold mb-4">Quick Links</h3>
+				<ul class="space-y-2 text-sm">
+					<li><a href="/products" class="hover:text-[#DB1100] transition-colors">Products</a></li>
+					<li><a href="/about" class="hover:text-[#DB1100] transition-colors">About</a></li>
+					<li><a href="/contact" class="hover:text-[#DB1100] transition-colors">Contact</a></li>
+				</ul>
+			</div>
+			<div>
+				<h3 class="font-semibold mb-4">Contact</h3>
+				<p class="text-sm text-[#FDFDFC]/80">Get in touch with us</p>
+				<a href="/contact" class="text-sm text-[#DB1100] hover:underline mt-2 inline-block">Contact us →</a>
+			</div>
+		</div>
+		<div class="border-t border-[#FDFDFC]/20 mt-8 pt-8 text-center text-sm text-[#FDFDFC]/60">
+			<p>© {currentYear} Three Uilas. All rights reserved.</p>
+		</div>
+	</div>
+</footer>
+

@@ -1,13 +1,166 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const productImages = [
+	'/large-red-three-uila-front.jpg',
+	'/large-three-uila-back.jpg',
+	'/small-three-uila.jpg',
+];
 ---
 
-<Layout title="Three Uilas - Electric Cargo Tricycles">
-	<main class="container mx-auto px-4 py-8">
-		<div class="flex flex-col items-center justify-center min-h-[80vh] text-center">
-			<img src="/logo.svg" alt="Three Uilas Logo" class="w-64 h-64 mb-8" />
-			<h1 class="text-4xl font-bold text-gray-900 mb-4">Three Uilas</h1>
-			<p class="text-xl text-gray-600">Electric cargo tricycles for sustainable urban transportation</p>
+<Layout title="Three Uilas - Quality Electric Tricycles for All">
+	<!-- Hero Section -->
+	<section class="bg-[#DB1100] text-[#FDFDFC] py-6 md:py-12 lg:py-16 relative overflow-hidden">
+		<div class="container mx-auto px-4 sm:px-6">
+			<div class="max-w-6xl mx-auto">
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
+					<!-- Company Slogan - Left Side -->
+					<div class="text-center lg:text-left order-2 lg:order-1 lg:max-w-lg">
+						<p class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#FDFDFC] mb-3 md:mb-4">Quality electric tricycles for all</p>
+						<p class="text-base sm:text-lg md:text-xl lg:text-2xl text-[#FDFDFC]/90 font-medium">Providing Hawaiʻi with high quality personal and farm vehicles at an affordable price</p>
+					</div>
+					
+					<!-- Product Images Carousel - Right Side -->
+					<div class="order-1 lg:order-2">
+						<div class="hero-carousel product-carousel relative w-full max-w-md mx-auto lg:mx-0 aspect-4/3 overflow-hidden rounded-xl shadow-2xl ring-4 ring-[#FDFDFC]/20">
+							<div class="carousel-container relative w-full h-full">
+								{productImages.map((image, index) => (
+									<div
+										class={`carousel-slide absolute inset-0 transition-opacity duration-700 ${
+											index === 0 ? 'opacity-100' : 'opacity-0'
+										}`}
+										data-slide-index={index}
+									>
+										<img
+											src={image}
+											alt={`Three Uilas Product Image ${index + 1}`}
+											class="w-full h-full object-cover"
+										/>
+									</div>
+								))}
+							</div>
+							
+							<!-- Navigation arrows -->
+							{productImages.length > 1 && (
+								<>
+									<button
+										class="carousel-prev absolute left-2 top-1/2 -translate-y-1/2 bg-[#FDFDFC]/90 hover:bg-[#FDFDFC] text-[#DB1100] p-2 rounded-full shadow-lg transition-all z-10"
+										aria-label="Previous image"
+									>
+										<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+										</svg>
+									</button>
+									<button
+										class="carousel-next absolute right-2 top-1/2 -translate-y-1/2 bg-[#FDFDFC]/90 hover:bg-[#FDFDFC] text-[#DB1100] p-2 rounded-full shadow-lg transition-all z-10"
+										aria-label="Next image"
+									>
+										<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+										</svg>
+									</button>
+									
+									<!-- Dots indicator -->
+									<div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+										{productImages.map((_, index) => (
+											<button
+												class={`carousel-dot w-2 h-2 rounded-full transition-all ${
+													index === 0 ? 'bg-[#FDFDFC]' : 'bg-[#FDFDFC]/50'
+												}`}
+												data-dot-index={index}
+												aria-label={`Go to image ${index + 1}`}
+											></button>
+										))}
+									</div>
+								</>
+							)}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</main>
+	</section>
+	
+	<script>
+		import '../components/ProductCarousel.ts';
+		
+		// Initialize hero carousel with auto-advance
+		(function() {
+			const heroCarousel = document.querySelector('.hero-carousel');
+			if (!heroCarousel) return;
+			
+			// Wait for ProductCarousel to initialize
+			setTimeout(() => {
+				let autoAdvanceInterval: ReturnType<typeof setInterval>;
+				const nextButton = heroCarousel.querySelector('.carousel-next') as HTMLButtonElement;
+				
+				if (!nextButton) return;
+				
+				const startAutoAdvance = () => {
+					autoAdvanceInterval = setInterval(() => {
+						if (nextButton) {
+							nextButton.click();
+						}
+					}, 5000);
+				};
+				
+				startAutoAdvance();
+				
+				// Pause auto-advance on hover
+				heroCarousel.addEventListener('mouseenter', () => {
+					if (autoAdvanceInterval) {
+						clearInterval(autoAdvanceInterval);
+					}
+				});
+				
+				heroCarousel.addEventListener('mouseleave', () => {
+					startAutoAdvance();
+				});
+			}, 100);
+		})();
+	</script>
+
+	<!-- Key Features -->
+	<section class="py-8 md:py-12 lg:py-16 bg-[#FDFDFC]">
+		<div class="container mx-auto px-4 sm:px-6">
+			<div class="max-w-6xl mx-auto">
+				<div class="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 lg:gap-12">
+					<!-- Title on the right (appears first on mobile, right on desktop) -->
+					<div class="md:text-right md:shrink-0 order-1 md:order-2">
+						<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">Why Choose Three Uilas?</h2>
+					</div>
+					<!-- List on the left (appears second on mobile, left on desktop) -->
+					<div class="space-y-4 md:space-y-6 flex-1 md:max-w-[60%] order-2 md:order-1">
+						<div>
+							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">Locally Owned</h3>
+							<p class="text-base md:text-lg text-gray-600">Hawaiʻi-based business committed to serving our community</p>
+						</div>
+						<div>
+							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">Competitive Pricing</h3>
+							<p class="text-base md:text-lg text-gray-600">Affordable quality without compromising on reliability or performance</p>
+						</div>
+						<div>
+							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">Easy to Repair & Modify</h3>
+							<p class="text-base md:text-lg text-gray-600">User-serviceable design with all-steel construction for easy maintenance</p>
+						</div>
+						<div>
+							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">2-Year Warranty & Local Support</h3>
+							<p class="text-base md:text-lg text-gray-600">Comprehensive parts warranty with local support for peace of mind</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA Section -->
+	<section class="py-8 md:py-12 lg:py-16 bg-[#DB1100] text-[#FDFDFC]">
+		<div class="container mx-auto px-4 sm:px-6 text-center">
+			<h2 class="text-2xl sm:text-3xl font-bold mb-3 md:mb-4">Ready to get started?</h2>
+			<p class="text-lg sm:text-xl mb-6 md:mb-8 text-[#FDFDFC]/80">Explore our range of electric cargo tricycles</p>
+			<a href="/products" class="bg-[#FDFDFC] text-[#DB1100] px-6 md:px-8 py-2.5 md:py-3 rounded font-medium hover:bg-[#FDFDFC]/90 transition-colors inline-block text-sm md:text-base">
+				Browse Products
+			</a>
+		</div>
+	</section>
 </Layout>

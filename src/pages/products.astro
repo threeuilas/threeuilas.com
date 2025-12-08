@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+
+const products = [
+	{
+		name: 'Three Uilas Mini',
+		description: 'Compact and versatile three uila perfect for zipping around the neighborhood with room for a passenger and a small amount of cargo.',
+		images: '/small-three-uila.jpg',
+		specs: [
+			{ label: 'Bed Size', value: '3ft 6in' },
+			{ label: 'Motor', value: '500W' },
+			{ label: 'Battery System', value: '48V AGM Deep Cycle' },
+			{ label: 'Maximum Range', value: '35 miles' },
+			{ label: 'Top Speed', value: '25 mph' },
+			{ label: 'Special Features', value: 'Foldable Rear Seat' },
+		],
+		pricing: {
+			originalPrice: 3000,
+			discountedPrice: 2750,
+			discountAmount: 250,
+		},
+	},
+	{
+		name: 'Three Uilas Heavylift',
+		description: 'Heavy-duty three uila built for hauling and farm work. Optional hydraulic auto-dump bed makes hauling material a breeze.',
+		images: ['/large-red-three-uila-front.jpg', '/large-three-uila-back.jpg'],
+		specs: [
+			{ label: 'Bed Size', value: '5ft' },
+			{ label: 'Motor', value: '1200W' },
+			{ label: 'Battery System', value: '72V AGM Deep Cycle' },
+			{ label: 'Maximum Range', value: '60 miles' },
+			{ label: 'Top Speed', value: '25 mph' },
+			{ label: 'Special Features', value: 'Optional Hydraulic Auto-Dump Bed<br />Partially Enclosed Wind/Rain Screen' },
+		],
+		pricing: {
+			withDumpBed: {
+				originalPrice: 5500,
+				discountedPrice: 5000,
+				discountAmount: 500,
+			},
+			withoutDumpBed: {
+				originalPrice: 4500,
+				discountedPrice: 4250,
+				discountAmount: 250,
+			},
+		},
+	},
+];
+---
+
+<Layout title="Products - Three Uilas">
+	<section class="py-12 bg-[#FDFDFC]">
+		<div class="container mx-auto px-4">
+			<div class="max-w-6xl mx-auto">
+				<h1 class="text-4xl font-bold mb-4 text-gray-800">Our Products</h1>
+
+				<!-- Product Grid -->
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+					{products.map((product) => (
+						<ProductCard
+							name={product.name}
+							description={product.description}
+							images={product.images}
+							specs={product.specs}
+							alt={product.name}
+							pricing={product.pricing}
+						/>
+					))}
+				</div>
+
+				<!-- Shared Features -->
+				<div class="bg-white border border-gray-200 rounded-lg p-8 mb-12">
+					<h3 class="text-2xl font-semibold mb-6 text-gray-800">Standard Features (Both Models)</h3>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div class="flex items-start">
+							<span class="text-[#DB1100] mr-3">✓</span>
+							<span class="text-lg text-gray-700">All-steel construction</span>
+						</div>
+						<div class="flex items-start">
+							<span class="text-[#DB1100] mr-3">✓</span>
+							<span class="text-lg text-gray-700">2-year parts warranty</span>
+						</div>
+						<div class="flex items-start">
+							<span class="text-[#DB1100] mr-3">✓</span>
+							<span class="text-lg text-gray-700">All-terrain tires</span>
+						</div>
+						<div class="flex items-start">
+							<span class="text-[#DB1100] mr-3">✓</span>
+							<span class="text-lg text-gray-700">Highly repairable</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-gray-100 rounded-lg p-8 text-center">
+					<h3 class="text-xl font-semibold mb-3 text-gray-800">Interested in our products?</h3>
+					<p class="text-lg text-gray-600 mb-6">Get in touch to learn more about specifications, pricing, and availability.</p>
+					<a href="/contact" class="bg-[#DB1100] text-[#FDFDFC] px-8 py-3 rounded font-medium hover:bg-[#DB1100]/90 transition-colors inline-block">
+						Contact Us
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
