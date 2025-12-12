@@ -51,7 +51,10 @@ const hasDualPricing = pricing && 'withDumpBed' in pricing;
 		<img src={images} alt={alt} class="w-full aspect-[4/3] object-cover" />
 	)}
 	<div class="p-6 flex flex-col flex-1">
-		<h3 class="text-2xl font-semibold mb-3 text-gray-800">{name}</h3>
+		<div class="flex items-center gap-3 mb-3">
+			<h3 class="text-2xl font-semibold text-gray-800">{name}</h3>
+			<span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">In Stock</span>
+		</div>
 		<p class="text-base md:text-lg text-gray-600 mb-6">{description}</p>
 		
 		{pricing && (
