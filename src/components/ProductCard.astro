@@ -25,6 +25,7 @@ interface Props {
 	alt?: string;
 	learnMoreLink?: string;
 	pricing?: Pricing | DualPricing;
+	comingSoon?: boolean;
 }
 
 const { 
@@ -34,7 +35,8 @@ const {
 	images, 
 	alt = name,
 	learnMoreLink = '/contact',
-	pricing
+	pricing,
+	comingSoon = false
 } = Astro.props;
 
 const isMultipleImages = Array.isArray(images);
@@ -42,7 +44,14 @@ const hasDualPricing = pricing && 'withDumpBed' in pricing;
 ---
 
 <div class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-	{isMultipleImages ? (
+	{comingSoon ? (
+		<div class="w-full aspect-[4/3] bg-[#FDFDFC] flex items-center justify-center border-b border-gray-200">
+			<div class="text-center px-6">
+				<p class="text-3xl font-bold text-[#DB1100] mb-2">Coming Soon!</p>
+				<p class="text-lg text-gray-600">Stay tuned for updates</p>
+			</div>
+		</div>
+	) : isMultipleImages ? (
 		<ProductCarousel 
 			images={images}
 			alt={alt}
@@ -53,7 +62,11 @@ const hasDualPricing = pricing && 'withDumpBed' in pricing;
 	<div class="p-6 flex flex-col flex-1">
 		<div class="flex items-center gap-3 mb-3">
 			<h3 class="text-2xl font-semibold text-gray-800">{name}</h3>
-			<span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">In Stock</span>
+			{comingSoon ? (
+				<span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">Coming Soon</span>
+			) : (
+				<span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">In Stock</span>
+			)}
 		</div>
 		<p class="text-base md:text-lg text-gray-600 mb-6">{description}</p>
 		

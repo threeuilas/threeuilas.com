@@ -4,7 +4,7 @@ import ProductCard from '../components/ProductCard.astro';
 
 const products = [
 	{
-		name: 'Three Uilas Mini',
+		name: 'Three Uilas Sparrow',
 		description: 'Compact and versatile three uila perfect for zipping around the neighborhood with room for a passenger and a small amount of cargo.',
 		images: '/small-three-uila.jpg',
 		specs: [
@@ -22,7 +22,7 @@ const products = [
 		},
 	},
 	{
-		name: 'Three Uilas Heavylifter',
+		name: 'Three Uilas Pelican',
 		description: 'Heavy-duty three uila built for hauling and farm work. Optional hydraulic auto-dump bed makes hauling material a breeze.',
 		images: ['/large-red-three-uila-front.jpg', '/large-three-uila-back.jpg'],
 		specs: [
@@ -46,6 +46,20 @@ const products = [
 			},
 		},
 	},
+	{
+		name: 'Three Uilas Albatross',
+		description: 'Coming soon with enhanced features and capabilities.',
+		images: '/small-three-uila.jpg',
+		specs: [
+			{ label: 'Bed Size', value: 'TBA' },
+			{ label: 'Motor', value: 'TBA' },
+			{ label: 'Battery System', value: 'TBA' },
+			{ label: 'Maximum Range', value: 'TBA' },
+			{ label: 'Top Speed', value: 'TBA' },
+			{ label: 'Special Features', value: 'Coming Soon' },
+		],
+		comingSoon: true,
+	},
 ];
 ---
 
@@ -56,7 +70,7 @@ const products = [
 				<h1 class="text-4xl font-bold mb-4 text-gray-800">Our Products</h1>
 
 				<!-- Product Grid -->
-				<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
 					{products.map((product) => (
 						<ProductCard
 							name={product.name}
@@ -65,6 +79,7 @@ const products = [
 							specs={product.specs}
 							alt={product.name}
 							pricing={product.pricing}
+							comingSoon={product.comingSoon}
 						/>
 					))}
 				</div>
@@ -118,7 +133,7 @@ const products = [
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: What is the carrying capacity?</h3>
-							<p class="text-lg text-gray-700">A: The Sparrow has a carrying capacity of 500lb, including driver. The Heavylifter has a carrying capacity of 1500-2000lb, including driver.</p>
+							<p class="text-lg text-gray-700">A: The Sparrow has a carrying capacity of 500lb, including driver. The Pelican has a carrying capacity of 1500-2000lb, including driver.</p>
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Can I customize my Three Uila?</h3>
