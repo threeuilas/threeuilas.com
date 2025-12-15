@@ -2,9 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 
 const productImages = [
-	'/large-red-three-uila-front.jpg',
-	'/large-three-uila-back.jpg',
-	'/small-three-uila.jpg',
+	'/pelican/pelican-red-front.jpg',
+	'/pelican/pelican-red-side-view.jpg',
+	'/sparrow/sparrow-front.jpg',
 ];
 ---
 
@@ -43,6 +43,9 @@ const productImages = [
 											src={image}
 											alt={`Three Uilas Product Image ${index + 1}`}
 											class="w-full h-full object-cover"
+											loading={index === 0 ? 'eager' : 'lazy'}
+											fetchpriority={index === 0 ? 'high' : 'auto'}
+											decoding="async"
 										/>
 									</div>
 								))}
