@@ -7,11 +7,12 @@ interface Props {
 const { images, alt } = Astro.props;
 ---
 
-<div class="product-carousel relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-t-lg">
+<div class="product-carousel-wrapper">
+<div class="product-carousel relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-t-lg" data-images={JSON.stringify(images)} data-alt={alt}>
 	<div class="carousel-container relative w-full h-full">
 		{images.map((image, index) => (
 			<div
-				class={`carousel-slide absolute inset-0 transition-opacity duration-500 ${
+				class={`carousel-slide absolute inset-0 transition-opacity duration-500 cursor-pointer ${
 					index === 0 ? 'opacity-100' : 'opacity-0'
 				}`}
 				data-slide-index={index}
@@ -23,6 +24,7 @@ const { images, alt } = Astro.props;
 					loading={index === 0 ? 'eager' : 'lazy'}
 					fetchpriority={index === 0 ? 'high' : 'auto'}
 					decoding="async"
+					data-image-index={index}
 				/>
 			</div>
 		))}
@@ -62,6 +64,54 @@ const { images, alt } = Astro.props;
 			</div>
 		</>
 	)}
+</div>
+
+<!-- Image Viewer Modal -->
+<div class="image-viewer-modal fixed inset-0 bg-black/90 z-50 hidden items-center justify-center" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<!-- Close button -->
+	<button
+		class="image-viewer-close absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all z-20"
+		aria-label="Close image viewer"
+	>
+		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+		</svg>
+	</button>
+	
+	<!-- Previous button -->
+	<button
+		class="image-viewer-prev absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-20"
+		aria-label="Previous image"
+	>
+		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+		</svg>
+	</button>
+	
+	<!-- Next button -->
+	<button
+		class="image-viewer-next absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-20"
+		aria-label="Next image"
+	>
+		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+		</svg>
+	</button>
+	
+	<!-- Image container -->
+	<div class="image-viewer-container relative max-w-[90vw] max-h-[90vh] flex items-center justify-center">
+		<img
+			class="image-viewer-image max-w-full max-h-[90vh] object-contain"
+			alt=""
+			src=""
+		/>
+	</div>
+	
+	<!-- Image counter -->
+	<div class="image-viewer-counter absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 text-white px-4 py-2 rounded-full text-sm">
+		<span class="image-viewer-current">1</span> / <span class="image-viewer-total">{images.length}</span>
+	</div>
+</div>
 </div>
 
 <script>
