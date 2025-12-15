@@ -152,12 +152,33 @@ class ProductCarousel {
 	updateViewerImage(): void {
 		if (!this.modalImage || !this.modalCurrentSpan) return;
 		
-		const imageUrl = this.images[this.viewerCurrentIndex];
-		if (imageUrl) {
-			this.modalImage.src = imageUrl;
-			this.modalImage.alt = `${this.alt} - Image ${this.viewerCurrentIndex + 1}`;
-			this.modalCurrentSpan.textContent = String(this.viewerCurrentIndex + 1);
+		// Validate index is within bounds
+		if (this.viewerCurrentIndex < 0 || this.viewerCurrentIndex >= this.images.length) {
+			return;
 		}
+		
+		const imageUrl = this.images[this.viewerCurrentIndex];
+		if (!imageUrl) return;
+		
+		// Update counter immediately for better UX
+		this.modalCurrentSpan.textContent = String(this.viewerCurrentIndex + 1);
+		
+		// Always clear src first, then set it to force browser to attempt loading
+		// This is critical when images fail to load - ensures each navigation
+		// triggers a fresh load attempt rather than showing cached broken state
+		this.modalImage.src = '';
+		
+		// Use requestAnimationFrame to ensure browser processes the src clearing
+		// before we set the new src
+		requestAnimationFrame(() => {
+			if (this.modalImage && 
+			    this.viewerCurrentIndex >= 0 && 
+			    this.viewerCurrentIndex < this.images.length &&
+			    this.images[this.viewerCurrentIndex] === imageUrl) {
+				this.modalImage!.src = imageUrl;
+				this.modalImage!.alt = `${this.alt} - Image ${this.viewerCurrentIndex + 1}`;
+			}
+		});
 	}
 	
 	goToSlide(index: number): void {
