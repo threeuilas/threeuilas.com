@@ -13,16 +13,14 @@
 	"observability": {
     "enabled": true
   },
-  "route": [
+  "routes": [
     {
       "pattern": "threeuilas.com/",
-      "custom_domain": true,
-      "zone_name": "threeuilas.com"
+      "custom_domain": true
     },
-    {
+    { 
       "pattern": "www.threeuilas.com/",
-      "custom_domain": true,
-      "zone_name": "threeuilas.com"
+      "custom_domain": true
     }
   ]
 }
