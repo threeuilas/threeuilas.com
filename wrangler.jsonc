@@ -12,5 +12,15 @@
 	},
 	"observability": {
     "enabled": true
-  }
+  },
+  "route": [
+    {
+      "pattern": "threeuilas.com/",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.threeuilas.com/",
+      "custom_domain": true
+    }
+  ]
 }
