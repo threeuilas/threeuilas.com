@@ -15,11 +15,11 @@
   },
   "routes": [
     {
-      "pattern": "threeuilas.com/",
+      "pattern": "threeuilas.com",
       "custom_domain": true
     },
     { 
-      "pattern": "www.threeuilas.com/",
+      "pattern": "www.threeuilas.com",
       "custom_domain": true
     }
   ]
