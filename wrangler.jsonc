@@ -16,11 +16,13 @@
   "route": [
     {
       "pattern": "threeuilas.com/",
-      "custom_domain": true
+      "custom_domain": true,
+      "zone_name": "threeuilas.com"
     },
     {
       "pattern": "www.threeuilas.com/",
-      "custom_domain": true
+      "custom_domain": true,
+      "zone_name": "threeuilas.com"
     }
   ]
 }
