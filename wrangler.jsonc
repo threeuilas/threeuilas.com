@@ -1,6 +1,6 @@
 {
 	"main": "dist/_worker.js/index.js",
-	"name": "three-uilas",
+	"name": "threeuilas",
   "compatibility_date": "2025-12-18",
   "compatibility_flags": [
     "nodejs_compat",
