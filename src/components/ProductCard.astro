@@ -10,6 +10,8 @@ interface Pricing {
 	originalPrice: number;
 	discountedPrice: number;
 	discountAmount: number;
+	soldOut?: boolean;
+	remaining?: number;
 }
 
 interface DualPricing {
@@ -26,17 +28,19 @@ interface Props {
 	learnMoreLink?: string;
 	pricing?: Pricing | DualPricing;
 	comingSoon?: boolean;
+	preorder?: boolean;
 }
 
-const { 
-	name, 
-	description, 
-	specs, 
-	images, 
+const {
+	name,
+	description,
+	specs,
+	images,
 	alt = name,
 	learnMoreLink = '/contact',
 	pricing,
-	comingSoon = false
+	comingSoon = false,
+	preorder = false
 } = Astro.props;
 
 const isMultipleImages = Array.isArray(images);
@@ -49,6 +53,16 @@ const hasDualPricing = pricing && 'withDumpBed' in pricing;
 			<div class="text-center px-6">
 				<p class="text-3xl font-bold text-[#DB1100] mb-2">Coming Soon!</p>
 				<p class="text-lg text-gray-600">Stay tuned for updates</p>
+			</div>
+		</div>
+	) : preorder ? (
+		<div class="w-full aspect-[4/3] bg-[#FDFDFC] flex items-center justify-center border-b border-gray-200">
+			<div class="text-center px-6">
+				<p class="text-3xl font-bold text-[#DB1100] mb-1">Preorder Now</p>
+				{pricing && !('withDumpBed' in pricing) && pricing.discountAmount > 0 && (
+					<p class="text-3xl font-bold text-[#DB1100] mb-2">Save ${pricing.discountAmount.toLocaleString()}</p>
+				)}
+				<p class="text-lg text-gray-600"><a href="/contact" class="underline hover:text-[#DB1100] transition-colors">Contact us</a> to preorder yours today</p>
 			</div>
 		</div>
 	) : isMultipleImages ? (
@@ -70,6 +84,8 @@ const hasDualPricing = pricing && 'withDumpBed' in pricing;
 			<h3 class="text-2xl font-semibold text-gray-800">{name}</h3>
 			{comingSoon ? (
 				<span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">Coming Soon</span>
+			) : preorder ? (
+				<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">Preorder</span>
 			) : (
 				<span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">In Stock</span>
 			)}
@@ -78,37 +94,56 @@ const hasDualPricing = pricing && 'withDumpBed' in pricing;
 		
 		{pricing && (
 			<div class="mb-6 pb-6 border-b border-gray-200">
-				<div class="mb-2">
-					<span class="text-base font-semibold text-[#DB1100] uppercase tracking-wide">Early Bird Discount</span>
-				</div>
+				{!hasDualPricing && pricing.discountAmount > 0 && (
+					<div class="mb-2">
+						<span class="text-base font-semibold text-[#DB1100] uppercase tracking-wide">{preorder ? `Save $${pricing.discountAmount.toLocaleString()} with 50% preorder deposit` : 'Early Bird Discount'}</span>
+					</div>
+				)}
+				{hasDualPricing && (
+					<div class="mb-2">
+						<span class="text-base font-semibold text-[#DB1100] uppercase tracking-wide">Early Bird Discount</span>
+					</div>
+				)}
 				{hasDualPricing ? (
 					<div class="space-y-4">
 						<div>
 							<div class="flex items-baseline gap-2 mb-1">
 								<span class="text-base text-gray-600">With Hydraulic Auto-dump Bed:</span>
+								{pricing.withDumpBed.soldOut && (
+									<span class="bg-red-100 text-red-700 text-xs font-semibold px-2 py-0.5 rounded uppercase tracking-wide">Sold Out</span>
+								)}
 							</div>
 							<div class="flex items-baseline gap-2">
-								<span class="text-2xl font-bold text-gray-800">${pricing.withDumpBed.discountedPrice.toLocaleString()}</span>
+								<span class={`text-2xl font-bold ${pricing.withDumpBed.soldOut ? 'text-gray-400 line-through' : 'text-gray-800'}`}>${pricing.withDumpBed.discountedPrice.toLocaleString()}</span>
 								<span class="text-lg text-gray-400 line-through">${pricing.withDumpBed.originalPrice.toLocaleString()}</span>
-								<span class="text-base font-medium text-[#DB1100]">Save ${pricing.withDumpBed.discountAmount}</span>
+								{!pricing.withDumpBed.soldOut && (
+									<span class="text-base font-medium text-[#DB1100]">Save ${pricing.withDumpBed.discountAmount}</span>
+								)}
 							</div>
 						</div>
 						<div>
 							<div class="flex items-baseline gap-2 mb-1">
 								<span class="text-base text-gray-600">With Standard Bed:</span>
+								{pricing.withoutDumpBed.remaining !== undefined && (
+									<span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded uppercase tracking-wide">{pricing.withoutDumpBed.remaining} remaining</span>
+								)}
 							</div>
 							<div class="flex items-baseline gap-2">
 								<span class="text-2xl font-bold text-gray-800">${pricing.withoutDumpBed.discountedPrice.toLocaleString()}</span>
 								<span class="text-lg text-gray-400 line-through">${pricing.withoutDumpBed.originalPrice.toLocaleString()}</span>
-								<span class="text-base font-medium text-[#DB1100]">Save ${pricing.withoutDumpBed.discountAmount}</span>
+								<span class="text-base font-medium text-[#DB1100]">Save ${pricing.withoutDumpBed.discountAmount.toLocaleString()}</span>
 							</div>
 						</div>
+					</div>
+				) : pricing.discountAmount > 0 ? (
+					<div class="flex items-baseline gap-2">
+						<span class="text-2xl font-bold text-gray-800">${pricing.discountedPrice.toLocaleString()}</span>
+						<span class="text-lg text-gray-400 line-through">${pricing.originalPrice.toLocaleString()}</span>
+						<span class="text-base font-medium text-[#DB1100]">Save ${pricing.discountAmount.toLocaleString()}</span>
 					</div>
 				) : (
 					<div class="flex items-baseline gap-2">
 						<span class="text-2xl font-bold text-gray-800">${pricing.discountedPrice.toLocaleString()}</span>
-						<span class="text-lg text-gray-400 line-through">${pricing.originalPrice.toLocaleString()}</span>
-						<span class="text-base font-medium text-[#DB1100]">Save ${pricing.discountAmount}</span>
 					</div>
 				)}
 			</div>

@@ -4,6 +4,65 @@ import ProductCard from '../components/ProductCard.astro';
 
 const products = [
 	{
+		name: 'Three Uilas Workhorse Pro',
+		description: 'The next evolution of the Workhorse — built for demanding work with doubled range, a more powerful motor, and a Lithium Iron Phosphate battery system.',
+		images: [],
+		preorder: true,
+		specs: [
+			{ label: 'Bed Size', value: '5ft' },
+			{ label: 'Motor', value: '1800W' },
+			{ label: 'Battery System', value: '72V 130Ah Lithium Iron Phosphate' },
+			{ label: 'Maximum Range', value: '120 miles' },
+			{ label: 'Top Speed', value: '25 mph' },
+			{ label: 'Special Features', value: 'Hydraulic Auto-Dump Bed (Included)<br />Partially Enclosed Wind/Rain Screen<br />Upgraded Headlights' },
+			{ label: 'Estimated Delivery', value: 'August 2026' },
+		],
+		pricing: {
+			originalPrice: 6500,
+			discountedPrice: 6000,
+			discountAmount: 500,
+		},
+	},
+	{
+		name: 'Three Uilas Workhorse',
+		description: 'Heavy-duty three uila built for hauling and farm work. Optional hydraulic auto-dump bed makes hauling material a breeze.',
+		images: [
+			'/workhorse/workhorse-3-colors-1.jpg',
+			'/workhorse/workhorse-red-front.jpg',
+			'/workhorse/workhorse-red-front-portrait.jpg',
+			'/workhorse/workhorse-red-side-view.jpg',
+			'/workhorse/workhorse-red-side-down.jpg',
+			'/workhorse/workhorse-red-side-down-1.jpg',
+			'/workhorse/workhorse-red-side-dump-alt-3.jpg',
+			'/workhorse/workhorse-green-front.jpg',
+			'/workhorse/workhorse-green-side.jpg',
+			'/workhorse/workhorse-green-side-dump.jpg',
+			'/workhorse/workhorse-orange-side.jpg',
+		],
+		specs: [
+			{ label: 'Bed Size', value: '5ft' },
+			{ label: 'Motor', value: '1200W' },
+			{ label: 'Battery System', value: '72V AGM Deep Cycle' },
+			{ label: 'Maximum Range', value: '60 miles' },
+			{ label: 'Top Speed', value: '25 mph' },
+			{ label: 'Special Features', value: 'Optional Hydraulic Auto-Dump Bed<br />Partially Enclosed Wind/Rain Screen' },
+		],
+		pricing: {
+			withDumpBed: {
+				originalPrice: 5500,
+				discountedPrice: 5000,
+				discountAmount: 500,
+				soldOut: true,
+			},
+			withoutDumpBed: {
+				originalPrice: 4500,
+				discountedPrice: 2750,
+				discountAmount: 1750,
+				remaining: 1,
+			},
+		},
+	},
+	{
 		name: 'Three Uilas Sparrow',
 		description: 'Compact and versatile three uila perfect for zipping around the neighborhood with room for a passenger and a small amount of cargo.',
 		images: [
@@ -25,43 +84,6 @@ const products = [
 			originalPrice: 3000,
 			discountedPrice: 2750,
 			discountAmount: 250,
-		},
-	},
-	{
-		name: 'Three Uilas Pelican',
-		description: 'Heavy-duty three uila built for hauling and farm work. Optional hydraulic auto-dump bed makes hauling material a breeze.',
-		images: [
-			'/pelican/pelican-3-colors-1.jpg',
-			'/pelican/pelican-red-front.jpg',
-			'/pelican/pelican-red-front-portrait.jpg',
-			'/pelican/pelican-red-side-view.jpg',
-			'/pelican/pelican-red-side-down.jpg',
-			'/pelican/pelican-red-side-down-1.jpg',
-			'/pelican/pelican-red-side-dump-alt-3.jpg',
-			'/pelican/pelican-green-front.jpg',
-			'/pelican/pelican-green-side.jpg',
-			'/pelican/pelican-green-side-dump.jpg',
-			'/pelican/pelican-orange-side.jpg',
-		],
-		specs: [
-			{ label: 'Bed Size', value: '5ft' },
-			{ label: 'Motor', value: '1200W' },
-			{ label: 'Battery System', value: '72V AGM Deep Cycle' },
-			{ label: 'Maximum Range', value: '60 miles' },
-			{ label: 'Top Speed', value: '25 mph' },
-			{ label: 'Special Features', value: 'Optional Hydraulic Auto-Dump Bed<br />Partially Enclosed Wind/Rain Screen' },
-		],
-		pricing: {
-			withDumpBed: {
-				originalPrice: 5500,
-				discountedPrice: 5000,
-				discountAmount: 500,
-			},
-			withoutDumpBed: {
-				originalPrice: 4500,
-				discountedPrice: 4250,
-				discountAmount: 250,
-			},
 		},
 	},
 	{
@@ -98,6 +120,7 @@ const products = [
 							alt={product.name}
 							pricing={product.pricing}
 							comingSoon={product.comingSoon}
+							preorder={product.preorder}
 						/>
 					))}
 				</div>
@@ -151,7 +174,7 @@ const products = [
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: What is the carrying capacity?</h3>
-							<p class="text-lg text-gray-700">A: The Sparrow has a carrying capacity of 500lb, including driver. The Pelican has a carrying capacity of 1500-2000lb, including driver.</p>
+							<p class="text-lg text-gray-700">A: The Sparrow has a carrying capacity of 500lb, including driver. The Workhorse has a carrying capacity of 1500-2000lb, including driver.</p>
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Can I customize my Three Uila?</h3>
