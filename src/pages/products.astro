@@ -18,7 +18,9 @@ const products = [
 			{ label: 'Estimated Delivery', value: 'August 2026' },
 		],
 		pricing: {
+			originalPrice: 6500,
 			discountedPrice: 6000,
+			discountAmount: 500,
 		},
 	},
 	{
@@ -47,11 +49,15 @@ const products = [
 		],
 		pricing: {
 			withDumpBed: {
-				discountedPrice: 5000,
+				originalPrice: 5500,
+				discountedPrice: 5500,
+				discountAmount: 0,
 				soldOut: true,
 			},
 			withoutDumpBed: {
-				discountedPrice: 4250,
+				originalPrice: 4500,
+				discountedPrice: 4500,
+				discountAmount: 0,
 				soldOut: true,
 			},
 		},
@@ -75,9 +81,25 @@ const products = [
 			{ label: 'Special Features', value: 'Foldable Rear Seat' },
 		],
 		pricing: {
+			originalPrice: 3000,
 			discountedPrice: 3000,
+			discountAmount: 0,
 			soldOut: true,
 		},
+	},
+	{
+		name: 'Three Uilas Albatross',
+		description: 'Coming soon with enhanced features and capabilities.',
+		images: '/sparrow/sparrow-front.jpg',
+		specs: [
+			{ label: 'Bed Size', value: 'TBA' },
+			{ label: 'Motor', value: 'TBA' },
+			{ label: 'Battery System', value: 'TBA' },
+			{ label: 'Maximum Range', value: 'TBA' },
+			{ label: 'Top Speed', value: 'TBA' },
+			{ label: 'Special Features', value: 'Coming Soon' },
+		],
+		comingSoon: true,
 	},
 ];
 ---
