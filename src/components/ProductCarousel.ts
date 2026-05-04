@@ -61,11 +61,12 @@ class ProductCarousel {
 			dot.addEventListener('click', () => this.goToSlide(index));
 		});
 		
-		// Add click handlers to images
-		this.slides.forEach((slide: HTMLElement, index: number) => {
+		// Add click handlers to images — always open at currentIndex since slides
+		// are stacked via absolute positioning and any slide may capture the click
+		this.slides.forEach((slide: HTMLElement) => {
 			const img = slide.querySelector('img');
 			if (img) {
-				img.addEventListener('click', () => this.openImageViewer(index));
+				img.addEventListener('click', () => this.openImageViewer(this.currentIndex));
 			}
 		});
 		
@@ -131,10 +132,16 @@ class ProductCarousel {
 	
 	closeImageViewer(): void {
 		if (!this.modal) return;
-		
+
 		this.modal.classList.add('hidden');
 		this.modal.classList.remove('flex');
-		document.body.style.overflow = ''; // Restore scrolling
+		document.body.style.overflow = '';
+
+		// Sync carousel to wherever the viewer was when closed
+		if (this.viewerCurrentIndex !== this.currentIndex) {
+			this.currentIndex = this.viewerCurrentIndex;
+			this.updateSlides();
+		}
 	}
 	
 	viewerNext(): void {
