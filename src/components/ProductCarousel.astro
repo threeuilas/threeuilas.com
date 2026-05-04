@@ -2,13 +2,14 @@
 interface Props {
 	images: string[];
 	alt: string;
+	autoAdvance?: number;
 }
 
-const { images, alt } = Astro.props;
+const { images, alt, autoAdvance } = Astro.props;
 ---
 
 <div class="product-carousel-wrapper">
-<div class="product-carousel relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-t-lg" data-images={JSON.stringify(images)} data-alt={alt}>
+<div class="product-carousel relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-t-lg" data-images={JSON.stringify(images)} data-alt={alt} data-auto-advance={autoAdvance ?? 0}>
 	<div class="carousel-container relative w-full h-full">
 		{images.map((image, index) => (
 			<div
@@ -29,7 +30,7 @@ const { images, alt } = Astro.props;
 			</div>
 		))}
 	</div>
-	
+
 	<!-- Navigation arrows -->
 	{images.length > 1 && (
 		<>
@@ -49,7 +50,7 @@ const { images, alt } = Astro.props;
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
 				</svg>
 			</button>
-			
+
 			<!-- Dots indicator -->
 			<div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10">
 				{images.map((_, index) => (
@@ -67,7 +68,7 @@ const { images, alt } = Astro.props;
 </div>
 
 <!-- Image Viewer Modal -->
-<div class="image-viewer-modal fixed inset-0 bg-black/90 z-50 hidden items-center justify-center" role="dialog" aria-modal="true" aria-label="Image viewer">
+<div class="image-viewer-modal fixed inset-0 bg-black/90 z-50 hidden items-center justify-center pb-24" role="dialog" aria-modal="true" aria-label="Image viewer">
 	<!-- Close button -->
 	<button
 		class="image-viewer-close absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all z-20"
@@ -77,7 +78,7 @@ const { images, alt } = Astro.props;
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
 		</svg>
 	</button>
-	
+
 	<!-- Previous button -->
 	<button
 		class="image-viewer-prev absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-20"
@@ -87,7 +88,7 @@ const { images, alt } = Astro.props;
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 		</svg>
 	</button>
-	
+
 	<!-- Next button -->
 	<button
 		class="image-viewer-next absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-20"
@@ -97,20 +98,32 @@ const { images, alt } = Astro.props;
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
 		</svg>
 	</button>
-	
+
 	<!-- Image container -->
-	<div class="image-viewer-container relative max-w-[90vw] max-h-[90vh] flex items-center justify-center">
+	<div class="image-viewer-container relative max-w-[90vw] max-h-[80vh] flex items-center justify-center">
 		<img
-			class="image-viewer-image max-w-full max-h-[90vh] object-contain"
+			class="image-viewer-image max-w-full max-h-[80vh] object-contain"
 			alt=""
 			src=""
 		/>
 	</div>
-	
-	<!-- Image counter -->
-	<div class="image-viewer-counter absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 text-white px-4 py-2 rounded-full text-sm">
-		<span class="image-viewer-current">1</span> / <span class="image-viewer-total">{images.length}</span>
-	</div>
+
+	<!-- Thumbnail strip -->
+	{images.length > 1 && (
+		<div class="absolute bottom-0 left-0 right-0 flex justify-center gap-2 overflow-x-auto py-3 px-4 bg-gradient-to-t from-black/60 to-transparent">
+			{images.map((image, index) => (
+				<button
+					class={`image-viewer-thumb flex-shrink-0 w-14 h-14 rounded overflow-hidden transition-all ${
+						index === 0 ? 'ring-2 ring-white opacity-100' : 'opacity-50'
+					}`}
+					data-thumb-index={index}
+					aria-label={`View image ${index + 1}`}
+				>
+					<img src={image} alt="" class="w-full h-full object-cover" loading="lazy" />
+				</button>
+			))}
+		</div>
+	)}
 </div>
 </div>
 

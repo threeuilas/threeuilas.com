@@ -38,7 +38,7 @@ const {
 	specs,
 	images,
 	alt = name,
-	learnMoreLink = '/contact',
+	learnMoreLink,
 	pricing,
 	comingSoon = false,
 	preorder = false,
@@ -60,6 +60,13 @@ const isAllSoldOut = hasDualPricing
 		? pricing.soldOut === true
 		: false;
 
+const emailSubjectPrefix = preorder ? 'Preorder' : isAllSoldOut ? 'Waitlist' : 'Inquiry';
+const defaultCtaHref = comingSoon
+	? '/contact'
+	: `mailto:info@threeuilas.com?subject=${encodeURIComponent(`${emailSubjectPrefix}: ${name}`)}`;
+const ctaHref = learnMoreLink ?? defaultCtaHref;
+const ctaLabel = comingSoon ? 'Stay Updated' : preorder ? 'Preorder Now' : isAllSoldOut ? 'Join Waitlist' : 'Inquire to Buy';
+
 const cardClass = dark
 	? 'bg-gray-900 border border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col'
 	: 'bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col';
@@ -74,9 +81,9 @@ const origPriceClass = dark ? 'text-lg text-gray-500 line-through' : 'text-lg te
 const savingsClass = dark ? 'text-base font-medium text-blue-400' : 'text-base font-medium text-[#DB1100]';
 const specLabelClass = dark ? 'text-gray-400' : 'text-gray-600';
 const specValueClass = dark ? 'font-medium text-white text-right' : 'font-medium text-gray-800 text-right';
-const linkClass = dark
-	? 'text-blue-400 hover:text-blue-300 text-base font-medium inline-flex items-center mt-auto'
-	: 'text-[#DB1100] hover:text-[#DB1100]/80 text-base font-medium inline-flex items-center mt-auto';
+const ctaClass = dark
+	? 'bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded font-medium transition-colors inline-flex items-center justify-center mt-auto text-sm'
+	: 'bg-[#DB1100] hover:bg-[#DB1100]/90 text-[#FDFDFC] px-6 py-2.5 rounded font-medium transition-colors inline-flex items-center justify-center mt-auto text-sm';
 ---
 
 <div class={cardClass}>
@@ -214,8 +221,10 @@ const linkClass = dark
 			))}
 		</div>
 
-		<a href={learnMoreLink} class={linkClass}>
-			Learn more →
-		</a>
+		{!isAllSoldOut && (
+			<a href={ctaHref} class={ctaClass}>
+				{ctaLabel} →
+			</a>
+		)}
 	</div>
 </div>
