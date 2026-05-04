@@ -7,9 +7,7 @@ interface Spec {
 }
 
 interface Pricing {
-	originalPrice: number;
 	discountedPrice: number;
-	discountAmount: number;
 	soldOut?: boolean;
 	remaining?: number;
 }
@@ -54,6 +52,12 @@ const stockRemaining = hasDualPricing
 		? pricing.remaining
 		: undefined;
 
+const isAllSoldOut = hasDualPricing
+	? (pricing.withDumpBed.soldOut && pricing.withoutDumpBed.soldOut)
+	: pricing && !hasDualPricing
+		? pricing.soldOut === true
+		: false;
+
 const cardClass = dark
 	? 'bg-gray-900 border border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col'
 	: 'bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col';
@@ -62,11 +66,7 @@ const placeholderClass = dark
 	: 'w-full aspect-[4/3] bg-[#FDFDFC] flex items-center justify-center border-b border-gray-200';
 const titleClass = dark ? 'text-2xl font-semibold text-white' : 'text-2xl font-semibold text-gray-800';
 const descClass = dark ? 'text-base md:text-lg text-gray-300 mb-6' : 'text-base md:text-lg text-gray-600 mb-6';
-const savingsLabelClass = dark ? 'text-base font-semibold text-blue-400 uppercase tracking-wide' : 'text-base font-semibold text-[#DB1100] uppercase tracking-wide';
 const priceDividerClass = dark ? 'mb-6 pb-6 border-b border-gray-700' : 'mb-6 pb-6 border-b border-gray-200';
-const priceClass = dark ? 'text-2xl font-bold text-white' : 'text-2xl font-bold text-gray-800';
-const origPriceClass = dark ? 'text-lg text-gray-500 line-through' : 'text-lg text-gray-400 line-through';
-const savingsClass = dark ? 'text-base font-medium text-blue-400' : 'text-base font-medium text-[#DB1100]';
 const specLabelClass = dark ? 'text-gray-400' : 'text-gray-600';
 const specValueClass = dark ? 'font-medium text-white text-right' : 'font-medium text-gray-800 text-right';
 const linkClass = dark
@@ -86,9 +86,6 @@ const linkClass = dark
 		<div class={placeholderClass}>
 			<div class="text-center px-6">
 				<p class="text-3xl font-bold text-[#DB1100] mb-1">Preorder Now</p>
-				{pricing && !('withDumpBed' in pricing) && pricing.discountAmount > 0 && (
-					<p class="text-3xl font-bold text-[#DB1100] mb-2">Save ${pricing.discountAmount.toLocaleString()}</p>
-				)}
 				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href="/contact" class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to preorder yours today</p>
 			</div>
 		</div>
@@ -114,8 +111,8 @@ const linkClass = dark
 			) : preorder ? (
 				<span class={dark ? 'bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : 'bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide'}>Preorder</span>
 			) : (
-				<span class={stockRemaining !== undefined ? 'bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : 'bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide'}>
-					{stockRemaining !== undefined ? `${stockRemaining} remaining` : 'In Stock'}
+				<span class={isAllSoldOut ? 'bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : stockRemaining !== undefined ? 'bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : 'bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide'}>
+					{isAllSoldOut ? 'Sold Out' : stockRemaining !== undefined ? `${stockRemaining} remaining` : 'In Stock'}
 				</span>
 			)}
 		</div>
@@ -123,16 +120,6 @@ const linkClass = dark
 
 		{pricing && (
 			<div class={priceDividerClass}>
-				{!hasDualPricing && pricing.discountAmount > 0 && (
-					<div class="mb-2">
-						<span class={savingsLabelClass}>{preorder ? `Save $${pricing.discountAmount.toLocaleString()} with 50% preorder deposit` : 'Early Bird Discount'}</span>
-					</div>
-				)}
-				{hasDualPricing && (
-					<div class="mb-2">
-						<span class={savingsLabelClass}>Early Bird Discount</span>
-					</div>
-				)}
 				{hasDualPricing ? (
 					<div class="space-y-4">
 						<div>
@@ -147,10 +134,6 @@ const linkClass = dark
 							</div>
 							<div class="flex items-baseline gap-2">
 								<span class={`text-2xl font-bold ${pricing.withDumpBed.soldOut ? 'text-gray-400 line-through' : dark ? 'text-white' : 'text-gray-800'}`}>${pricing.withDumpBed.discountedPrice.toLocaleString()}</span>
-								<span class={origPriceClass}>${pricing.withDumpBed.originalPrice.toLocaleString()}</span>
-								{!pricing.withDumpBed.soldOut && (
-									<span class={savingsClass}>Save ${pricing.withDumpBed.discountAmount}</span>
-								)}
 							</div>
 						</div>
 						<div>
@@ -165,26 +148,9 @@ const linkClass = dark
 							</div>
 							<div class="flex items-baseline gap-2">
 								<span class={`text-2xl font-bold ${pricing.withoutDumpBed.soldOut ? 'text-gray-400 line-through' : dark ? 'text-white' : 'text-gray-800'}`}>${pricing.withoutDumpBed.discountedPrice.toLocaleString()}</span>
-								<span class={origPriceClass}>${pricing.withoutDumpBed.originalPrice.toLocaleString()}</span>
-								{!pricing.withoutDumpBed.soldOut && (
-									<span class={savingsClass}>Save ${pricing.withoutDumpBed.discountAmount.toLocaleString()}</span>
-								)}
 							</div>
 						</div>
 					</div>
-				) : pricing.discountAmount > 0 ? (
-					<>
-						{pricing.remaining !== undefined && (
-							<div class="mb-1">
-								<span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded uppercase tracking-wide">{pricing.remaining} remaining</span>
-							</div>
-						)}
-						<div class="flex items-baseline gap-2">
-							<span class={priceClass}>${pricing.discountedPrice.toLocaleString()}</span>
-							<span class={origPriceClass}>${pricing.originalPrice.toLocaleString()}</span>
-							<span class={savingsClass}>Save ${pricing.discountAmount.toLocaleString()}</span>
-						</div>
-					</>
 				) : (
 					<>
 						{pricing.remaining !== undefined && (
@@ -193,7 +159,7 @@ const linkClass = dark
 							</div>
 						)}
 						<div class="flex items-baseline gap-2">
-							<span class={priceClass}>${pricing.discountedPrice.toLocaleString()}</span>
+							<span class={`text-2xl font-bold ${pricing.soldOut ? 'text-gray-400 line-through' : dark ? 'text-white' : 'text-gray-800'}`}>${pricing.discountedPrice.toLocaleString()}</span>
 						</div>
 					</>
 				)}
