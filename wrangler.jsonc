@@ -13,6 +13,8 @@
 	"observability": {
     "enabled": true
   },
+  "vars": {},
+  "secrets": ["RESEND_API_KEY"],
   "routes": [
     {
       "pattern": "threeuilas.com",

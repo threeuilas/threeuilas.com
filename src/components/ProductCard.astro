@@ -60,10 +60,7 @@ const isAllSoldOut = hasDualPricing
 		? pricing.soldOut === true
 		: false;
 
-const emailSubjectPrefix = preorder ? 'Preorder' : isAllSoldOut ? 'Waitlist' : 'Inquiry';
-const defaultCtaHref = comingSoon
-	? '/contact'
-	: `mailto:info@threeuilas.com?subject=${encodeURIComponent(`${emailSubjectPrefix}: ${name}`)}`;
+const defaultCtaHref = `/contact?vehicle=${encodeURIComponent(name)}`;
 const ctaHref = learnMoreLink ?? defaultCtaHref;
 const ctaLabel = comingSoon ? 'Stay Updated' : preorder ? 'Preorder Now' : isAllSoldOut ? 'Join Waitlist' : 'Inquire to Buy';
 
