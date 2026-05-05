@@ -14,7 +14,7 @@ function escapeHtml(str: string): string {
 export const POST: APIRoute = async ({ request, locals }) => {
 	const { env } = locals.runtime;
 
-	let name: string, contact: string, vehicle: string, message: string;
+	let name: string, contact: string, vehicle: string, message: string, honeypot: string, turnstileToken: string;
 
 	try {
 		const data = await request.formData();
@@ -22,8 +22,31 @@ export const POST: APIRoute = async ({ request, locals }) => {
 		contact = ((data.get('contact') as string) ?? '').trim();
 		vehicle = ((data.get('vehicle') as string) ?? '').trim();
 		message = ((data.get('message') as string) ?? '').trim();
+		honeypot = ((data.get('website') as string) ?? '').trim();
+		turnstileToken = ((data.get('cf-turnstile-response') as string) ?? '').trim();
 	} catch {
 		return json({ error: 'Invalid request.' }, 400);
+	}
+
+	if (honeypot) {
+		return json({ error: 'Invalid request.' }, 400);
+	}
+
+	if (!turnstileToken) {
+		return json({ error: 'Please complete the verification.' }, 400);
+	}
+
+	const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: new URLSearchParams({
+			secret: env.TURNSTILE_SECRET_KEY,
+			response: turnstileToken,
+		}),
+	});
+	const verifyData = await verifyRes.json() as { success: boolean };
+	if (!verifyData.success) {
+		return json({ error: 'Verification failed. Please refresh and try again.' }, 400);
 	}
 
 	if (!name || !contact || !message) {

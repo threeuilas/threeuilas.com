@@ -14,7 +14,7 @@
     "enabled": true
   },
   "vars": {},
-  "secrets": ["RESEND_API_KEY"],
+  "secrets": ["RESEND_API_KEY", "TURNSTILE_SECRET_KEY"],
   "routes": [
     {
       "pattern": "threeuilas.com",
