@@ -74,6 +74,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 	});
 
 	if (error) {
+		console.error('Resend error:', JSON.stringify(error));
 		return json({ error: 'Failed to send message. Please try again or contact us directly.' }, 500);
 	}
 
