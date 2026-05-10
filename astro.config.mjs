@@ -2,13 +2,14 @@
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
-
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // Update this to your GitHub Pages URL if different
   site: 'https://threeuilas.com',
+
+  integrations: [sitemap()],
 
   vite: {
     plugins: [tailwindcss()]

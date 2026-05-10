@@ -98,7 +98,7 @@ const ctaClass = dark
 				{pricing && !('withDumpBed' in pricing) && pricing.discountAmount > 0 && (
 					<p class="text-3xl font-bold text-[#DB1100] mb-2">Save ${pricing.discountAmount.toLocaleString()}</p>
 				)}
-				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href="/contact" class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to preorder yours today</p>
+				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to preorder yours today</p>
 			</div>
 		</div>
 	) : isMultipleImages ? (

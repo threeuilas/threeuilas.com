@@ -31,6 +31,11 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
 		<meta property="og:url" content={Astro.url.href} />
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Three Uilas" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+		<link rel="canonical" href={Astro.url.href} />
 		<link rel="icon" type="image/svg+xml" href="/three-uilas-favicon.svg" />
 		<link rel="icon" type="image/png" href="/three-uilas-favicon.png" />
 		<link rel="apple-touch-icon" href="/three-uilas-favicon.png" />
