@@ -94,9 +94,9 @@ const ctaClass = dark
 	) : preorder ? (
 		<div class={placeholderClass}>
 			<div class="text-center px-6">
-				<p class="text-3xl font-bold text-[#DB1100] mb-1">Preorder Now</p>
+				<p class={`text-3xl font-bold mb-1 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>Preorder Now</p>
 				{pricing && !('withDumpBed' in pricing) && pricing.discountAmount > 0 && (
-					<p class="text-3xl font-bold text-[#DB1100] mb-2">Save ${pricing.discountAmount.toLocaleString()}</p>
+					<p class={`text-3xl font-bold mb-2 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>Save ${pricing.discountAmount.toLocaleString()}</p>
 				)}
 				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to preorder yours today</p>
 			</div>
