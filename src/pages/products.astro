@@ -7,7 +7,7 @@ const products = [
 		name: 'Three Uilas Workhorse Pro',
 		description: 'The next evolution of the Workhorse. Get even more done with double the range, 50% more power, and included hydraulic dump bed.',
 		images: [],
-		preorder: true,
+		estimatedAvailability: 'Mid-October 2026',
 		specs: [
 			{ label: 'Bed Size', value: '5ft' },
 			{ label: 'Motor', value: '1800W' },
@@ -15,7 +15,7 @@ const products = [
 			{ label: 'Maximum Range', value: '120 miles' },
 			{ label: 'Top Speed', value: '25 mph' },
 			{ label: 'Special Features', value: 'Hydraulic Auto-Dump Bed (Included)<br />Partially Enclosed Wind/Rain Screen<br />Upgraded Headlights' },
-			{ label: 'Estimated Delivery', value: 'August 2026' },
+			{ label: 'Estimated Availability', value: 'Mid-October 2026' },
 		],
 		pricing: {
 			originalPrice: 6500,
@@ -23,11 +23,11 @@ const products = [
 			discountAmount: 500,
 		},
 	},
-		{
+	{
 		name: 'Three Uilas Sparrow+',
 		description: 'The upgraded Sparrow with a bigger motor and a lithium battery pack for more range.',
 		images: [],
-		preorder: true,
+		estimatedAvailability: 'Mid-October 2026',
 		specs: [
 			{ label: 'Bed Size', value: '3ft 6in' },
 			{ label: 'Motor', value: '1000W' },
@@ -35,7 +35,7 @@ const products = [
 			{ label: 'Maximum Range', value: '35 miles' },
 			{ label: 'Top Speed', value: '25 mph' },
 			{ label: 'Special Features', value: 'Foldable Rear Seat' },
-			{ label: 'Estimated Delivery', value: 'August 2026' },
+			{ label: 'Estimated Availability', value: 'Mid-October 2026' },
 		],
 		pricing: {
 			originalPrice: 3500,
@@ -127,8 +127,8 @@ const products = [
 							alt={product.name}
 							pricing={product.pricing}
 							comingSoon={product.comingSoon}
-							preorder={product.preorder}
-							dark={product.preorder === true}
+							estimatedAvailability={product.estimatedAvailability}
+							dark={product.estimatedAvailability !== undefined}
 						/>
 					))}
 				</div>
@@ -186,7 +186,7 @@ const products = [
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Can I customize my Three Uila?</h3>
-							<p class="text-lg text-gray-700">A: We can customize the length, motor power, battery type, and more! Customization requires a pre-order with a 50% deposit and up to 6-month lead time.</p>
+							<p class="text-lg text-gray-700">A: We can customize the length, motor power, battery type, and more! Custom orders require a 50% deposit and can take up to six months.</p>
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: How can I buy one?</h3>
@@ -206,4 +206,3 @@ const products = [
 		</div>
 	</section>
 </Layout>
-

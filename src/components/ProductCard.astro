@@ -28,7 +28,7 @@ interface Props {
 	learnMoreLink?: string;
 	pricing?: Pricing | DualPricing;
 	comingSoon?: boolean;
-	preorder?: boolean;
+	estimatedAvailability?: string;
 	dark?: boolean;
 }
 
@@ -41,7 +41,7 @@ const {
 	learnMoreLink,
 	pricing,
 	comingSoon = false,
-	preorder = false,
+	estimatedAvailability,
 	dark = false
 } = Astro.props;
 
@@ -62,7 +62,7 @@ const isAllSoldOut = hasDualPricing
 
 const defaultCtaHref = `/contact?vehicle=${encodeURIComponent(name)}`;
 const ctaHref = learnMoreLink ?? defaultCtaHref;
-const ctaLabel = comingSoon ? 'Stay Updated' : preorder ? 'Preorder Now' : isAllSoldOut ? 'Join Waitlist' : 'Inquire to Buy';
+const ctaLabel = comingSoon ? 'Stay Updated' : estimatedAvailability ? 'Ask About Availability' : isAllSoldOut ? 'Join Waitlist' : 'Inquire to Buy';
 
 const cardClass = dark
 	? 'bg-gray-900 border border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col'
@@ -91,14 +91,12 @@ const ctaClass = dark
 				<p class="text-lg text-gray-600">Stay tuned for updates</p>
 			</div>
 		</div>
-	) : preorder ? (
+	) : estimatedAvailability ? (
 		<div class={placeholderClass}>
 			<div class="text-center px-6">
-				<p class={`text-3xl font-bold mb-1 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>Preorder Now</p>
-				{pricing && !('withDumpBed' in pricing) && pricing.discountAmount > 0 && (
-					<p class={`text-3xl font-bold mb-2 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>Save ${pricing.discountAmount.toLocaleString()}</p>
-				)}
-				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to preorder yours today</p>
+				<p class={dark ? 'text-lg text-gray-400 mb-1' : 'text-lg text-gray-600 mb-1'}>Estimated Availability</p>
+				<p class={`text-3xl font-bold mb-3 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>{estimatedAvailability}</p>
+				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> for availability details</p>
 			</div>
 		</div>
 	) : isMultipleImages ? (
@@ -120,8 +118,8 @@ const ctaClass = dark
 			<h3 class={titleClass}>{name}</h3>
 			{comingSoon ? (
 				<span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide">Coming Soon</span>
-			) : preorder ? (
-				<span class={dark ? 'bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : 'bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide'}>Preorder</span>
+			) : estimatedAvailability ? (
+				<span class={dark ? 'bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : 'bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide'}>Available Soon</span>
 			) : (
 				<span class={isAllSoldOut ? 'bg-red-100 text-red-700 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : stockRemaining !== undefined ? 'bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide' : 'bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded uppercase tracking-wide'}>
 					{isAllSoldOut ? 'Sold Out' : stockRemaining !== undefined ? `${stockRemaining} remaining` : 'In Stock'}
@@ -132,11 +130,6 @@ const ctaClass = dark
 
 		{pricing && (
 			<div class={priceDividerClass}>
-				{!hasDualPricing && pricing.discountAmount > 0 && (
-					<div class="mb-2">
-						<span class={savingsLabelClass}>{preorder ? `Save $${pricing.discountAmount.toLocaleString()} with 50% preorder deposit` : 'Early Bird Discount'}</span>
-					</div>
-				)}
 				{hasDualPricing && (pricing.withDumpBed.discountAmount > 0 || pricing.withoutDumpBed.discountAmount > 0) && (
 					<div class="mb-2">
 						<span class={savingsLabelClass}>Early Bird Discount</span>
