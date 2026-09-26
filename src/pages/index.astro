@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import ProductCarousel from '../components/ProductCarousel.astro';
 
 const productImages = [
-	'/workhorse/workhorse-red-front.jpg',
-	'/workhorse/workhorse-red-side-view.jpg',
-	'/sparrow/sparrow-front.jpg',
-	'/workhorse/workhorse-3-colors-1.jpg',
-	'/workhorse/workhorse-green-side-dump.jpg',
-	'/sparrow/sparrow-side.jpg',
+	'/gallery/workhorse/workhorse-red-front.webp',
+	'/gallery/workhorse/workhorse-red-side-view.webp',
+	'/gallery/sparrow/sparrow-front.webp',
+	'/gallery/workhorse/workhorse-3-colors-1.webp',
+	'/gallery/workhorse/workhorse-green-side-dump.webp',
+	'/gallery/sparrow/sparrow-side.webp',
 ];
 ---
 
@@ -32,10 +32,10 @@ const productImages = [
 						</div>
 					</div>
 					
-					<!-- Product Images Carousel - Right Side -->
+					<!-- Product image carousel - Right Side -->
 					<div class="order-1 lg:order-2">
-						<div class="max-w-md mx-auto lg:mx-0 rounded-xl shadow-2xl ring-4 ring-[#FDFDFC]/20 overflow-hidden">
-							<ProductCarousel images={productImages} alt="Three Uilas Product" autoAdvance={5000} />
+						<div class="max-w-xl mx-auto lg:mx-0 rounded-2xl shadow-2xl ring-4 ring-[#FDFDFC]/20 overflow-hidden">
+							<ProductCarousel images={productImages} alt="Three Uilas electric tricycle" priority={true} />
 						</div>
 					</div>
 				</div>

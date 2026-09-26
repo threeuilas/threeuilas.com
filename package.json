@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "generate-gallery-images": "node scripts/generate-gallery-images.js",
     "optimize-images": "node scripts/optimize-images.js",
     "move-originals": "node scripts/move-originals.js"
   },
@@ -16,7 +17,9 @@
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^5.16.4",
     "mimetext": "^3.0.28",
+    "photoswipe": "^5.4.4",
     "resend": "^6.12.2",
+    "swiper": "^14.2.0",
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {

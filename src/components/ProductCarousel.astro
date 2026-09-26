@@ -2,131 +2,259 @@
 interface Props {
 	images: string[];
 	alt: string;
-	autoAdvance?: number;
+	priority?: boolean;
 }
 
-const { images, alt, autoAdvance } = Astro.props;
+const { images, alt, priority = false } = Astro.props;
+
+const originalImageHeights: Record<string, number> = {
+	'workhorse-green-front.jpg': 1764,
+	'workhorse-red-front-portrait.jpg': 1836,
+};
+
+const getImageData = (previewSource: string) => {
+	const originalSource = previewSource.startsWith('/gallery/')
+		? previewSource.replace('/gallery/', '/').replace(/\.webp$/, '.jpg')
+		: previewSource;
+	const filename = originalSource.split('/').at(-1) ?? '';
+	const originalHeight = originalImageHeights[filename] ?? 1440;
+
+	return {
+		originalSource,
+		originalWidth: 1920,
+		originalHeight,
+		previewHeight: Math.round((originalHeight / 1920) * 1024),
+	};
+};
 ---
 
-<div class="product-carousel-wrapper">
-<div class="product-carousel relative w-full aspect-[4/3] overflow-hidden bg-gray-100 rounded-t-lg" data-images={JSON.stringify(images)} data-alt={alt} data-auto-advance={autoAdvance ?? 0}>
-	<div class="carousel-container relative w-full h-full">
-		{images.map((image, index) => (
-			<div
-				class={`carousel-slide absolute inset-0 transition-opacity duration-500 cursor-pointer ${
-					index === 0 ? 'opacity-100' : 'opacity-0'
-				}`}
-				data-slide-index={index}
-			>
-				<img
-					src={image}
-					alt={`${alt} - Image ${index + 1}`}
-					class="w-full h-full object-cover"
-					loading={index === 0 ? 'eager' : 'lazy'}
-					fetchpriority={index === 0 ? 'high' : 'auto'}
-					decoding="async"
-					data-image-index={index}
-				/>
-			</div>
-		))}
-	</div>
-
-	<!-- Navigation arrows -->
-	{images.length > 1 && (
-		<>
-			<button
-				class="carousel-prev absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all z-10"
-				aria-label="Previous image"
-			>
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-				</svg>
-			</button>
-			<button
-				class="carousel-next absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all z-10"
-				aria-label="Next image"
-			>
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-				</svg>
-			</button>
-
-			<!-- Dots indicator -->
-			<div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-				{images.map((_, index) => (
-					<button
-						class={`carousel-dot w-2 h-2 rounded-full transition-all ${
-							index === 0 ? 'bg-white' : 'bg-white/50'
-						}`}
-						data-dot-index={index}
-						aria-label={`Go to image ${index + 1}`}
-					></button>
-				))}
-			</div>
-		</>
-	)}
-</div>
-
-<!-- Image Viewer Modal -->
-<div class="image-viewer-modal fixed inset-0 bg-black/90 z-50 hidden items-center justify-center pb-24" role="dialog" aria-modal="true" aria-label="Image viewer">
-	<!-- Close button -->
-	<button
-		class="image-viewer-close absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all z-20"
-		aria-label="Close image viewer"
-	>
-		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-		</svg>
-	</button>
-
-	<!-- Previous button -->
-	<button
-		class="image-viewer-prev absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-20"
-		aria-label="Previous image"
-	>
-		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-		</svg>
-	</button>
-
-	<!-- Next button -->
-	<button
-		class="image-viewer-next absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-20"
-		aria-label="Next image"
-	>
-		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-		</svg>
-	</button>
-
-	<!-- Image container -->
-	<div class="image-viewer-container relative max-w-[90vw] max-h-[80vh] flex items-center justify-center">
-		<img
-			class="image-viewer-image max-w-full max-h-[80vh] object-contain"
-			alt=""
-			src=""
-		/>
-	</div>
-
-	<!-- Thumbnail strip -->
-	{images.length > 1 && (
-		<div class="absolute bottom-0 left-0 right-0 flex justify-center gap-2 overflow-x-auto py-3 px-4 bg-gradient-to-t from-black/60 to-transparent">
-			{images.map((image, index) => (
-				<button
-					class={`image-viewer-thumb flex-shrink-0 w-14 h-14 rounded overflow-hidden transition-all ${
-						index === 0 ? 'ring-2 ring-white opacity-100' : 'opacity-50'
-					}`}
-					data-thumb-index={index}
-					aria-label={`View image ${index + 1}`}
-				>
-					<img src={image} alt="" class="w-full h-full object-cover" loading="lazy" />
-				</button>
-			))}
+<div class="product-gallery" aria-label={`${alt} image gallery`}>
+	<div class="swiper product-gallery__swiper">
+		<div class="swiper-wrapper">
+			{images.map((image, index) => {
+				const imageData = getImageData(image);
+				return (
+					<div class="swiper-slide">
+						<a
+							class="product-gallery__link"
+							href={imageData.originalSource}
+							data-pswp-width={imageData.originalWidth}
+							data-pswp-height={imageData.originalHeight}
+							data-cropped="true"
+							target="_blank"
+							aria-label={`Open ${alt}, view ${index + 1} of ${images.length}, in the image viewer`}
+						>
+							<img
+								src={image}
+								alt={`${alt}, view ${index + 1} of ${images.length}`}
+								width="1024"
+								height={imageData.previewHeight}
+								loading={priority && index === 0 ? 'eager' : 'lazy'}
+								fetchpriority={priority && index === 0 ? 'high' : 'auto'}
+								decoding="async"
+							/>
+							<span class="product-gallery__expand" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+								</svg>
+							</span>
+						</a>
+					</div>
+				);
+			})}
 		</div>
-	)}
-</div>
+
+		{images.length > 1 && (
+			<>
+				<button class="product-gallery__previous" type="button" aria-label="Previous image">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18-6-6 6-6" />
+					</svg>
+				</button>
+				<button class="product-gallery__next" type="button" aria-label="Next image">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18 6-6-6-6" />
+					</svg>
+				</button>
+				<div class="product-gallery__pagination" aria-live="polite"></div>
+			</>
+		)}
+	</div>
 </div>
 
 <script>
-	import './ProductCarousel.ts';
+	import Swiper from 'swiper';
+	import { A11y, Keyboard, Navigation, Pagination } from 'swiper/modules';
+	import PhotoSwipeLightbox from 'photoswipe/lightbox';
+	import 'swiper/css';
+	import 'photoswipe/style.css';
+
+	const galleries = document.querySelectorAll<HTMLElement>('.product-gallery:not([data-gallery-ready])');
+
+	galleries.forEach((gallery) => {
+		const swiperElement = gallery.querySelector<HTMLElement>('.product-gallery__swiper');
+		if (!swiperElement) return;
+
+		new Swiper(swiperElement, {
+			modules: [A11y, Keyboard, Navigation, Pagination],
+			slidesPerView: 1,
+			rewind: true,
+			lazyPreloadPrevNext: 1,
+			keyboard: {
+				enabled: true,
+				onlyInViewport: true,
+			},
+			navigation: {
+				prevEl: gallery.querySelector<HTMLElement>('.product-gallery__previous'),
+				nextEl: gallery.querySelector<HTMLElement>('.product-gallery__next'),
+			},
+			pagination: {
+				el: gallery.querySelector<HTMLElement>('.product-gallery__pagination'),
+				type: 'fraction',
+			},
+			a11y: {
+				enabled: true,
+				containerMessage: gallery.getAttribute('aria-label'),
+				prevSlideMessage: 'Previous image',
+				nextSlideMessage: 'Next image',
+			},
+		});
+
+		gallery.setAttribute('data-gallery-ready', 'true');
+	});
+
+	if (galleries.length > 0) {
+		const lightbox = new PhotoSwipeLightbox({
+			gallery: galleries,
+			children: '.product-gallery__link',
+			bgOpacity: 0.92,
+			indexIndicatorSep: ' of ',
+			pswpModule: () => import('photoswipe'),
+		});
+		lightbox.init();
+	}
 </script>
+
+<style>
+	.product-gallery,
+	.product-gallery__swiper {
+		width: 100%;
+	}
+
+	.product-gallery__swiper {
+		position: relative;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		background: #f3f4f6;
+	}
+
+	.swiper-wrapper,
+	.swiper-slide,
+	.product-gallery__link {
+		height: 100%;
+	}
+
+	.product-gallery__link {
+		position: relative;
+		display: block;
+		cursor: zoom-in;
+	}
+
+	.product-gallery__link img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.product-gallery__previous,
+	.product-gallery__next {
+		position: absolute;
+		top: 50%;
+		z-index: 10;
+		display: grid;
+		width: 2.5rem;
+		height: 2.5rem;
+		place-items: center;
+		transform: translateY(-50%);
+		border-radius: 9999px;
+		background: rgb(17 24 39 / 72%);
+		color: #ffffff;
+		box-shadow: 0 4px 12px rgb(0 0 0 / 22%);
+		transition: background-color 150ms ease, transform 150ms ease;
+	}
+
+	.product-gallery__previous {
+		left: 0.75rem;
+	}
+
+	.product-gallery__next {
+		right: 0.75rem;
+	}
+
+	.product-gallery__previous:hover,
+	.product-gallery__next:hover {
+		background: rgb(17 24 39 / 90%);
+	}
+
+	.product-gallery__previous:focus-visible,
+	.product-gallery__next:focus-visible,
+	.product-gallery__link:focus-visible {
+		outline: 3px solid #ffffff;
+		outline-offset: -4px;
+	}
+
+	.product-gallery__previous svg,
+	.product-gallery__next svg,
+	.product-gallery__expand svg {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+
+	.product-gallery__pagination {
+		position: absolute;
+		bottom: 0.65rem;
+		left: 50%;
+		z-index: 10;
+		width: auto;
+		transform: translateX(-50%);
+		border-radius: 9999px;
+		background: rgb(17 24 39 / 72%);
+		color: #ffffff;
+		padding: 0.2rem 0.65rem;
+		font-size: 0.8rem;
+		line-height: 1.25rem;
+	}
+
+	.product-gallery__expand {
+		position: absolute;
+		top: 0.75rem;
+		right: 0.75rem;
+		z-index: 5;
+		display: grid;
+		width: 2.25rem;
+		height: 2.25rem;
+		place-items: center;
+		border-radius: 9999px;
+		background: rgb(17 24 39 / 72%);
+		color: #ffffff;
+		box-shadow: 0 4px 12px rgb(0 0 0 / 22%);
+		pointer-events: none;
+	}
+
+	@media (max-width: 480px) {
+		.product-gallery__previous,
+		.product-gallery__next {
+			width: 2.25rem;
+			height: 2.25rem;
+		}
+
+		.product-gallery__previous {
+			left: 0.5rem;
+		}
+
+		.product-gallery__next {
+			right: 0.5rem;
+		}
+	}
+</style>

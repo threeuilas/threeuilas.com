@@ -6,6 +6,6 @@
 *.webp binary
 *.svg binary
 *.ico binary
-
 # Git LFS for originals directory
 public/originals filter=lfs diff=lfs merge=lfs -text
+public/gallery/**/*.webp filter=lfs diff=lfs merge=lfs -text
