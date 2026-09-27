@@ -3,6 +3,9 @@ import { Resend } from 'resend';
 
 export const prerender = false;
 
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function escapeHtml(str: string): string {
 	return str
 		.replace(/&/g, '&amp;')
@@ -14,10 +17,11 @@ function escapeHtml(str: string): string {
 export const POST: APIRoute = async ({ request, locals }) => {
 	const { env } = locals.runtime;
 
-	let name: string, contact: string, vehicle: string, message: string, honeypot: string, turnstileToken: string;
+	let submissionId: string, name: string, contact: string, vehicle: string, message: string, honeypot: string, turnstileToken: string;
 
 	try {
 		const data = await request.formData();
+		submissionId = ((data.get('submissionId') as string) ?? '').trim().toLowerCase();
 		name = ((data.get('name') as string) ?? '').trim();
 		contact = ((data.get('contact') as string) ?? '').trim();
 		vehicle = ((data.get('vehicle') as string) ?? '').trim();
@@ -31,6 +35,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
 	if (honeypot) {
 		return json({ error: 'Invalid request.' }, 400);
 	}
+	if (!uuidPattern.test(submissionId)) return json({ error: 'Please refresh the page and try again.' }, 400);
+	if (!name || name.length > 200) return json({ error: 'Enter a name using 200 characters or fewer.' }, 400);
+	if (!contact || contact.length > 254) return json({ error: 'Enter a valid email address or phone number.' }, 400);
+	if (contact.includes('@')) {
+		if (!emailPattern.test(contact)) return json({ error: 'Enter a valid email address.' }, 400);
+	} else if (contact.replace(/\D/g, '').length < 7 || contact.length > 50) {
+		return json({ error: 'Enter a valid phone number.' }, 400);
+	}
+	if (vehicle.length > 150) return json({ error: 'Select a valid vehicle.' }, 400);
+	if (!message || message.length > 2_000) return json({ error: 'Enter a message using 2,000 characters or fewer.' }, 400);
 
 	if (!turnstileToken) {
 		return json({ error: 'Please complete the verification.' }, 400);
@@ -49,8 +63,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
 		return json({ error: 'Verification failed. Please refresh and try again.' }, 400);
 	}
 
-	if (!name || !contact || !message) {
-		return json({ error: 'Name, contact, and message are required.' }, 400);
+	const submission: WebsiteLeadQueueMessage = {
+		type: 'website-contact-submitted',
+		submissionId,
+		name,
+		contact,
+		...(vehicle && { vehicle }),
+		message,
+		submittedAt: new Date().toISOString(),
+	};
+
+	try {
+		await env.WEBSITE_LEADS_QUEUE.send(submission);
+	} catch (error) {
+		console.error('Website lead queue error:', error instanceof Error ? error.message : String(error));
+		return json({ error: 'Failed to send message. Please try again or contact us directly.' }, 503);
 	}
 
 	const subject = vehicle ? `Inquiry: ${vehicle}` : 'Contact Form Submission';
@@ -64,18 +91,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
 		<p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
 	`;
 
-	const resend = new Resend(env.RESEND_API_KEY);
-	const { error } = await resend.emails.send({
-		from: 'Three Uilas Contact <contact@submissions.threeuilas.com>',
-		to: ['info@threeuilas.com'],
-		...(replyTo && { reply_to: replyTo }),
-		subject,
-		html,
-	});
-
-	if (error) {
-		console.error('Resend error:', JSON.stringify(error));
-		return json({ error: 'Failed to send message. Please try again or contact us directly.' }, 500);
+	try {
+		const resend = new Resend(env.RESEND_API_KEY);
+		const { error } = await resend.emails.send({
+			from: 'Three Uilas Contact <contact@submissions.threeuilas.com>',
+			to: ['info@threeuilas.com'],
+			...(replyTo && { reply_to: replyTo }),
+			subject,
+			html,
+		});
+		if (error) console.error('Resend error:', JSON.stringify(error));
+	} catch (error) {
+		console.error('Resend error:', error instanceof Error ? error.message : String(error));
 	}
 
 	return json({ success: true }, 200);

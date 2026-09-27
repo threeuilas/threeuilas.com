@@ -10,6 +10,14 @@
 		"binding": "ASSETS",
 		"directory": "./dist"
 	},
+	"queues": {
+		"producers": [
+			{
+				"binding": "WEBSITE_LEADS_QUEUE",
+				"queue": "threeuilas-website-leads-production"
+			}
+		]
+	},
 	"observability": {
     "enabled": true
   },

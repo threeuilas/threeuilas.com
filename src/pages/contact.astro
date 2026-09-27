@@ -19,6 +19,7 @@ const vehicles = [
 
 				<div class="bg-white border border-gray-200 rounded-lg p-8 mb-6">
 					<form id="contact-form" class="space-y-5" novalidate>
+						<input type="hidden" id="submission-id" name="submissionId" />
 						<!-- honeypot: hidden from real users, bots fill it in -->
 						<div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
 							<label for="website">Website</label>
@@ -26,12 +27,12 @@ const vehicles = [
 						</div>
 						<div>
 							<label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name <span class="text-[#DB1100]">*</span></label>
-							<input type="text" id="name" name="name" required autocomplete="name"
+							<input type="text" id="name" name="name" required maxlength="200" autocomplete="name"
 								class="w-full border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-[#DB1100] focus:border-transparent" />
 						</div>
 						<div>
 							<label for="contact" class="block text-sm font-medium text-gray-700 mb-1">Email or Phone <span class="text-[#DB1100]">*</span></label>
-							<input type="text" id="contact" name="contact" required autocomplete="email"
+							<input type="text" id="contact" name="contact" required maxlength="254" autocomplete="email"
 								class="w-full border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-[#DB1100] focus:border-transparent" />
 						</div>
 						<div>
@@ -46,7 +47,7 @@ const vehicles = [
 						</div>
 						<div>
 							<label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message <span class="text-[#DB1100]">*</span></label>
-							<textarea id="message" name="message" rows={4} required
+							<textarea id="message" name="message" rows={4} required maxlength="2000"
 								class="w-full border border-gray-300 rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-[#DB1100] focus:border-transparent resize-none"></textarea>
 						</div>
 						<div class="cf-turnstile" data-sitekey="0x4AAAAAADJG-0gHq2xwyrGB" data-theme="light"></div>
@@ -90,9 +91,11 @@ const vehicles = [
 	}
 
 	const form = document.getElementById('contact-form') as HTMLFormElement;
+	const submissionId = document.getElementById('submission-id') as HTMLInputElement;
 	const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
 	const errorEl = document.getElementById('form-error') as HTMLParagraphElement;
 	const successEl = document.getElementById('form-success') as HTMLDivElement;
+	submissionId.value = crypto.randomUUID();
 
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault();

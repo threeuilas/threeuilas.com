@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "deploy": "pnpm build && wrangler deploy",
     "preview": "astro preview",
     "astro": "astro",
     "generate-gallery-images": "node scripts/generate-gallery-images.js",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "sharp": "^0.34.5",
-    "vite-imagetools": "^9.0.2"
+    "vite-imagetools": "^9.0.2",
+    "wrangler": "^4.141.0"
   }
 }
