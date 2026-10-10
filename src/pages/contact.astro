@@ -84,8 +84,8 @@ const vehicles = [
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async is:inline></script>
 <script>
 	const vehicleParam = new URLSearchParams(window.location.search).get('vehicle');
-	if (vehicleParam) {
-		const select = document.getElementById('vehicle') as HTMLSelectElement;
+	const select = document.getElementById('vehicle');
+	if (vehicleParam && select instanceof HTMLSelectElement) {
 		const match = Array.from(select.options).find(o => o.value === vehicleParam);
 		if (match) match.selected = true;
 	}

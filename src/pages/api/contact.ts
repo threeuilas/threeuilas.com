@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 import { Resend } from 'resend';
 
 export const prerender = false;
@@ -14,9 +15,7 @@ function escapeHtml(str: string): string {
 		.replace(/"/g, '&quot;');
 }
 
-export const POST: APIRoute = async ({ request, locals }) => {
-	const { env } = locals.runtime;
-
+export const POST: APIRoute = async ({ request }) => {
 	let submissionId: string, name: string, contact: string, vehicle: string, message: string, honeypot: string, turnstileToken: string;
 
 	try {
@@ -96,7 +95,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 		const { error } = await resend.emails.send({
 			from: 'Three Uilas Contact <contact@submissions.threeuilas.com>',
 			to: ['info@threeuilas.com'],
-			...(replyTo && { reply_to: replyTo }),
+			...(replyTo && { replyTo }),
 			subject,
 			html,
 		});

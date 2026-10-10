@@ -99,6 +99,15 @@ const ctaClass = dark
 				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> for availability details</p>
 			</div>
 		</div>
+	) : images.length === 0 ? (
+		<div class={placeholderClass}>
+			<div class="text-center px-6">
+				<p class={`text-3xl font-bold mb-3 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>{isAllSoldOut ? 'Sold Out' : 'Available Now'}</p>
+				{!isAllSoldOut && (
+					<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to purchase</p>
+				)}
+			</div>
+		</div>
 	) : isMultipleImages ? (
 		<ProductCarousel
 			images={images}

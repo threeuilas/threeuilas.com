@@ -2,9 +2,14 @@
   "name": "three-uilas",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "cf-typegen": "wrangler types .astro/worker-configuration.d.ts",
+    "check": "pnpm cf-typegen && astro check",
+    "dev": "pnpm cf-typegen && astro dev",
+    "build": "pnpm cf-typegen && astro build",
     "deploy": "pnpm build && wrangler deploy",
     "preview": "astro preview",
     "astro": "astro",
@@ -13,19 +18,22 @@
     "move-originals": "node scripts/move-originals.js"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/sitemap": "^3.7.2",
-    "@tailwindcss/vite": "^4.2.2",
-    "astro": "^5.16.4",
+    "@astrojs/cloudflare": "^14.3.4",
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.8",
     "mimetext": "^3.0.28",
     "photoswipe": "^5.4.4",
-    "resend": "^6.12.2",
-    "swiper": "^14.2.0",
-    "tailwindcss": "^4.2.2"
+    "resend": "^6.32.1",
+    "swiper": "^14.3.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "sharp": "^0.34.5",
-    "vite-imagetools": "^9.0.2",
-    "wrangler": "^4.141.0"
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^24.19.2",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3",
+    "vite-imagetools": "^12.0.1",
+    "wrangler": "^4.149.0"
   }
 }

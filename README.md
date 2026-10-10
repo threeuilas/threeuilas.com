@@ -4,6 +4,10 @@ Website for [threeuilas.com](https://threeuilas.com) built with Astro and Tailwi
 
 ## Getting Started
 
+Use Node.js 22.12.0 or newer. Development and production builds automatically generate Cloudflare Worker types from `wrangler.jsonc` and local bindings. Run `pnpm cf-typegen` to regenerate them separately.
+
+Run `pnpm check` to check Astro and TypeScript files before building.
+
 1. Install dependencies:
    ```bash
    pnpm install

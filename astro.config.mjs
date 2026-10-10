@@ -8,6 +8,8 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://threeuilas.com',
+  compressHTML: true,
+  session: false,
 
   integrations: [sitemap()],
 
@@ -15,5 +17,5 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  adapter: cloudflare()
+  adapter: cloudflare({ imageService: 'compile' })
 });
