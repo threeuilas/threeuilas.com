@@ -62,7 +62,7 @@ const isAllSoldOut = hasDualPricing
 
 const defaultCtaHref = `/contact?vehicle=${encodeURIComponent(name)}`;
 const ctaHref = learnMoreLink ?? defaultCtaHref;
-const ctaLabel = comingSoon ? 'Stay Updated' : estimatedAvailability ? 'Ask About Availability' : isAllSoldOut ? 'Join Waitlist' : 'Inquire to Buy';
+const ctaLabel = comingSoon ? 'Stay Updated' : estimatedAvailability ? 'Ask About Availability' : isAllSoldOut ? 'Join Waitlist' : 'Contact to Purchase';
 
 const cardClass = dark
 	? 'bg-gray-900 border border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col'
@@ -102,7 +102,7 @@ const ctaClass = dark
 	) : images.length === 0 ? (
 		<div class={placeholderClass}>
 			<div class="text-center px-6">
-				<p class={`text-3xl font-bold mb-3 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>{isAllSoldOut ? 'Sold Out' : 'Available Now'}</p>
+				<p class={`text-3xl font-bold mb-3 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>{isAllSoldOut ? 'Sold Out' : 'Available for Purchase'}</p>
 				{!isAllSoldOut && (
 					<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to purchase</p>
 				)}
@@ -222,7 +222,7 @@ const ctaClass = dark
 
 		{!isAllSoldOut && (
 			<a href={ctaHref} class={ctaClass}>
-				{ctaLabel} →
+				<span>{ctaLabel}<span class="sr-only"> {name}</span> →</span>
 			</a>
 		)}
 	</div>
