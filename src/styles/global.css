@@ -7,3 +7,187 @@
 body {
 	font-family: "Asap Condensed", system-ui, -apple-system, sans-serif;
 }
+
+@layer components {
+	.button,
+	.icon-button,
+	.text-link {
+		--control-focus: #111827;
+		--control-halo: #ffffff;
+	}
+
+	.button,
+	.icon-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		border: 1px solid transparent;
+		border-radius: 0.5rem;
+		font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		font-size: 1rem;
+		font-weight: 600;
+		line-height: 1.5;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+		transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+	}
+
+	.button {
+		min-height: 3rem;
+		max-width: 100%;
+		padding: 0.6875rem 1.5rem;
+	}
+
+	.button--primary {
+		background: #db1100;
+		color: #ffffff;
+	}
+
+	.button--primary:where(:not(:disabled)):hover {
+		background: #b80e00;
+	}
+
+	.button--primary:where(:not(:disabled)):active {
+		background: #990c00;
+	}
+
+	.button--secondary {
+		border-color: #6b7280;
+		background: transparent;
+		color: #1f2937;
+	}
+
+	.button--secondary:where(:not(:disabled)):hover {
+		border-color: #374151;
+		background: #f3f4f6;
+	}
+
+	.button--secondary:where(:not(:disabled)):active {
+		background: #e5e7eb;
+	}
+
+	.button--inverse,
+	.button--dark,
+	.icon-button--dark,
+	.text-link--inverse {
+		--control-focus: #ffffff;
+		--control-halo: #111827;
+	}
+
+	.button--inverse {
+		--control-halo: #db1100;
+	}
+
+	.button--primary.button--inverse {
+		background: #ffffff;
+		color: #b80e00;
+	}
+
+	.button--primary.button--inverse:where(:not(:disabled)):hover {
+		background: #fff1f2;
+	}
+
+	.button--primary.button--inverse:where(:not(:disabled)):active {
+		background: #ffe4e6;
+	}
+
+	.button--secondary:is(.button--inverse, .button--dark) {
+		border-color: #ffffff;
+		color: #ffffff;
+	}
+
+	.button--secondary:is(.button--inverse, .button--dark):where(:not(:disabled)):hover {
+		background: rgb(255 255 255 / 12%);
+	}
+
+	.button--secondary:is(.button--inverse, .button--dark):where(:not(:disabled)):active {
+		background: rgb(255 255 255 / 20%);
+	}
+
+	.button--text,
+	.text-link {
+		color: #b80e00;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.button--text {
+		padding-inline: 0;
+		background: transparent;
+	}
+
+	.button--text:where(:not(:disabled)):hover,
+	.text-link:hover {
+		color: #990c00;
+	}
+
+	.button--text:is(.button--inverse, .button--dark),
+	.text-link--inverse {
+		color: #ffffff;
+	}
+
+	.button--text:is(.button--inverse, .button--dark):where(:not(:disabled)):hover,
+	.text-link--inverse:hover {
+		color: #e5e7eb;
+	}
+
+	.icon-button {
+		width: 2.75rem;
+		height: 2.75rem;
+		flex-shrink: 0;
+		padding: 0.5rem;
+		background: transparent;
+		color: #374151;
+	}
+
+	.icon-button:where(:not(:disabled)):hover {
+		background: #f3f4f6;
+	}
+
+	.icon-button:where(:not(:disabled)):active {
+		background: #e5e7eb;
+	}
+
+	.icon-button--dark {
+		border-radius: 9999px;
+		background: rgb(17 24 39 / 80%);
+		color: #ffffff;
+	}
+
+	.icon-button--dark:where(:not(:disabled)):hover {
+		background: rgb(17 24 39 / 95%);
+	}
+
+	.icon-button--dark:where(:not(:disabled)):active {
+		background: #111827;
+	}
+
+	.button:focus-visible,
+	.icon-button:focus-visible,
+	.text-link:focus-visible {
+		outline: 3px solid var(--control-focus);
+		outline-offset: 3px;
+		box-shadow: 0 0 0 3px var(--control-halo);
+	}
+
+	.button:disabled,
+	.icon-button:disabled {
+		border-color: #d1d5db;
+		background: #e5e7eb;
+		color: #6b7280;
+		cursor: not-allowed;
+	}
+
+	.button[aria-busy="true"] {
+		cursor: progress;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.button,
+		.icon-button {
+			transition: none;
+		}
+	}
+}

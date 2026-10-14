@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import { products } from '../data/products';
+import Button from '../components/Button.astro';
 ---
 
 <Layout title="Products - Three Uilas" description="Workhorse Pro and Sparrow+ electric tricycles are available for purchase in Hawaiʻi. Compare specifications and pricing, then contact Three Uilas to buy.">
@@ -83,7 +84,7 @@ import { products } from '../data/products';
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: How can I buy one?</h3>
-							<p class="text-lg text-gray-700">A: The Workhorse Pro and Sparrow+ are available for purchase now. <a href="/contact" class="text-[#DB1100] underline">Contact us</a> with the model you’re interested in to arrange your purchase.</p>
+							<p class="text-lg text-gray-700">A: The Workhorse Pro and Sparrow+ are available for purchase now. <a href="/contact" class="text-link">Contact us</a> with the model you’re interested in to arrange your purchase.</p>
 						</div>
 					</div>
 				</div>
@@ -91,9 +92,7 @@ import { products } from '../data/products';
 				<div class="bg-gray-100 rounded-lg p-8 text-center">
 					<h3 class="text-xl font-semibold mb-3 text-gray-800">Interested in our products?</h3>
 					<p class="text-lg text-gray-600 mb-6">Ready to purchase a Workhorse Pro or Sparrow+? Contact us to get started or ask a question about either model.</p>
-					<a href="/contact" class="bg-[#DB1100] text-[#FDFDFC] px-8 py-3 rounded font-medium hover:bg-[#DB1100]/90 transition-colors inline-block">
-						Contact Us
-					</a>
+					<Button href="/contact" class="w-full sm:w-auto">Contact us</Button>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 ---
 import ProductCarousel from './ProductCarousel.astro';
+import Button from './Button.astro';
 
 interface Spec {
 	label: string;
@@ -62,7 +63,7 @@ const isAllSoldOut = hasDualPricing
 
 const defaultCtaHref = `/contact?vehicle=${encodeURIComponent(name)}`;
 const ctaHref = learnMoreLink ?? defaultCtaHref;
-const ctaLabel = comingSoon ? 'Stay Updated' : estimatedAvailability ? 'Ask About Availability' : isAllSoldOut ? 'Join Waitlist' : 'Contact to Purchase';
+const ctaLabel = comingSoon ? 'Stay updated' : estimatedAvailability ? 'Ask about availability' : isAllSoldOut ? 'Join waitlist' : 'Contact to purchase';
 
 const cardClass = dark
 	? 'bg-gray-900 border border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col'
@@ -78,9 +79,6 @@ const origPriceClass = dark ? 'text-lg text-gray-500 line-through' : 'text-lg te
 const savingsClass = dark ? 'text-base font-medium text-blue-400' : 'text-base font-medium text-[#DB1100]';
 const specLabelClass = dark ? 'text-gray-400' : 'text-gray-600';
 const specValueClass = dark ? 'font-medium text-white text-right' : 'font-medium text-gray-800 text-right';
-const ctaClass = dark
-	? 'bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded font-medium transition-colors inline-flex items-center justify-center mt-auto text-sm'
-	: 'bg-[#DB1100] hover:bg-[#DB1100]/90 text-[#FDFDFC] px-6 py-2.5 rounded font-medium transition-colors inline-flex items-center justify-center mt-auto text-sm';
 ---
 
 <div class={cardClass}>
@@ -96,7 +94,7 @@ const ctaClass = dark
 			<div class="text-center px-6">
 				<p class={dark ? 'text-lg text-gray-400 mb-1' : 'text-lg text-gray-600 mb-1'}>Estimated Availability</p>
 				<p class={`text-3xl font-bold mb-3 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>{estimatedAvailability}</p>
-				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> for availability details</p>
+				<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class:list={['text-link', dark && 'text-link--inverse']}>Contact us</a> for availability details</p>
 			</div>
 		</div>
 	) : images.length === 0 ? (
@@ -104,7 +102,7 @@ const ctaClass = dark
 			<div class="text-center px-6">
 				<p class={`text-3xl font-bold mb-3 ${dark ? 'text-white' : 'text-[#DB1100]'}`}>{isAllSoldOut ? 'Sold Out' : 'Available for Purchase'}</p>
 				{!isAllSoldOut && (
-					<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class={dark ? 'underline hover:text-blue-400 transition-colors' : 'underline hover:text-[#DB1100] transition-colors'}>Contact us</a> to purchase</p>
+					<p class={dark ? 'text-lg text-gray-400' : 'text-lg text-gray-600'}><a href={ctaHref} class:list={['text-link', dark && 'text-link--inverse']}>Contact us</a> to purchase</p>
 				)}
 			</div>
 		</div>
@@ -221,9 +219,9 @@ const ctaClass = dark
 		</div>
 
 		{!isAllSoldOut && (
-			<a href={ctaHref} class={ctaClass}>
-				<span>{ctaLabel}<span class="sr-only"> {name}</span> →</span>
-			</a>
+			<Button href={ctaHref} tone={dark ? 'dark' : 'default'} class="w-full mt-auto">
+				<span>{ctaLabel}<span class="sr-only"> {name}</span> <span aria-hidden="true">→</span></span>
+			</Button>
 		)}
 	</div>
 </div>

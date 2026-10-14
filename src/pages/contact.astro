@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
 
 const vehicles = [
 	'Three Uilas Workhorse Pro',
@@ -52,10 +53,7 @@ const vehicles = [
 						</div>
 						<div class="cf-turnstile" data-sitekey="0x4AAAAAADJG-0gHq2xwyrGB" data-theme="light"></div>
 						<p id="form-error" class="hidden text-sm text-red-600"></p>
-						<button type="submit" id="submit-btn"
-							class="w-full bg-[#DB1100] hover:bg-[#DB1100]/90 text-white px-6 py-3 rounded font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
-							Send Message
-						</button>
+						<Button type="submit" id="submit-btn" class="w-full">Send message</Button>
 					</form>
 					<div id="form-success" class="hidden text-center py-4">
 						<p class="text-xl font-semibold text-gray-800 mb-2">Message sent!</p>
@@ -67,12 +65,15 @@ const vehicles = [
 					<div class="space-y-6">
 						<div>
 							<p class="text-base font-medium text-gray-800 mb-2">Email</p>
-							<a href="mailto:info@threeuilas.com" class="text-lg text-[#DB1100] hover:underline">info@threeuilas.com</a>
+							<a href="mailto:info@threeuilas.com" class="text-link text-lg">info@threeuilas.com</a>
 						</div>
 						<div>
-							<p class="text-base font-medium text-gray-800 mb-2">Phone (Call or Text)</p>
-							<a href="tel:+18088958882" class="text-lg text-[#DB1100] hover:underline">(808) 895-8882</a>
-							<a href="sms:+18088958882" class="block text-sm text-gray-500 hover:text-[#DB1100] transition-colors mt-1">Text us →</a>
+							<p class="text-base font-medium text-gray-800 mb-2">Call or text</p>
+							<p class="text-lg text-gray-700">(808) 895-8882</p>
+							<div class="flex flex-wrap gap-3 mt-3">
+								<Button href="tel:+18088958882" variant="secondary" class="min-w-32 flex-1">Call us</Button>
+								<Button href="sms:+18088958882" variant="secondary" class="min-w-32 flex-1">Text us</Button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -100,6 +101,7 @@ const vehicles = [
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		submitBtn.disabled = true;
+		submitBtn.setAttribute('aria-busy', 'true');
 		submitBtn.textContent = 'Sending...';
 		errorEl.classList.add('hidden');
 
@@ -114,13 +116,15 @@ const vehicles = [
 				errorEl.textContent = data.error ?? 'Something went wrong. Please try again.';
 				errorEl.classList.remove('hidden');
 				submitBtn.disabled = false;
-				submitBtn.textContent = 'Send Message';
+				submitBtn.textContent = 'Send message';
 			}
 		} catch {
 			errorEl.textContent = 'Something went wrong. Please try again.';
 			errorEl.classList.remove('hidden');
 			submitBtn.disabled = false;
-			submitBtn.textContent = 'Send Message';
+			submitBtn.textContent = 'Send message';
+		} finally {
+			submitBtn.removeAttribute('aria-busy');
 		}
 	});
 </script>

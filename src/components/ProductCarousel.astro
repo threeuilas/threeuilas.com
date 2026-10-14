@@ -66,12 +66,12 @@ const getImageData = (previewSource: string) => {
 
 		{images.length > 1 && (
 			<>
-				<button class="product-gallery__previous" type="button" aria-label="Previous image">
+				<button class="icon-button icon-button--dark product-gallery__previous" type="button" aria-label="Previous image">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18-6-6 6-6" />
 					</svg>
 				</button>
-				<button class="product-gallery__next" type="button" aria-label="Next image">
+				<button class="icon-button icon-button--dark product-gallery__next" type="button" aria-label="Next image">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18 6-6-6-6" />
 					</svg>
@@ -172,16 +172,8 @@ const getImageData = (previewSource: string) => {
 		position: absolute;
 		top: 50%;
 		z-index: 10;
-		display: grid;
-		width: 2.5rem;
-		height: 2.5rem;
-		place-items: center;
 		transform: translateY(-50%);
-		border-radius: 9999px;
-		background: rgb(17 24 39 / 72%);
-		color: #ffffff;
 		box-shadow: 0 4px 12px rgb(0 0 0 / 22%);
-		transition: background-color 150ms ease, transform 150ms ease;
 	}
 
 	.product-gallery__previous {
@@ -192,13 +184,6 @@ const getImageData = (previewSource: string) => {
 		right: 0.75rem;
 	}
 
-	.product-gallery__previous:hover,
-	.product-gallery__next:hover {
-		background: rgb(17 24 39 / 90%);
-	}
-
-	.product-gallery__previous:focus-visible,
-	.product-gallery__next:focus-visible,
 	.product-gallery__link:focus-visible {
 		outline: 3px solid #ffffff;
 		outline-offset: -4px;
@@ -243,12 +228,6 @@ const getImageData = (previewSource: string) => {
 	}
 
 	@media (max-width: 480px) {
-		.product-gallery__previous,
-		.product-gallery__next {
-			width: 2.25rem;
-			height: 2.25rem;
-		}
-
 		.product-gallery__previous {
 			left: 0.5rem;
 		}
