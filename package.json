@@ -6,7 +6,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "cf-typegen": "wrangler types .astro/worker-configuration.d.ts",
+    "cf-typegen": "node -e \"require('node:fs').mkdirSync('.astro', { recursive: true })\" && wrangler types .astro/worker-configuration.d.ts",
     "check": "pnpm cf-typegen && astro check",
     "dev": "pnpm cf-typegen && astro dev",
     "build": "pnpm cf-typegen && astro build",
