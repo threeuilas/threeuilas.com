@@ -1,0 +1,18 @@
+---
+interface Props { title: string; class?: string; }
+const { title, class: className } = Astro.props;
+---
+
+<details class:list={['disclosure', className]} data-disclosure>
+	<summary><span><slot name="title">{title}</slot></span><span class="disclosure-indicator" aria-hidden="true">+</span></summary>
+	<div class="disclosure-content" data-disclosure-content><slot /></div>
+</details>
+
+<style>
+	.disclosure { border-bottom: 1px solid var(--line); }
+	summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 22px; font-size: 22px; font-weight: 500; cursor: pointer; list-style: none; }
+	summary::-webkit-details-marker { display: none; }
+	summary > .disclosure-indicator { color: #b80e00; font-size: 26px; }
+	summary:focus-visible { outline: 3px solid #b80e00; outline-offset: 5px; }
+	.disclosure-content { display: flow-root; }
+</style>

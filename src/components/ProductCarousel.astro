@@ -13,6 +13,17 @@ const originalImageHeights: Record<string, number> = {
 };
 
 const getImageData = (previewSource: string) => {
+	if (previewSource.startsWith('/sparrow-plus/')) {
+		return { originalSource: previewSource.replace(/-1280\.webp$/, '-1920.webp'), originalWidth: 1920, originalHeight: 1440, previewHeight: 768 };
+	}
+	if (previewSource.startsWith('/workhorse-pro/')) {
+		return {
+			originalSource: previewSource.replace(/-1280\.webp$/, '-1920.webp'),
+			originalWidth: 1920,
+			originalHeight: 1280,
+			previewHeight: 683,
+		};
+	}
 	const originalSource = previewSource.startsWith('/gallery/')
 		? previewSource.replace('/gallery/', '/').replace(/\.webp$/, '.jpg')
 		: previewSource;

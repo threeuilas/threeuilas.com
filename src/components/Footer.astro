@@ -2,61 +2,29 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-black text-[#FDFDFC] mt-auto">
-	<div class="container mx-auto px-4 py-8">
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-			<div>
-				<h3 class="font-semibold mb-4">Three Uilas</h3>
-				<p class="text-sm text-[#FDFDFC]/80">Quality electric tricycles for all</p>
-			</div>
-			<div>
-				<h3 class="font-semibold mb-4">Quick Links</h3>
-				<ul class="space-y-2 text-sm">
-					<li><a href="/products" class="hover:text-[#DB1100] transition-colors">Products</a></li>
-					<li><a href="/about" class="hover:text-[#DB1100] transition-colors">About</a></li>
-					<li><a href="/contact" class="hover:text-[#DB1100] transition-colors">Contact</a></li>
-				</ul>
-			</div>
-			<div>
-				<h3 class="font-semibold mb-4">Contact</h3>
-				<p class="text-sm text-[#FDFDFC]/80">Get in touch with us</p>
-				<a href="/contact" class="text-link text-link--inverse text-sm mt-2 inline-block">Contact us <span aria-hidden="true">→</span></a>
-			</div>
-			<div>
-				<h3 class="font-semibold mb-4">Follow Us</h3>
-				<div class="flex items-center space-x-4">
-					<a 
-						href="https://www.instagram.com/threeuilas/" 
-						target="_blank" 
-						rel="noopener noreferrer"
-						class="icon-button icon-button--dark"
-						aria-label="Follow us on Instagram"
-					>
-						<img 
-							src="/instagram.svg" 
-							alt="Instagram" 
-							class="w-6 h-6 invert"
-						/>
-					</a>
-					<a 
-						href="https://www.facebook.com/threeuilas/" 
-						target="_blank" 
-						rel="noopener noreferrer"
-						class="icon-button icon-button--dark"
-						aria-label="Follow us on Facebook"
-					>
-						<img 
-							src="/facebook.svg" 
-							alt="Facebook" 
-							class="w-6 h-6 invert"
-						/>
-					</a>
-				</div>
-			</div>
+<footer class="site-footer">
+	<div class="site-width">
+		<div class="footer-main">
+			<div class="footer-brand"><a href="/">Three Uilas<span>.</span></a><p>Electric utility for everyday life.<br />Based in Hilo, Hawaiʻi.</p></div>
+			<div><h2>Explore</h2><a href="/products">All models</a><a href="/products/workhorse-pro">Workhorse Pro</a><a href="/products/sparrow-plus">Sparrow+</a><a href="/about">Our story</a></div>
+			<div><h2>Get in touch</h2><a href="mailto:info@threeuilas.com">info@threeuilas.com</a><a href="tel:+18088958882">(808) 895-8882</a><a href="/contact">Contact us</a></div>
+			<div><h2>Follow along</h2><a href="https://www.instagram.com/threeuilas/" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://www.facebook.com/threeuilas/" target="_blank" rel="noopener noreferrer">Facebook</a></div>
 		</div>
-		<div class="border-t border-[#FDFDFC]/20 mt-8 pt-8 text-center text-sm text-[#FDFDFC]/60">
-			<p>© {currentYear} Three Uilas. All rights reserved.</p>
-		</div>
+		<div class="footer-bottom"><p>© {currentYear} Three Uilas</p><p>Quality electric tricycles for all.</p></div>
 	</div>
 </footer>
 
+<style>
+	.site-footer { background: #1c251b; color: #f5f4ef; padding-block: 62px 24px; margin-top: auto; }
+	.footer-main { display: grid; grid-template-columns: 1.8fr 1fr 1.3fr .8fr; gap: 48px; padding-bottom: 52px; }
+	.footer-brand > a { font-size: 38px; font-weight: 800; letter-spacing: -.03em; }
+	.footer-brand > a span { color: #ee2d1b; }
+	.footer-brand p { margin-top: 13px; font: 12px/1.9 system-ui, sans-serif; color: #b8c1af; }
+	.footer-main h2 { font: 600 10px/1.5 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #a5b29b; margin: 9px 0 22px; }
+	.footer-main > div:not(.footer-brand) a { display: block; width: fit-content; font-size: 17px; margin-top: 9px; }
+	.footer-main a:hover { color: #d1ddc3; }
+	.footer-bottom { border-top: 1px solid #49533f; padding-top: 23px; display: flex; justify-content: space-between; gap: 20px; font: 10px/1.7 system-ui, sans-serif; color: #a5b29b; }
+	a:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+	@media (max-width: 850px) { .footer-main { grid-template-columns: 1.4fr 1fr; gap: 30px; } }
+	@media (max-width: 500px) { .site-footer { padding-top: 42px; } .footer-main { grid-template-columns: 1fr 1fr; gap: 28px 20px; } .footer-brand { grid-column: 1 / -1; } .footer-main h2 { margin-bottom: 15px; } .footer-main > div:not(.footer-brand) a { font-size: 16px; } .footer-bottom { flex-direction: column; gap: 8px; } }
+</style>

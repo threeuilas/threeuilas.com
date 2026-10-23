@@ -1,0 +1,26 @@
+---
+import { workhorsePhotos, type WorkhorsePhotoName } from '../data/workhorse-pro';
+
+interface Props {
+	name: WorkhorsePhotoName;
+	sizes?: string;
+	class?: string;
+	priority?: boolean;
+}
+
+const { name, sizes = '(max-width: 700px) 100vw, 65vw', class: className, priority = false } = Astro.props;
+const photo = workhorsePhotos[name];
+---
+
+<img
+	src={`/workhorse-pro/${name}-1280.webp`}
+	srcset={[640, 1280, 1920].map(width => `/workhorse-pro/${name}-${width}.webp ${width}w`).join(', ')}
+	sizes={sizes}
+	width="1920"
+	height={photo.portrait ? 2880 : 1280}
+	alt={photo.alt}
+	class={className}
+	loading={priority ? 'eager' : 'lazy'}
+	fetchpriority={priority ? 'high' : 'auto'}
+	decoding="async"
+/>

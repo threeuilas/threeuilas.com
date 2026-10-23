@@ -1,0 +1,14 @@
+---
+import Disclosure from './Disclosure.astro';
+interface Props { questions: { question: string; answer: string }[]; }
+const { questions } = Astro.props;
+---
+
+<div class="question-list">
+	{questions.map(({ question, answer }) => <Disclosure title={question}><p class="answer">{answer}</p></Disclosure>)}
+</div>
+
+<style>
+	.question-list { border-top: 1px solid var(--line); }
+	.answer { padding: 0 25px 24px 0; color: var(--muted); font: 13px/1.8 system-ui, sans-serif; }
+</style>

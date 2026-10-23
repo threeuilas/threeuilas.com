@@ -45,7 +45,7 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="min-h-screen bg-[#FDFDFC] flex flex-col font-sans">
+	<body id="page-top" class="min-h-screen flex flex-col font-sans">
 		<Navigation />
 		<main class="grow">
 			<slot />
@@ -53,4 +53,9 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
 		<Footer />
 	</body>
 </html>
+
+<script>
+	import { initializeDisclosures } from '../scripts/disclosures';
+	initializeDisclosures();
+</script>
 

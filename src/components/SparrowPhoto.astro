@@ -1,0 +1,24 @@
+---
+import { sparrowPhotos, type SparrowPhotoName } from '../data/sparrow-plus';
+
+interface Props {
+	name: SparrowPhotoName;
+	sizes?: string;
+	class?: string;
+	priority?: boolean;
+}
+const { name, sizes = '(max-width: 700px) 100vw, 50vw', class: className, priority = false } = Astro.props;
+---
+
+<img
+	src={`/sparrow-plus/${name}-1280.webp`}
+	srcset={[640, 1280, 1920].map(width => `/sparrow-plus/${name}-${width}.webp ${width}w`).join(', ')}
+	sizes={sizes}
+	width="1920"
+	height="1440"
+	alt={sparrowPhotos[name].alt}
+	class={className}
+	loading={priority ? 'eager' : 'lazy'}
+	fetchpriority={priority ? 'high' : 'auto'}
+	decoding="async"
+/>

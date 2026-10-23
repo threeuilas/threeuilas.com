@@ -1,47 +1,50 @@
-export const availableProducts = [
-	{
-		name: 'Three Uilas Workhorse Pro',
-		description: 'The next evolution of the Workhorse. Get even more done with double the range, 50% more power, and included hydraulic dump bed.',
-		images: [],
-		dark: true,
-		specs: [
-			{ label: 'Bed Size', value: '5ft' },
-			{ label: 'Motor', value: '1800W' },
-			{ label: 'Battery System', value: '72V Lithium Iron Phosphate' },
-			{ label: 'Battery Capacity', value: '10.1 kWh' },
-			{ label: 'Maximum Range', value: '120 miles' },
-			{ label: 'Top Speed', value: '25 mph' },
-			{ label: 'Special Features', value: 'Hydraulic Auto-Dump Bed<br />Partially Enclosed Wind/Rain Screen<br />Upgraded Headlights<br />Tow Hitch' },
-			{ label: 'Availability', value: 'Available for Purchase' },
-		],
-		pricing: {
-			originalPrice: 6500,
-			discountedPrice: 6500,
-			discountAmount: 0,
-		},
+export const workhorsePro = {
+	name: 'Three Uilas Workhorse Pro',
+	learnMoreLink: '/products/workhorse-pro',
+	description: 'The next evolution of the Workhorse. Get even more done with double the range, 50% more power, and included hydraulic dump bed.',
+	images: ['/workhorse-pro/front-right-road-action-1280.webp', '/workhorse-pro/side-dump-1280.webp', '/workhorse-pro/cabin-front-wide-1280.webp'],
+	dark: true,
+	specs: [
+		{ label: 'Bed Size', value: '5ft' },
+		{ label: 'Motor', value: '1800W' },
+		{ label: 'Battery System', value: '72V Lithium Iron Phosphate' },
+		{ label: 'Battery Capacity', value: '10.1 kWh' },
+		{ label: 'Maximum Range', value: '120 miles' },
+		{ label: 'Top Speed', value: '25 mph' },
+		{ label: 'Special Features', value: 'Hydraulic Auto-Dump Bed<br />Partially Enclosed Wind/Rain Screen<br />Upgraded Headlights<br />Tow Hitch' },
+		{ label: 'Availability', value: 'Available for Purchase' },
+	],
+	pricing: {
+		originalPrice: 6500,
+		discountedPrice: 6500,
+		discountAmount: 0,
 	},
-	{
-		name: 'Three Uilas Sparrow+',
-		description: 'The upgraded Sparrow with a bigger motor and a lithium battery pack for more range.',
-		images: [],
-		dark: true,
-		specs: [
-			{ label: 'Bed Size', value: '3ft 6in' },
-			{ label: 'Motor', value: '1000W' },
-			{ label: 'Battery System', value: '72V Lithium Iron Phosphate' },
-			{ label: 'Battery Capacity', value: '4.7 kWh' },
-			{ label: 'Maximum Range', value: '35 miles' },
-			{ label: 'Top Speed', value: '25 mph' },
-			{ label: 'Special Features', value: 'Foldable Rear Seat' },
-			{ label: 'Availability', value: 'Available for Purchase' },
-		],
-		pricing: {
-			originalPrice: 3500,
-			discountedPrice: 3500,
-			discountAmount: 0,
-		},
+};
+
+export const sparrowPlus = {
+	name: 'Three Uilas Sparrow+',
+	learnMoreLink: '/products/sparrow-plus',
+	description: 'The upgraded Sparrow with a bigger motor and a lithium battery pack for more range.',
+	images: ['/sparrow-plus/side-front-1280.webp', '/sparrow-plus/side-1280.webp', '/sparrow-plus/rear-seat-1280.webp'],
+	dark: true,
+	specs: [
+		{ label: 'Bed Size', value: '3ft 6in' },
+		{ label: 'Motor', value: '1000W' },
+		{ label: 'Battery System', value: '72V Lithium Iron Phosphate' },
+		{ label: 'Battery Capacity', value: '4.7 kWh' },
+		{ label: 'Maximum Range', value: '35 miles' },
+		{ label: 'Top Speed', value: '25 mph' },
+		{ label: 'Special Features', value: 'Foldable Rear Seat' },
+		{ label: 'Availability', value: 'Available for Purchase' },
+	],
+	pricing: {
+		originalPrice: 3500,
+		discountedPrice: 3500,
+		discountAmount: 0,
 	},
-];
+};
+
+export const availableProducts = [workhorsePro, sparrowPlus];
 
 export const products = [
 	...availableProducts,

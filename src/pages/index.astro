@@ -1,121 +1,76 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProductCarousel from '../components/ProductCarousel.astro';
+import WorkhorsePhoto from '../components/WorkhorsePhoto.astro';
+import ModelPreview from '../components/ModelPreview.astro';
 import { availableProducts } from '../data/products';
-import Button from '../components/Button.astro';
-
-const productImages = [
-	'/gallery/workhorse/workhorse-red-front.webp',
-	'/gallery/workhorse/workhorse-red-side-view.webp',
-	'/gallery/sparrow/sparrow-front.webp',
-	'/gallery/workhorse/workhorse-3-colors-1.webp',
-	'/gallery/workhorse/workhorse-green-side-dump.webp',
-	'/gallery/sparrow/sparrow-side.webp',
-];
 ---
 
-<Layout title="Three Uilas - Quality Electric Tricycles for All" description="Workhorse Pro and Sparrow+ electric tricycles are available for purchase now. Compare models, pricing, and lithium battery specifications from Hawaiʻi-based Three Uilas.">
-	<!-- Hero Section -->
-	<section class="bg-[#DB1100] text-[#FDFDFC] py-6 md:py-12 lg:py-16 relative overflow-hidden">
-		<div class="container mx-auto px-4 sm:px-6">
-			<div class="max-w-6xl mx-auto">
-				<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
-					<!-- Company Slogan - Left Side -->
-					<div class="text-center lg:text-left order-2 lg:order-1 lg:max-w-lg">
-						<h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#FDFDFC] mb-3 md:mb-4">Quality electric tricycles for all</h1>
-						<p class="text-base sm:text-lg md:text-xl lg:text-2xl text-[#FDFDFC]/90 font-medium mb-6 md:mb-8">Providing Hawaiʻi with high quality personal and farm vehicles at an affordable price</p>
-						<p class="text-base sm:text-lg font-semibold mb-6">Workhorse Pro and Sparrow+ are available for purchase now.</p>
-						<div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
-							<Button href="/products" tone="inverse">Compare available models</Button>
-							<Button href="/contact" variant="secondary" tone="inverse">Contact us</Button>
-						</div>
-					</div>
-					
-					<!-- Product image carousel - Right Side -->
-					<div class="order-1 lg:order-2">
-						<div class="max-w-xl mx-auto lg:mx-0 rounded-2xl shadow-2xl ring-4 ring-[#FDFDFC]/20 overflow-hidden">
-							<ProductCarousel images={productImages} alt="Three Uilas electric tricycle" priority={true} />
-						</div>
-					</div>
-				</div>
-			</div>
+<Layout title="Three Uilas | Electric Utility Tricycles in Hawaiʻi" description="Practical electric utility tricycles for life in Hawaiʻi. Explore the Workhorse Pro and Sparrow+, with local support and a 2-year parts warranty." ogImage="/workhorse-pro/front-right-road-action-1920.webp">
+	<section class="home-hero" aria-labelledby="home-title">
+		<div class="hero-copy">
+			<p class="ui-eyebrow">Electric utility, Hawaiʻi</p>
+			<h1 id="home-title">ELECTRIC.<br />READY TO<br /><span>WORK.</span></h1>
+			<p class="body-copy">Practical electric tricycles for your home, farm, and everyday hauling.</p>
+			<a href="/products" class="action">Explore our models</a>
 		</div>
-	</section>
-	
-	<!-- Models available for purchase -->
-	<section class="bg-gray-900 text-white py-8 md:py-12 lg:py-16" aria-labelledby="available-models-heading">
-		<div class="container mx-auto px-4 sm:px-6">
-			<div class="max-w-6xl mx-auto">
-				<div class="flex justify-center mb-4 md:mb-6">
-					<span class="bg-blue-600 text-white text-sm font-semibold px-5 py-2 rounded-full uppercase tracking-wide">Available for Purchase Now</span>
-				</div>
-				<h2 id="available-models-heading" class="text-center text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Workhorse Pro &amp; Sparrow+</h2>
-				<p class="text-center text-gray-300 text-lg mb-3">Compare our available models, then contact us to arrange your purchase.</p>
-				<p class="text-center text-gray-300 text-lg mb-8">Delivery is available for an additional fee.</p>
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-					{availableProducts.map((product) => (
-						<article class="border border-gray-700 rounded-lg p-6 md:p-8 flex flex-col">
-							<h3 class="text-2xl md:text-3xl font-bold mb-3">{product.name.replace('Three Uilas ', '')}</h3>
-							<p class="text-gray-300 text-lg mb-6">{product.description}</p>
-							<dl class="grid grid-cols-2 gap-5 mb-6">
-								{['Battery Capacity', 'Battery System', 'Maximum Range', 'Motor'].map((label) => (
-									<div>
-										<dt class="text-gray-400 text-sm mb-1">{label}</dt>
-										<dd class="text-lg font-semibold text-blue-300">{product.specs.find((spec) => spec.label === label)?.value}</dd>
-									</div>
-								))}
-							</dl>
-							<p class="text-white text-3xl font-bold mb-5 mt-auto">${product.pricing.discountedPrice.toLocaleString()}</p>
-							<Button href={`/contact?vehicle=${encodeURIComponent(product.name)}`} tone="dark" class="w-full">
-								<span>Contact to purchase<span class="sr-only"> {product.name}</span> <span aria-hidden="true">→</span></span>
-							</Button>
-						</article>
-					))}
-				</div>
-				<p class="text-center mt-6"><Button href="/products" variant="text" tone="dark">View full specifications and features <span aria-hidden="true">→</span></Button></p>
-			</div>
-		</div>
+		<div class="hero-photo"><WorkhorsePhoto name="front-right-road-action" sizes="(max-width: 700px) 100vw, 60vw" priority /><p>THE WORKHORSE PRO <span>100% electric utility</span></p></div>
 	</section>
 
-	<!-- Key Features -->
-	<section class="py-8 md:py-12 lg:py-16 bg-[#FDFDFC]">
-		<div class="container mx-auto px-4 sm:px-6">
-			<div class="max-w-6xl mx-auto">
-				<div class="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 lg:gap-12">
-					<!-- Title on the right (appears first on mobile, right on desktop) -->
-					<div class="md:text-right md:shrink-0 order-1 md:order-2">
-						<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">Why Choose Three Uilas?</h2>
-					</div>
-					<!-- List on the left (appears second on mobile, left on desktop) -->
-					<div class="space-y-4 md:space-y-6 flex-1 md:max-w-[60%] order-2 md:order-1">
-						<div>
-							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">Locally Owned</h3>
-							<p class="text-base md:text-lg text-gray-600">Hawaiʻi-based business committed to serving our community</p>
-						</div>
-						<div>
-							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">Competitive Pricing</h3>
-							<p class="text-base md:text-lg text-gray-600">Affordable quality without compromising on reliability or performance</p>
-						</div>
-						<div>
-							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">Easy to Repair & Modify</h3>
-							<p class="text-base md:text-lg text-gray-600">User-serviceable design with all-steel construction for easy maintenance</p>
-						</div>
-						<div>
-							<h3 class="font-semibold text-base md:text-lg mb-1.5 md:mb-2 text-gray-800">2-Year Warranty & Local Support</h3>
-							<p class="text-base md:text-lg text-gray-600">Comprehensive parts warranty with local support for peace of mind</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="benefits-strip"><div class="site-width"><p>All electric<span>Plug in with the included wall charger</span></p><p>Built for real work<span>All-steel construction. Easy to maintain.</span></p><p>Locally owned and operated<span>Based in Hilo, Hawaiʻi</span></p></div></div>
+
+	<section class="site-width section-pad" aria-labelledby="models-title">
+		<div class="section-top"><div><p class="ui-eyebrow">The lineup</p><h2 id="models-title" class="display-heading">FIND YOUR UILA.</h2></div><a href="/products" class="inline-link">Compare all models</a></div>
+		<div class="model-grid">{availableProducts.map(product => <ModelPreview product={product} />)}</div>
+		<p class="range-footnote">*Maximum range varies with load, terrain, and driving conditions.</p>
 	</section>
 
-	<!-- CTA Section -->
-	<section class="py-8 md:py-12 lg:py-16 bg-[#DB1100] text-[#FDFDFC]">
-		<div class="container mx-auto px-4 sm:px-6 text-center">
-			<h2 class="text-2xl sm:text-3xl font-bold mb-3 md:mb-4">Ready to get started?</h2>
-			<p class="text-lg sm:text-xl mb-6 md:mb-8 text-[#FDFDFC]/80">Explore our range of electric cargo tricycles</p>
-			<Button href="/products" tone="inverse" class="w-full sm:w-auto">Browse products</Button>
-		</div>
-	</section>
+	<section class="local-section" aria-labelledby="local-title"><div class="site-width local-grid">
+		<div class="local-photo"><WorkhorsePhoto name="front-right-far-action" sizes="(max-width: 700px) 100vw, 40vw" /></div>
+		<div class="local-copy"><p class="ui-eyebrow">Based in Hilo</p><h2 id="local-title" class="display-heading">FROM HERE.<br />HERE TO HELP.</h2><p class="body-copy">We’re a Hawaiʻi-based business offering electric utility tricycles at an affordable price. We can help you choose a model, arrange delivery, and find parts when you need them.</p><a href="/about" class="inline-link">Our story</a></div>
+	</div></section>
+
+	<section class="inquiry-band" aria-labelledby="inquiry-title"><div class="site-width"><div><h2 id="inquiry-title">Have a job in mind?</h2><p class="body-copy">Tell us about your property and what you need to move.</p></div><a href="/contact" class="action">Get in touch</a></div></section>
 </Layout>
+
+<style>
+	.home-hero { display: grid; grid-template-columns: .9fr 1.1fr; min-height: 650px; }
+	.hero-copy { align-self: center; padding: 65px 45px 70px max(56px, calc((100vw - 1280px) / 2)); }
+	h1 { font-size: clamp(76px, 7.6vw, 118px); font-weight: 800; line-height: .9; letter-spacing: -.035em; }
+	h1 span { color: #738066; }
+	.hero-copy > .body-copy { margin: 28px 0; max-width: 330px; }
+	.hero-photo { position: relative; overflow: hidden; background: #34402e; }
+	.hero-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% center; }
+	.hero-photo > p { position: absolute; inset: auto 0 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 50px 32px 28px; background: linear-gradient(transparent, #172112c9); font-size: 17px; font-weight: 600; color: white; }
+	.hero-photo > p span { font: 10px/1.6 system-ui, sans-serif; font-weight: 400; color: #e2e7d9; }
+	.benefits-strip { background: #e7e9df; }
+	.benefits-strip > div { display: grid; grid-template-columns: repeat(3, 1fr); padding-block: 29px; gap: 28px; }
+	.benefits-strip p { font-size: 22px; font-weight: 600; padding-left: 28px; border-left: 1px solid #c5ccba; }
+	.benefits-strip p:first-child { border: 0; padding-left: 0; }
+	.benefits-strip p span { display: block; margin-top: 7px; font: 11px/1.7 system-ui, sans-serif; color: #626c57; }
+	.model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+	.range-footnote { font: 10px/1.8 system-ui, sans-serif; color: #6b745f; margin-top: 28px; }
+	.local-section { background: #283325; color: #f5f4ef; padding-block: 72px; }
+	.local-grid { display: grid; grid-template-columns: .85fr 1fr; gap: clamp(48px, 8vw, 120px); align-items: center; }
+	.local-photo :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 60%; }
+	.local-copy .ui-eyebrow { color: #c2ccb7; }
+	.local-copy .body-copy { color: #c6cfbd; max-width: 450px; margin: 28px 0; }
+	.local-copy .inline-link:hover { color: #d5e0ca; }
+	@media (max-width: 1050px) { .home-hero { min-height: 590px; } .hero-copy { padding-left: 32px; padding-right: 30px; } h1 { font-size: 86px; } .model-grid { gap: 30px; } .hero-photo > p { padding-inline: 24px; } }
+	@media (max-width: 700px) {
+		.home-hero { grid-template-columns: 1fr; min-height: 0; }
+		.hero-copy { padding: 45px 20px 42px; }
+		h1 { font-size: clamp(76px, 16vw, 110px); }
+		.hero-copy > .body-copy { margin: 23px 0; max-width: 350px; }
+		.hero-photo { height: 390px; }
+		.hero-photo :global(img) { object-position: center; }
+		.hero-photo > p { padding: 35px 20px 20px; }
+		.benefits-strip > div { grid-template-columns: 1fr; gap: 18px; padding-block: 26px; }
+		.benefits-strip p { padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px solid #c5ccba; font-size: 21px; }
+		.benefits-strip p:first-child { padding-top: 0; }
+		.benefits-strip p span { margin-top: 3px; }
+		.model-grid { grid-template-columns: 1fr; gap: 48px; }
+		.local-section { padding-block: 40px 52px; }
+		.local-grid { grid-template-columns: 1fr; gap: 35px; }
+		.local-photo :global(img) { aspect-ratio: 5 / 4; }
+	}
+</style>

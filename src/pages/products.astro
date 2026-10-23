@@ -1,105 +1,119 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProductCard from '../components/ProductCard.astro';
-import { products } from '../data/products';
-import Button from '../components/Button.astro';
+import ModelPreview from '../components/ModelPreview.astro';
+import Disclosure from '../components/Disclosure.astro';
+import QuestionList from '../components/QuestionList.astro';
+import { availableProducts, products } from '../data/products';
+
+const comparison = ['Motor', 'Battery Capacity', 'Battery System', 'Bed Size', 'Maximum Range', 'Top Speed'];
+const originalProducts = products.slice(availableProducts.length);
+type ModelPrice = { discountedPrice: number };
+const originalPrice = (pricing: ModelPrice | { withDumpBed: ModelPrice; withoutDumpBed: ModelPrice }) =>
+	'withDumpBed' in pricing
+		? `$${pricing.withoutDumpBed.discountedPrice.toLocaleString('en-US')} standard / $${pricing.withDumpBed.discountedPrice.toLocaleString('en-US')} hydraulic bed`
+		: `$${pricing.discountedPrice.toLocaleString('en-US')}`;
+const questions = [
+	{ question: 'How do I buy one?', answer: 'Contact us with the model you’re interested in. We’ll help schedule a test ride and arrange your purchase.' },
+	{ question: 'Is delivery available?', answer: 'Yes. Delivery is available for an additional fee. Include your location when you contact us for a quote.' },
+	{ question: 'How do I charge it?', answer: 'Each vehicle includes a wall charger that plugs into the vehicle.' },
+	{ question: 'Where can I use it?', answer: 'Three Uilas are intended for private property, private roads, and off-road use. They are not sold as street-legal vehicles.' },
+	{ question: 'How far can I drive?', answer: 'Maximum range is up to 120 miles for the Workhorse Pro and 35 miles for the Sparrow+. Load, hills, uneven surfaces, and driving conditions affect actual range.' },
+	{ question: 'Can I order a custom vehicle?', answer: 'We can customize bed length, motor power, battery type, and more. Custom orders require a 50% deposit and can take up to six months. Contact us to discuss your needs.' },
+	{ question: 'What can I carry?', answer: 'Tell us what you plan to haul so we can confirm the right model and load for your use. Original-model capacities, including the driver, are 500 lb for the Sparrow and 1,500–2,000 lb for the Workhorse.' },
+];
 ---
 
-<Layout title="Products - Three Uilas" description="Workhorse Pro and Sparrow+ electric tricycles are available for purchase in Hawaiʻi. Compare specifications and pricing, then contact Three Uilas to buy.">
-	<section class="py-12 bg-[#FDFDFC]">
-		<div class="container mx-auto px-4">
-			<div class="max-w-6xl mx-auto">
-				<h1 class="text-4xl font-bold mb-4 text-gray-800">Our Products</h1>
-				<p class="text-lg text-gray-600 mb-3">The Workhorse Pro and Sparrow+ are available for purchase now. Choose your model below and contact us to arrange your purchase.</p>
-				<p class="text-lg text-gray-600 mb-8">Delivery is available for an additional fee. <a href="/contact" class="text-link">Contact us</a> for a delivery quote.</p>
+<Layout title="Our Models | Electric Utility Tricycles | Three Uilas" description="Compare the Workhorse Pro and Sparrow+ electric utility tricycles. Explore pricing, lithium batteries, cargo beds, and local support in Hawaiʻi." ogImage="/workhorse-pro/cabin-front-wide-1920.webp">
+	<div class="site-width">
+		<section class="catalog-intro" aria-labelledby="catalog-title"><div><p class="ui-eyebrow">Our electric utility tricycles</p><h1 id="catalog-title" class="display-heading">FIND YOUR<br />EVERYDAY UILA.</h1></div><p class="body-copy">More room for hauling, or a smaller vehicle for daily trips. Choose the model that fits your work.<br /><span class="availability">Workhorse Pro and Sparrow+ are available now.</span></p></section>
+		<section class="model-grid" aria-label="Available models">{availableProducts.map(product => <ModelPreview product={product} detailed />)}</section>
+		<p class="catalog-note">*Maximum range varies with load, terrain, and driving conditions.</p>
+	</div>
 
-				<!-- Product Grid -->
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-					{products.map((product) => (
-						<ProductCard
-							name={product.name}
-							description={product.description}
-							images={product.images}
-							specs={product.specs}
-							alt={product.name}
-							pricing={product.pricing}
-							dark={'dark' in product ? product.dark : false}
-						/>
-					))}
-				</div>
+	<section class="comparison-section section-pad" aria-labelledby="comparison-title"><div class="site-width">
+		<div class="section-top"><div><p class="ui-eyebrow">Side by side</p><h2 id="comparison-title" class="display-heading">COMPARE THE DETAILS.</h2></div></div>
+		<div class="comparison-scroll" tabindex="0" role="region" aria-label="Model comparison table"><table><thead><tr><th scope="col">Specifications</th>{availableProducts.map(product => <th scope="col">{product.name.replace('Three Uilas ', '')}</th>)}</tr></thead><tbody>
+			{comparison.map(label => <tr><th scope="row">{label === 'Maximum Range' ? 'Maximum range*' : label}</th>{availableProducts.map(product => <td>{product.specs.find(spec => spec.label === label)?.value}</td>)}</tr>)}
+			<tr><th scope="row">Bed lift</th><td>Hydraulic, included</td><td>Standard bed</td></tr>
+			<tr><th scope="row">Price</th>{availableProducts.map(product => <td>${product.pricing.discountedPrice.toLocaleString('en-US')}</td>)}</tr>
+		</tbody></table></div>
+		<div class="shared-features"><p>Included with both models</p><ul><li>All-steel construction</li><li>Wall charger</li><li>All-terrain tires</li><li>2-year parts warranty</li></ul></div>
+		<p class="catalog-note">*Maximum range depends on load, terrain, and driving conditions.</p>
+	</div></section>
 
-				<!-- Shared Features -->
-				<div class="bg-white border border-gray-200 rounded-lg p-8 mb-12">
-					<h3 class="text-2xl font-semibold mb-6 text-gray-800">Standard Features (All Models)</h3>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-						<div class="flex items-start">
-							<span class="text-[#DB1100] mr-3">✓</span>
-							<span class="text-lg text-gray-700">All-steel construction</span>
-						</div>
-						<div class="flex items-start">
-							<span class="text-[#DB1100] mr-3">✓</span>
-							<span class="text-lg text-gray-700">2-year parts warranty</span>
-						</div>
-						<div class="flex items-start">
-							<span class="text-[#DB1100] mr-3">✓</span>
-							<span class="text-lg text-gray-700">All-terrain tires</span>
-						</div>
-						<div class="flex items-start">
-							<span class="text-[#DB1100] mr-3">✓</span>
-							<span class="text-lg text-gray-700">Highly repairable</span>
-						</div>
-					</div>
-				</div>
+	<section class="site-width section-pad questions-section" aria-labelledby="questions-title"><div><p class="ui-eyebrow">Buying & ownership</p><h2 id="questions-title" class="display-heading">COMMON<br />QUESTIONS.</h2></div><QuestionList questions={questions} /></section>
 
-				<!-- FAQ Section -->
-				<div class="bg-white border border-gray-200 rounded-lg p-8 mb-12">
-					<h2 class="text-3xl font-bold mb-8 text-gray-800">Frequently Asked Questions</h2>
-					<div class="space-y-6">
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Are they electric?</h3>
-							<p class="text-lg text-gray-700">A: Yes, Three Uilas are fully electric.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: How do I charge a Three Uila?</h3>
-							<p class="text-lg text-gray-700">A: Each Three Uila comes with a wall charger that plugs right into the vehicle.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Are Three Uilas street legal?</h3>
-							<p class="text-lg text-gray-700">A: No they are not. While there may be exceptions in some cases, they are intended to be driven on private property, private roads, or off-road.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: What is the maximum speed?</h3>
-							<p class="text-lg text-gray-700">A: Three Uilas are limited to 25mph.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: What is the maximum range?</h3>
-							<p class="text-lg text-gray-700">A: Range highly depends on usage. Usage on flat paved surfaces will greatly extend range over hilly bumpy surfaces.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: What is the carrying capacity?</h3>
-							<p class="text-lg text-gray-700">A: The Sparrow has a carrying capacity of 500lb, including driver. The Workhorse has a carrying capacity of 1500-2000lb, including driver.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Can I customize my Three Uila?</h3>
-							<p class="text-lg text-gray-700">A: We can customize the length, motor power, battery type, and more! Custom orders require a 50% deposit and can take up to six months.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: How can I buy one?</h3>
-							<p class="text-lg text-gray-700">A: The Workhorse Pro and Sparrow+ are available for purchase now. <a href="/contact" class="text-link">Contact us</a> with the model you’re interested in to arrange your purchase.</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2 text-gray-800">Q: Is delivery available?</h3>
-							<p class="text-lg text-gray-700">A: Yes, delivery is available for an additional fee. <a href="/contact" class="text-link">Contact us</a> for a delivery quote.</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="bg-gray-100 rounded-lg p-8 text-center">
-					<h3 class="text-xl font-semibold mb-3 text-gray-800">Interested in our products?</h3>
-					<p class="text-lg text-gray-600 mb-6">Ready to purchase a Workhorse Pro or Sparrow+? Contact us to get started or ask a question about either model.</p>
-					<Button href="/contact" class="w-full sm:w-auto">Contact us</Button>
-				</div>
+	<section class="site-width original-section" aria-label="Previous models">
+		<Disclosure title="Original models" class="original-models">
+			<span slot="title" class="archive-label">Original models <small>Sold out</small></span>
+			<p class="body-copy original-intro">The original Workhorse and Sparrow are sold out. Specifications remain here for reference.</p>
+			<div class="original-grid">
+				{originalProducts.map(product => (
+					<article>
+						<img src={product.images[0]} alt={product.name} width="1024" height="768" loading="lazy" decoding="async" />
+						<h3>{product.name.replace('Three Uilas ', '')}</h3>
+						<p class="body-copy">{product.description}</p>
+						<dl>{product.specs.map(spec => <div><dt>{spec.label}</dt><dd set:html={spec.value}></dd></div>)}</dl>
+						<p class="original-price">{originalPrice(product.pricing)} <span>Sold out</span></p>
+					</article>
+				))}
 			</div>
-		</div>
+		</Disclosure>
 	</section>
+
+	<section class="inquiry-band" aria-labelledby="purchase-help"><div class="site-width"><div><h2 id="purchase-help">Need a hand choosing?</h2><p class="body-copy">Tell us what you plan to carry and where you’ll use it.</p></div><a href="/contact" class="action">Get in touch</a></div></section>
 </Layout>
+
+<style>
+	.catalog-intro { display: grid; grid-template-columns: 1.2fr 1fr; gap: 70px; align-items: end; padding-block: 74px 55px; }
+	h1 { font-size: clamp(60px, 6.4vw, 94px); }
+	.catalog-intro > p { max-width: 390px; padding-bottom: 5px; }
+	.availability { display: block; margin-top: 17px; color: #394330; font-size: 12px; }
+	.model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+	.catalog-note { font: 10px/1.8 system-ui, sans-serif; color: #66715c; margin-top: 26px; }
+	.model-grid + .catalog-note { margin-bottom: 65px; }
+	.comparison-section { background: #e8eae0; }
+	.comparison-scroll { overflow-x: auto; }
+	table { width: 100%; border-collapse: collapse; font: 13px/1.7 system-ui, sans-serif; text-align: left; }
+	thead th { font-family: 'Asap Condensed', sans-serif; font-size: 30px; font-weight: 600; border-bottom: 2px solid #56634c; padding: 0 24px 22px; }
+	thead th:first-child { font: 12px/1.7 system-ui, sans-serif; color: #5d6853; padding-left: 0; }
+	tbody td, tbody th { padding: 18px 24px; border-bottom: 1px solid #c6cebb; }
+	tbody th { width: 30%; font-weight: 400; color: #5d6853; padding-left: 0; }
+	tbody td { width: 35%; }
+	.shared-features { display: flex; gap: 38px; align-items: baseline; margin-top: 35px; }
+	.shared-features > p { font-size: 22px; font-weight: 600; }
+	.shared-features ul { display: flex; flex-wrap: wrap; gap: 12px 26px; list-style: none; font: 11px/1.8 system-ui, sans-serif; color: #556149; }
+	.shared-features li::before { content: '✓'; color: #b80e00; margin-right: 8px; }
+	.questions-section { display: grid; grid-template-columns: 1fr 1.5fr; gap: 72px; }
+	summary::-webkit-details-marker { display: none; }
+	.original-section :global(.original-models) { border-top: 1px solid var(--line); }
+	.archive-label small { font: 11px/1.7 system-ui, sans-serif; color: var(--muted); margin-left: 20px; }
+	.original-intro { margin-bottom: 28px; }
+	.original-section { padding-bottom: 72px; }
+	.original-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; padding-bottom: 35px; }
+	.original-grid img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+	.original-grid h3 { margin: 22px 0 12px; font-size: 36px; font-weight: 600; }
+	.original-grid dl { margin-block: 20px; }
+	.original-grid dl > div { display: flex; justify-content: space-between; gap: 20px; padding: 12px 0; border-bottom: 1px solid #d4d8cb; font: 11px/1.8 system-ui, sans-serif; }
+	.original-grid dt { color: #66715c; }
+	.original-grid dd { max-width: 65%; text-align: right; }
+	.original-price { font-size: 22px; font-weight: 500; }
+	.original-price span { font: 10px/1.6 system-ui, sans-serif; color: #6e7665; margin-left: 10px; }
+	.comparison-scroll:focus-visible { outline: 3px solid #b80e00; outline-offset: 5px; }
+	@media (max-width: 1000px) { .catalog-intro { gap: 40px; } .model-grid { gap: 30px; } .shared-features { align-items: start; flex-direction: column; gap: 18px; } .questions-section { gap: 40px; } }
+	@media (max-width: 700px) {
+		.catalog-intro { grid-template-columns: 1fr; gap: 24px; padding-block: 45px 36px; }
+		h1 { font-size: clamp(60px, 14vw, 78px); }
+		.model-grid { grid-template-columns: 1fr; gap: 45px; }
+		.model-grid + .catalog-note { margin-bottom: 45px; }
+		table { table-layout: fixed; font-size: 11px; }
+		thead th { width: 35%; font-size: clamp(20px, 5.6vw, 25px); padding-inline: 8px; }
+		thead th:first-child { width: 30%; font-size: 10px; }
+		tbody td, tbody th { padding: 15px 8px; overflow-wrap: anywhere; }
+		tbody th { font-size: 10px; }
+		tbody th { padding-left: 0; }
+		.questions-section { grid-template-columns: 1fr; gap: 28px; }
+		.original-grid { grid-template-columns: 1fr; gap: 35px; }
+		.original-section { padding-bottom: 48px; }
+	}
+</style>
