@@ -2,6 +2,13 @@ export const workhorsePro = {
 	name: 'Three Uilas Workhorse Pro',
 	learnMoreLink: '/products/workhorse-pro',
 	description: 'The next evolution of the Workhorse. Get even more done with double the range, 50% more power, and included hydraulic dump bed.',
+	colors: [
+		{ name: 'Tractor Red', hex: '#db1100' },
+		{ name: 'Blaze Orange', hex: '#ff914d' },
+		{ name: 'Forest Green', hex: '#457a00' },
+		{ name: 'Ocean Blue', hex: '#0081cc' },
+		{ name: 'Coastal Aqua', hex: '#2ee6e3' },
+	],
 	images: ['/workhorse-pro/front-right-road-action-1280.webp', '/workhorse-pro/side-dump-1280.webp', '/workhorse-pro/cabin-front-wide-1280.webp'],
 	dark: true,
 	specs: [

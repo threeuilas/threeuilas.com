@@ -1,107 +1,67 @@
-# Image Optimization Guide
+# Product image preparation
 
-This project includes tools and optimizations to reduce image file sizes without compromising quality.
+Large camera photos should be converted into responsive web assets before use. The current product pages serve WebP files selected for the visitor’s screen width, while preserving the source images separately.
 
-## What's Been Implemented
+## Current assets
 
-### 1. **Lazy Loading**
-- Images now use `loading="lazy"` to defer loading until they're needed
-- First image in carousels uses `loading="eager"` for faster initial render
-- Reduces initial page load time
+| Model | Web assets | Component | Alt text and captions |
+| --- | --- | --- | --- |
+| Workhorse Pro | `public/workhorse-pro/` | [WorkhorsePhoto.astro](src/components/WorkhorsePhoto.astro) | [workhorse-pro.ts](src/data/workhorse-pro.ts) |
+| Sparrow+ | `public/sparrow-plus/` | [SparrowPhoto.astro](src/components/SparrowPhoto.astro) | [sparrow-plus.ts](src/data/sparrow-plus.ts) |
 
-### 2. **Image Attributes**
-- Added `decoding="async"` for better performance
-- Added `fetchpriority` hints for above-the-fold images
-- Helps browsers prioritize critical images
+Each selected photo has 640, 1280, and 1920-pixel-wide versions, named `<photo>-<width>.webp`. Components provide `srcset`, layout-specific `sizes`, explicit dimensions, and asynchronous decoding. Hero photos load eagerly with high fetch priority; other photos load lazily. Product galleries open the 1920-pixel version in PhotoSwipe and retain direct image links without JavaScript.
 
-### 3. **Optimization Scripts**
+The Workhorse Pro set contains 17 selected photos. Most are 3:2 landscape images; the action portraits, hydraulic-cylinder photo, panel-latch photo, and headlight photo are 2:3 portraits. `workhorsePhotos` records portrait orientation. The five Sparrow+ photos are 4:3 landscapes. Update component dimensions and PhotoSwipe width/height metadata if replacement images use different proportions.
 
-Two scripts are available for compressing images:
+## Preparing replacement photos
 
-#### Option A: Safe Mode (Recommended)
-Creates optimized copies without modifying originals:
-```bash
-node scripts/optimize-images-safe.js
+1. Review the source photo and choose its role: hero, feature explanation, or gallery detail. Use an image that shows the feature being described.
+2. Preserve the source outside the served asset folder. The Workhorse Pro camera originals remain in the untracked `10:22 Workhorse Pro Selected/` folder. Existing Sparrow source photos are under `public/originals/sparrow/`.
+3. Use the installed `sharp` package to apply EXIF orientation, preserve proportions, and create 640, 1280, and 1920-pixel-wide WebP files. The current sets were prepared at quality 80 for the smaller sizes and 84 for 1920px, with effort 5. These are starting settings; inspect the results at the intended display size.
+4. Follow the existing filename pattern or update the photo component, model data, gallery links, and social-preview image together. Replacing the existing Sparrow+ asset names keeps the page structure intact when new photography arrives.
+5. Review alt text and visible captions against both the photo and current product copy. Describe the image accurately; do not add a load, demonstration, or performance result that is absent from the photo.
+6. Check phone and desktop crops, hero priority, lazy loading, and the full-screen viewer. Verify actual file sizes; detailed foliage can make larger WebP variants exceed 500 KB.
+
+The site uses the existing Sparrow photos as Sparrow+ photos because the user confirmed that both models share the same appearance. Do not restore an “original Sparrow shown” disclaimer. Future Sparrow+ photography can replace these assets without changing that policy.
+
+## Reproducible conversion example
+
+Replace the source path and output stem with the selected photo. This writes new WebP files and leaves the source unchanged.
+
+```js
+import sharp from 'sharp';
+import { mkdir } from 'node:fs/promises';
+
+const sourcePath = '/path/to/selected-photo.jpeg';
+const outputDirectory = 'public/workhorse-pro';
+const outputStem = 'selected-photo';
+
+await mkdir(outputDirectory, { recursive: true });
+for (const width of [640, 1280, 1920]) {
+  await sharp(sourcePath)
+    .rotate()
+    .resize({ width, withoutEnlargement: true })
+    .webp({ quality: width === 1920 ? 84 : 80, effort: 5 })
+    .toFile(`${outputDirectory}/${outputStem}-${width}.webp`);
+}
 ```
-- Creates optimized images in `public-optimized/` directory
-- Preserves original images
-- Review optimized images before replacing originals
 
-#### Option B: Direct Optimization
-Optimizes images in place with backups:
-```bash
-pnpm run optimize-images
-```
-- Automatically backs up originals to `public/originals/` directory
-- Optimizes images directly in `public/` directory
-- Preserves folder structure in originals directory
-- **Note**: Original images are safely stored in `public/originals/`
+Run as an ES module from this repository so the installed `sharp` dependency resolves. Use sources at least 1920 pixels wide for the current filename and `srcset` conventions; do not label a smaller output as a larger width.
 
-#### Moving Existing Backups
-If you have `.backup` files from previous runs, move them to the originals directory:
-```bash
-pnpm run move-originals
-```
-- Moves all `.backup` files to `public/originals/`
-- Removes `.backup` extension
-- Preserves folder structure
+## Legacy image tooling
 
-## Optimization Settings
+These scripts serve the earlier image layout and do not generate the current Workhorse Pro or Sparrow+ responsive sets.
 
-The scripts use these settings:
-- **Quality**: 85% (good balance between quality and file size)
-- **Max Dimensions**: 1920x1920px (images larger than this are resized)
-- **Format**: JPEG with mozjpeg optimization
+| Command | Actual scope |
+| --- | --- |
+| `pnpm generate-gallery-images` | Reads JPEGs from `public/workhorse/` and `public/sparrow/`; generates 1024px WebP previews in `public/gallery/` at quality 72. |
+| `pnpm optimize-images` | Processes legacy `public/pelican/` and `public/sparrow/` directories if present. Backs up source files under `public/originals/`, then replaces files with JPEG output bounded by 1920×1920 at quality 85. It also accepts PNG input, so review its scope before use with transparent assets. |
+| `pnpm move-originals` | Moves `.backup` files from the legacy Pelican and Sparrow folders into `public/originals/`. |
 
-## Manual Optimization Tools
+There is no `scripts/optimize-images-safe.js` in the repository. The legacy optimizer is not the preparation workflow for new responsive product assets.
 
-If you prefer manual optimization, here are some excellent tools:
+## Git and source ownership
 
-1. **TinyPNG** (https://tinypng.com/)
-   - Free, web-based
-   - Supports PNG and JPEG
-   - Drag and drop interface
+The current WebP assets are committed. The temporary Workhorse Pro camera folder and unused compact print logo were intentionally excluded from the redesign commit and remain local. Builds use the permanent assets, so removing access to the temporary source folder does not break the site.
 
-2. **Squoosh** (https://squoosh.app/)
-   - Google's image optimization tool
-   - Compare before/after
-   - Adjustable quality settings
-
-3. **ImageOptim** (Mac)
-   - Desktop app
-   - Batch processing
-   - Removes metadata
-
-## Recommended Workflow
-
-1. **Before adding new images:**
-   - Resize images to maximum display size (e.g., 1920px width)
-   - Use JPEG for photos, PNG for graphics/logos
-   - Remove EXIF data if not needed
-
-2. **After adding images:**
-   - Run optimization script: `pnpm run optimize-images`
-   - Original images are automatically backed up to `public/originals/`
-   - Optimized images replace the originals in `public/`
-
-3. **Before deploying:**
-   - Check image file sizes (aim for < 500KB per image)
-   - Test page load times
-   - Verify image quality on different devices
-   - Original images are safely stored in `public/originals/` if you need them later
-
-## Expected Results
-
-After optimization, you should see:
-- **30-70% file size reduction** (depending on original quality)
-- **Faster page load times**
-- **Reduced bandwidth usage**
-- **Minimal visible quality loss**
-
-## Tips
-
-- **Product images**: Use 85-90% quality for best balance
-- **Hero images**: Can use slightly lower quality (80-85%) since they're often viewed quickly
-- **Thumbnails**: Use 70-75% quality for small preview images
-- **Always test**: Check optimized images on actual devices before deploying
-
+Some older gallery paths use Git LFS, as configured in [.gitattributes](.gitattributes). The new `public/workhorse-pro/` and `public/sparrow-plus/` paths are ordinary tracked binary assets.

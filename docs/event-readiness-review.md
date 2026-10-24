@@ -1,45 +1,42 @@
-# Website recommendations before upcoming events
+# Event readiness after the site redesign
 
-The immediate goal is to help someone who has just seen a Three Uila recognize the vehicle, compare the available models, and make contact from a phone. Prioritize that path before a larger visual redesign.
+Updated October 23, 2026. This review tracks the path from seeing a Three Uila to comparing a model and contacting the business. It replaces earlier findings that described the site before the visual redesign.
 
-This review is based on the repository's pages and contact flow. These are recommendations; no event landing page, analytics service, or broader redesign has been implemented. Mobile performance and traffic capacity have not been measured.
+The redesign source was committed and pushed in `173b1e0` on `main`. Local builds and browser checks passed. This review does not establish the state of the live deployment, event traffic capacity, lead processing, or notification delivery.
 
-## Availability updates completed separately
+## Improvements completed
 
-- The homepage introduces both the Workhorse Pro and Sparrow+ as available for purchase, with prices, battery specifications, and model-specific contact links.
-- The product page explicitly explains that both models can be purchased by contacting Three Uilas.
-- Both pages use the same product data to keep specifications and prices consistent.
+| Visitor need | Current implementation |
+| --- | --- |
+| Recognize the available vehicles | Photo-led homepage, dedicated Workhorse Pro and Sparrow+ pages, and responsive product photography. Existing Sparrow photos are used for Sparrow+ because the user confirmed the appearance is the same. New Sparrow+ photography remains a future update. |
+| Compare current models | A shared model presentation and a comparison table that shows both models on narrow screens. Sold-out original models are retained in a separate expandable reference section. |
+| Understand the main features | Workhorse Pro tabs explain hauling, electric power, and controls. Sparrow+ emphasizes compact size, a foldable rear seat, and electric utility. Specifications and range qualifications are visible. |
+| Find a model and make contact | Products groups both models in the header. Product inquiry links preselect the model in the contact form. Call, text, and email options are presented beside the form. |
+| Understand local ownership | The homepage, Our story, Contact, and footer identify Hilo, Hawaiʻi. Our story uses the mission: “Our mission is to transform Hawaiʻi agriculture with affordable, useful farm vehicles.” |
+| Read consistent buying information | “Delivery available” appears near relevant inquiries. Additional-fee explanations are confined to FAQs. Unverified current-model load ratings are not inferred from the original models. |
+| Use the interface by keyboard or on a phone | Shared FAQ/disclosure components, rotating indicators, animated opening and closing, native no-JavaScript fallbacks, and reduced-motion support. The product name in each sticky section bar returns to the page top. |
+| Read form feedback | Errors use `role="alert"`; success uses `role="status"`. Mocked browser checks covered error, retry, success, stable submission identifiers, and model preselection. |
 
-## Recommended priorities
+The common visual language now covers all six marketing pages: warm neutral backgrounds, dark green sections, red primary actions, condensed headings, and system-font body copy. The earlier recommendation to postpone a broader redesign is complete and no longer an implementation plan.
 
-| Priority | Finding | Recommended change | What is needed |
-| --- | --- | --- | --- |
-| Before events | Both current models have empty image galleries. The homepage carousel uses the earlier Workhorse and Sparrow photos. | Add real photos of the Workhorse Pro and Sparrow+, including the dump bed, tow hitch, battery, and rear seat where applicable. Label any representative photos clearly. | Current-model photos and confirmation of the configuration shown. |
-| Before events | Call and text links appear below the contact form. A visitor must leave the product page and scroll to find them. | Add visible call/text options near the model purchase buttons and at the top of the contact page. Use a compact mobile action bar if it does not obscure content. Keep the form as another contact option. | Confirm the published phone number remains the right sales contact. |
-| Before events | The homepage now compares a few specifications, but detailed cards mix current models with sold-out predecessors. | Add a concise Workhorse Pro versus Sparrow+ comparison covering intended use, bed size, battery capacity, range, features, and price. Put sold-out models in a separate section below the available models. | Confirm current-model load ratings before adding them; the existing FAQ names the older models. |
-| Before events | There is no event-specific arrival or inquiry flow, and the contact payload does not record an event source. No analytics script is configured in the repository layout. | Create a short event landing page with both models, prices, call/text options, and a purchase inquiry. Use a distinct QR link for each event and preserve its source through the contact submission. Select and configure measurement before expecting attribution reports. | Event names, dates, destination URL, and a decision about analytics. |
-| Before events | The contact form disables browser validation with `novalidate`. Its error and success messages have no live-region semantics, and failed submissions do not reset Turnstile. | Validate required fields before sending, make errors and success announcements accessible, focus the relevant message or field, and reset an expired or consumed verification token so visitors can retry. Test model preselection, phone and email inquiries, and failure recovery on actual phones. | A test run of the complete submission and follow-up process. |
-| Next | Purchasing instructions do not explain pickup, delivery, payment, or what happens after an inquiry. | Add a short “How to buy” section with confirmed pickup/delivery coverage, payment options, and the purchase process. Explain the basis of range figures and warranty coverage. Keep intended-use information easy to find. | Confirm logistics, prices including any fees, charging guidance, and warranty terms. Avoid publishing unconfirmed promises. |
-| Next | The header still uses the square logo with separate text; the new wide logo is not used. The general body typeface is condensed. | Use the wide transparent logo in the header, retain the compact mark for small placements, and use a more readable body typeface while keeping the condensed style for headings. Standardize buttons and reduce large empty card areas. | A visual preview at phone and desktop widths. |
-| Before promotion | Static pages are built for Cloudflare, but this review does not establish how they perform on event Wi-Fi or whether inquiries are being received and followed up. | Test the actual QR codes and public pages on cellular data, measure mobile loading and layout shifts, verify the production deployment, and monitor contact errors and queue delivery during events. Confirm who handles incoming leads. | Production access for verification and an assigned lead owner. |
+## Remaining work before event promotion
 
-## Suggested event visitor flow
+| Priority | Remaining gap | Next step |
+| --- | --- | --- |
+| Before distributing links | The public deployment and mobile network behavior have not been verified in this session. | Check the live product pages and contact flow on actual phones and cellular data. Verify any printed QR destination before printing. Measure loading behavior on realistic connections. |
+| Before relying on inquiries | Mocked UI checks do not verify Turnstile, Worker bindings, queue consumption, Resend delivery, or follow-up. | Run an explicitly authorized integration test with the real deployment and confirm receipt and handling. Inspect failures without exposing secrets or visitor information. |
+| Form follow-up | The form uses `novalidate`, has no client-side required-field validation, does not move focus to feedback, and does not reset expired or consumed Turnstile tokens. | Add validation and focus handling appropriate to the existing server validation. Exercise verification expiry and real retry behavior before changing token handling. |
+| Event attribution | There is no event-specific landing page or event-source field in the contact payload, and no analytics script is configured in the shared layout. | If event attribution is wanted, choose event URLs and a measurement approach, then preserve the source through the inquiry flow. |
+| Purchase logistics | Pickup arrangements, payment options, and delivery coverage are not fully documented. | Confirm those operational details before adding promises to the site. Keep fee explanations in FAQs. |
+| Current-model load ratings | Published carrying capacities in the catalog FAQ identify the original models. | Confirm Workhorse Pro and Sparrow+ payload and towing ratings before adding current-model figures. |
+| Photography refresh | Dedicated new Sparrow+ photos are pending. | Replace the responsive Sparrow+ assets and review crops, dimensions, captions, and alt text together. |
 
-Event QR code → short page featuring both available models → comparison or direct call/text → model-specific purchase inquiry → confirmation and follow-up.
+## Verified locally
 
-Keep the existing main site available for visitors who want full specifications and company information. A QR destination should answer the immediate questions without requiring several pages of navigation.
+Browser checks during the redesign covered layouts at 320px, 390px, 768px, and 1440px; model navigation; photo loading and galleries; inquiry preselection; and mocked contact error/retry/success states. Follow-up checks covered product-name back-to-top links, animated FAQs and the original-model archive, Products and mobile navigation, keyboard operation, rapid toggling, reduced motion, and native no-JavaScript behavior.
 
-## Implementation order
+Astro checks and production builds passed. Two existing unused-variable hints remain in `scripts/move-originals.js`. Browser scripts and screenshots were temporary development artifacts; there is no committed browser-test suite. Live messages were not sent during those mocked checks.
 
-1. Publish current-model photos and make phone/text contact easy to find.
-2. Add the compact comparison and confirmed purchasing instructions.
-3. Build the event landing page and configure event attribution.
-4. Improve form validation, accessibility, and retry behavior.
-5. Test the public journey on phones before printing QR materials.
-6. Apply the broader typography and branding refresh after the purchase path works well.
+## Event visitor flow
 
-## Reference guidance
-
-Campaign parameters identify referring campaigns when a compatible analytics setup collects them. They do not create reporting on their own. See [Google Analytics campaign URL guidance](https://support.google.com/analytics/answer/10917952).
-
-Accessible form labels, keyboard operation, and suitable autofill attributes support easier form completion. See [web.dev form design basics](https://web.dev/learn/forms/design-basics) and [autofill guidance](https://web.dev/learn/forms/autofill/).
+A useful event flow is: event QR link → current-model comparison or product page → model-specific inquiry or direct call/text → confirmation and follow-up. Event-specific links and attribution remain proposed work, not implemented behavior.

@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import QuestionList from '../../components/QuestionList.astro';
 import WorkhorsePhoto from '../../components/WorkhorsePhoto.astro';
 import WorkhorseFeatures from '../../components/WorkhorseFeatures.astro';
+import ProductColors from '../../components/ProductColors.astro';
 import { workhorsePro as product } from '../../data/products';
 import { workhorsePhotos, type WorkhorsePhotoName } from '../../data/workhorse-pro';
 
@@ -108,6 +109,7 @@ const faqs = [
 				<h2 id="overview-title">MADE FOR<br /><span class="muted-heading">DAILY WORK.</span></h2>
 				<p class="overview-intro">An electric utility tricycle for hauling tools, harvest, feed, and materials around your property.</p>
 				<p>The Workhorse Pro pairs a five-foot steel bed with a hydraulic lift, a 1,800W motor, and a 10.1 kWh lithium battery.</p>
+				<ProductColors colors={product.colors} />
 				<div class="overview-footnote"><p>Local support in Hawaiʻi.<br /><strong>2-year parts warranty included.</strong></p></div>
 			</div>
 		</section>
