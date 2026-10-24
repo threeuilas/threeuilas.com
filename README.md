@@ -47,6 +47,7 @@ Shared prices and model specifications live in [products.ts](src/data/products.t
 | [Layout.astro](src/layouts/Layout.astro) | Shared document metadata, header, footer, and disclosure initialization |
 | [ModelPreview.astro](src/components/ModelPreview.astro) | Model presentation on the homepage and catalog |
 | [ProductColors.astro](src/components/ProductColors.astro) | Compact, labeled product color swatches from model data |
+| [ContactTurnstile.astro](src/components/ContactTurnstile.astro) | Responsive captcha sizing with one verification response field |
 | [QuestionList.astro](src/components/QuestionList.astro) | FAQ lists from `{ question, answer }` data |
 | [Disclosure.astro](src/components/Disclosure.astro) | Native question and archive disclosures, with a shared plus/X indicator |
 | [disclosures.ts](src/scripts/disclosures.ts) | Opening and closing animations, state, keyboard compatibility, and reduced motion |
@@ -79,9 +80,11 @@ See [the image guide](IMAGE_OPTIMIZATION.md) for asset preparation and [the Work
 
 Product inquiry links use `/contact?vehicle=` with the URL-encoded full model name. The form selects that vehicle and creates a submission UUID, retaining it when a visitor retries.
 
+The original Workhorse and Sparrow options are labeled “discontinued.” Their values remain unchanged so existing inquiry links still select the correct model.
+
 [The contact API](src/pages/api/contact.ts) validates fields, the honeypot, and Cloudflare Turnstile. It then sends the lead to `WEBSITE_LEADS_QUEUE` and attempts a Resend notification. A queue failure returns an error; an email-notification failure is logged after the lead has been queued. Binding names are declared in [wrangler.jsonc](wrangler.jsonc) and [env.d.ts](src/env.d.ts). Keep secret values out of source and documentation.
 
-The form uses `role="alert"` for errors, `role="status"` for success, and a compact Turnstile widget. It still uses `novalidate` and server-side field validation; token reset and focus management remain follow-up work.
+The form uses `role="alert"` for errors and `role="status"` for success. [ContactTurnstile.astro](src/components/ContactTurnstile.astro) renders a flexible horizontal widget when the form has at least 300px available and a compact widget below that width. It recreates the widget only when resizing crosses that threshold. It still uses `novalidate` and server-side field validation; token reset after submission errors and focus management remain follow-up work.
 
 ## Verification and publication
 

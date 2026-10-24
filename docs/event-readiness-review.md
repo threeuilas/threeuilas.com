@@ -35,6 +35,8 @@ The common visual language now covers all six marketing pages: warm neutral back
 
 Browser checks during the redesign covered layouts at 320px, 390px, 768px, and 1440px; model navigation; photo loading and galleries; inquiry preselection; and mocked contact error/retry/success states. Follow-up checks covered product-name back-to-top links, animated FAQs and the original-model archive, Products and mobile navigation, keyboard operation, rapid toggling, reduced motion, and native no-JavaScript behavior.
 
+On October 24, the contact captcha was checked with Cloudflare's actual public test widget at widths from 320px to 1440px, including resizing across the compact/flexible threshold. Checks confirmed one response field, no horizontal overflow, preserved model preselection and submission UUID, and a token in an intercepted local form submission. The original Workhorse and Sparrow dropdown labels now identify them as discontinued. These checks do not establish production token verification or message delivery.
+
 Astro checks and production builds passed. Two existing unused-variable hints remain in `scripts/move-originals.js`. Browser scripts and screenshots were temporary development artifacts; there is no committed browser-test suite. Live messages were not sent during those mocked checks.
 
 ## Event visitor flow

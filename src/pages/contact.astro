@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ContactTurnstile from '../components/ContactTurnstile.astro';
 
 const vehicles = [
 	'Three Uilas Workhorse Pro',
@@ -8,11 +9,12 @@ const vehicles = [
 	'Three Uilas Sparrow',
 	'Other',
 ];
+const discontinuedVehicles = new Set(['Three Uilas Workhorse', 'Three Uilas Sparrow']);
 ---
 
 <Layout title="Get in Touch | Three Uilas" description="Contact Three Uilas in Hilo, Hawaiʻi about electric utility tricycles, parts, and delivery. Call or text (808) 300-0605, or send us a message.">
 	<div class="site-width contact-page">
-		<section class="contact-intro" aria-labelledby="contact-title"><div><p class="ui-eyebrow">Contact Three Uilas</p><h1 id="contact-title" class="display-heading">LET’S TALK.</h1></div><p class="body-copy">Choosing a model, looking for parts, or asking about your vehicle? Send us a message or get in touch directly.</p></section>
+		<section class="contact-intro" aria-labelledby="contact-title"><div><p class="ui-eyebrow">Contact Three Uilas</p><h1 id="contact-title" class="display-heading">TALK STORY.</h1></div><p class="body-copy">Choosing a model, looking for parts, or asking about your vehicle? Send us a message or get in touch directly.</p></section>
 		<div class="contact-layout">
 			<aside class="contact-details" aria-labelledby="direct-contact-title">
 				<p class="ui-eyebrow">Hilo, Hawaiʻi</p>
@@ -32,10 +34,10 @@ const vehicles = [
 					<div class="form-fields">
 						<div class="field"><label for="name">Name <span>*</span></label><input type="text" id="name" name="name" required maxlength="200" autocomplete="name" /></div>
 						<div class="field"><label for="contact">Email or phone <span>*</span></label><input type="text" id="contact" name="contact" required maxlength="254" autocomplete="email" /></div>
-						<div class="field field-wide"><label for="vehicle">Interested in</label><select id="vehicle" name="vehicle"><option value="">Select a vehicle (optional)</option>{vehicles.map(vehicle => <option value={vehicle}>{vehicle}</option>)}</select></div>
+						<div class="field field-wide"><label for="vehicle">Interested in</label><select id="vehicle" name="vehicle"><option value="">Select a vehicle (optional)</option>{vehicles.map(vehicle => <option value={vehicle}>{discontinuedVehicles.has(vehicle) ? `${vehicle} (discontinued)` : vehicle}</option>)}</select></div>
 						<div class="field field-wide"><label for="message">Message <span>*</span></label><textarea id="message" name="message" rows={6} required maxlength="2000"></textarea></div>
 					</div>
-					<div class="cf-turnstile" data-sitekey="0x4AAAAAADJG-0gHq2xwyrGB" data-theme="light" data-size="compact"></div>
+					<ContactTurnstile sitekey="0x4AAAAAADJG-0gHq2xwyrGB" />
 					<p id="form-error" class="hidden" role="alert"></p>
 					<button type="submit" id="submit-btn" class="action">Send message</button>
 				</form>
@@ -45,7 +47,6 @@ const vehicles = [
 	</div>
 </Layout>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async is:inline></script>
 <script>
 	const vehicleParam = new URLSearchParams(window.location.search).get('vehicle');
 	const select = document.getElementById('vehicle');
@@ -120,7 +121,6 @@ const vehicles = [
 	.field input, .field select, .field textarea { display: block; width: 100%; min-width: 0; border: 1px solid #aeb7a3; border-radius: 0; padding: 12px; background: #f5f4ef; color: #252a22; font: 14px/1.6 system-ui, sans-serif; }
 	.field textarea { resize: vertical; min-height: 160px; }
 	.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid #596b49; outline-offset: 2px; }
-	.cf-turnstile { margin-top: 25px; width: 100%; min-width: 0; }
 	#submit-btn { margin-top: 24px; width: 100%; cursor: pointer; }
 	#form-error { font: 12px/1.7 system-ui, sans-serif; color: #a50e00; margin-top: 18px; }
 	#form-success { padding-block: 35px; }

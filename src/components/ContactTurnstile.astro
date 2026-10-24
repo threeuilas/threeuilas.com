@@ -1,0 +1,52 @@
+---
+interface Props {
+	sitekey: string;
+}
+
+const { sitekey } = Astro.props;
+---
+
+<div class="turnstile-widget" data-turnstile-widget data-sitekey={sitekey}></div>
+
+<script>
+	type WidgetSize = 'flexible' | 'compact';
+	interface TurnstileAPI {
+		render(container: HTMLElement, options: { sitekey: string; theme: 'light'; size: WidgetSize }): string;
+		remove(widgetId: string): void;
+	}
+
+	const container = document.querySelector<HTMLElement>('[data-turnstile-widget]');
+	if (container) {
+		let api: TurnstileAPI | undefined;
+		let widgetId: string | undefined;
+		let renderedSize: WidgetSize | undefined;
+
+		const render = () => {
+			if (!container.isConnected || container.clientWidth === 0) return;
+			const size = container.clientWidth >= 300 ? 'flexible' : 'compact';
+			container.dataset.size = size;
+			if (!api || (widgetId !== undefined && renderedSize === size)) return;
+			if (widgetId !== undefined) api.remove(widgetId);
+			widgetId = api.render(container, { sitekey: container.dataset.sitekey!, theme: 'light', size });
+			renderedSize = size;
+		};
+
+		const observer = new ResizeObserver(render);
+		observer.observe(container);
+		render();
+
+		const script = document.createElement('script');
+		script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+		script.async = true;
+		script.addEventListener('load', () => {
+			api = (window as Window & { turnstile?: TurnstileAPI }).turnstile;
+			render();
+		}, { once: true });
+		document.head.appendChild(script);
+	}
+</script>
+
+<style>
+	.turnstile-widget { margin-top: 25px; width: 100%; min-width: 0; min-height: 65px; line-height: 0; }
+	.turnstile-widget[data-size='compact'] { min-height: 140px; }
+</style>

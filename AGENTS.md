@@ -34,6 +34,8 @@ Read [README.md](README.md) for routes, source locations, local commands, and ve
 - Expanders animate in both directions, plus/X indicators rotate, and the Products chevron and mobile navigation have matching motion. Preserve rapid-toggle handling, keyboard operation, native no-JavaScript behavior, and reduced-motion support.
 - `WorkhorseFeatures.astro` owns the animated, keyboard-accessible feature tabs. Without JavaScript, all feature panels remain available.
 - Product inquiry links use the URL-encoded full model name in `/contact?vehicle=`. Retain preselection, submission UUID reuse on retry, the honeypot, Turnstile, and accessible error/success feedback when changing the contact UI.
+- The Contact vehicle dropdown labels the original Workhorse and Sparrow as “discontinued” while keeping their existing option values for inquiry links and submissions.
+- `ContactTurnstile.astro` uses Cloudflare's flexible widget at container widths of 300px or more, with a compact fallback below that width. Keep the iframe at its supported dimensions; do not scale or crop it. Resizing across the threshold removes the old widget before rendering a replacement so the form retains one response field.
 
 ## Photos and local-only files
 
