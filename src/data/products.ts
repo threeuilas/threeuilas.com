@@ -37,6 +37,7 @@ export const sparrowPlus = {
 	specs: [
 		{ label: 'Bed Size', value: '3ft 6in' },
 		{ label: 'Motor', value: '1000W' },
+		{ label: 'Total Weight Capacity', value: '600 lb (excluding vehicle weight)' },
 		{ label: 'Battery System', value: '72V Lithium Iron Phosphate' },
 		{ label: 'Battery Capacity', value: '4.7 kWh' },
 		{ label: 'Maximum Range', value: '35 miles' },

@@ -14,6 +14,7 @@ Read [README.md](README.md) for routes, source locations, local commands, and ve
 - Sparrow+ looks the same as the original Sparrow. Existing photos can be used without an “original Sparrow shown” disclaimer. New Sparrow+ photography is pending.
 - Workhorse Pro copy includes high-brightness LED headlights with high/low beams, low-range gearing, and a two-inch hitch ball. Alt text should identify those parts accurately without inventing what a photo demonstrates.
 - Use `src/data/products.ts` for shared model prices and specifications. The user confirmed **1,500 lb cargo capacity for the Workhorse Pro** for its trade-show flyer. Do not infer other current-model payload or towing ratings from sold-out original-model figures.
+- The user confirmed **600 lb total weight capacity for the Sparrow+, excluding vehicle weight**. Keep this qualification with the capacity in specifications.
 - Use **“Delivery available”** near product inquiries and on Contact. Explain the additional fee in FAQs, not repeated homepage or catalog footnotes.
 
 ## Design and navigation
