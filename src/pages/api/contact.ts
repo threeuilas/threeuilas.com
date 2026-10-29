@@ -95,6 +95,7 @@ export const POST: APIRoute = async ({ request }) => {
 		const { error } = await resend.emails.send({
 			from: 'Three Uilas Contact <contact@submissions.threeuilas.com>',
 			to: ['info@threeuilas.com'],
+			cc: ['kailani@threeuilas.com', 'reality@threeuilas.com'],
 			...(replyTo && { replyTo }),
 			subject,
 			html,

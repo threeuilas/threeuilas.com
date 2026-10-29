@@ -80,6 +80,8 @@ See [the image guide](IMAGE_OPTIMIZATION.md) for asset preparation and [the Work
 
 Product inquiry links use `/contact?vehicle=` with the URL-encoded full model name. The form selects that vehicle and creates a submission UUID, retaining it when a visitor retries.
 
+Contact notifications go to `info@threeuilas.com`, with `kailani@threeuilas.com` and `reality@threeuilas.com` in CC. Replies go to the visitor when they provide an email address.
+
 The original Workhorse and Sparrow options are labeled “discontinued.” Their values remain unchanged so existing inquiry links still select the correct model.
 
 [The contact API](src/pages/api/contact.ts) validates fields, the honeypot, and Cloudflare Turnstile. It then sends the lead to `WEBSITE_LEADS_QUEUE` and attempts a Resend notification. A queue failure returns an error; an email-notification failure is logged after the lead has been queued. Binding names are declared in [wrangler.jsonc](wrangler.jsonc) and [env.d.ts](src/env.d.ts). Keep secret values out of source and documentation.
