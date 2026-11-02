@@ -2,7 +2,7 @@
 
 The website for [threeuilas.com](https://threeuilas.com), a locally owned and operated electric utility vehicle business based in Hilo, Hawaiʻi.
 
-> Our mission is to transform Hawaiʻi agriculture with affordable, useful farm vehicles.
+> Our mission is to transform Hawaiʻi agriculture, one uila at a time.
 
 The site uses Astro, Tailwind CSS, and the Cloudflare adapter. Marketing pages are prerendered; the contact API runs on a Cloudflare Worker.
 

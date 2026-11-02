@@ -5,7 +5,7 @@ import ModelPreview from '../components/ModelPreview.astro';
 import { availableProducts } from '../data/products';
 ---
 
-<Layout title="Three Uilas | Electric Utility Tricycles in Hawaiʻi" description="Practical electric utility tricycles for life in Hawaiʻi. Explore the Workhorse Pro and Sparrow+, with local support and a 2-year parts warranty." ogImage="/workhorse-pro/front-right-road-action-1920.webp">
+<Layout title="Three Uilas | Electric Utility Tricycles in Hawaiʻi" description="Practical electric utility tricycles for life in Hawaiʻi. Explore the Workhorse Pro and Sparrow+, with local support and a 2-year parts warranty." ogImage="/workhorse-pro/tropical-drive-1920.webp">
 	<section class="home-hero" aria-labelledby="home-title">
 		<div class="hero-copy">
 			<p class="ui-eyebrow">Electric utility, Hawaiʻi</p>
@@ -13,7 +13,7 @@ import { availableProducts } from '../data/products';
 			<p class="body-copy">Practical electric tricycles for your home, farm, and everyday hauling.</p>
 			<a href="/products" class="action">Explore our models</a>
 		</div>
-		<div class="hero-photo"><WorkhorsePhoto name="front-right-road-action" sizes="(max-width: 700px) 100vw, 60vw" priority /><p>THE WORKHORSE PRO <span>100% electric utility</span></p></div>
+		<div class="hero-photo"><WorkhorsePhoto name="tropical-drive" sizes="(max-width: 700px) 100vw, 55vw" priority /><p>THE WORKHORSE PRO <span>100% electric utility</span></p></div>
 	</section>
 
 	<div class="benefits-strip"><div class="site-width"><p>All electric<span>Plug in with the included wall charger</span></p><p>Built for real work<span>All-steel construction. Easy to maintain.</span></p><p>Locally owned and operated<span>Based in Hilo, Hawaiʻi</span></p></div></div>
@@ -25,7 +25,7 @@ import { availableProducts } from '../data/products';
 	</section>
 
 	<section class="local-section" aria-labelledby="local-title"><div class="site-width local-grid">
-		<div class="local-photo"><WorkhorsePhoto name="front-right-far-action" sizes="(max-width: 700px) 100vw, 40vw" /></div>
+		<div class="local-photo"><WorkhorsePhoto name="rear-drive" sizes="(max-width: 700px) 120vw, 60vw" /></div>
 		<div class="local-copy"><p class="ui-eyebrow">Based in Hilo</p><h2 id="local-title" class="display-heading">FROM HERE.<br />HERE TO HELP.</h2><p class="body-copy">We’re a Hawaiʻi-based business offering electric utility tricycles at an affordable price. We can help you choose a model, arrange delivery, and find parts when you need them.</p><a href="/about" class="inline-link">Our story</a></div>
 	</div></section>
 
@@ -39,7 +39,7 @@ import { availableProducts } from '../data/products';
 	h1 span { color: #738066; }
 	.hero-copy > .body-copy { margin: 28px 0; max-width: 330px; }
 	.hero-photo { position: relative; overflow: hidden; background: #34402e; }
-	.hero-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% center; }
+	.hero-photo :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 	.hero-photo > p { position: absolute; inset: auto 0 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 50px 32px 28px; background: linear-gradient(transparent, #172112c9); font-size: 17px; font-weight: 600; color: white; }
 	.hero-photo > p span { font: 10px/1.6 system-ui, sans-serif; font-weight: 400; color: #e2e7d9; }
 	.benefits-strip { background: #e7e9df; }
@@ -51,7 +51,7 @@ import { availableProducts } from '../data/products';
 	.range-footnote { font: 10px/1.8 system-ui, sans-serif; color: #6b745f; margin-top: 28px; }
 	.local-section { background: #283325; color: #f5f4ef; padding-block: 72px; }
 	.local-grid { display: grid; grid-template-columns: .85fr 1fr; gap: clamp(48px, 8vw, 120px); align-items: center; }
-	.local-photo :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 60%; }
+	.local-photo :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 62% center; }
 	.local-copy .ui-eyebrow { color: #c2ccb7; }
 	.local-copy .body-copy { color: #c6cfbd; max-width: 450px; margin: 28px 0; }
 	.local-copy .inline-link:hover { color: #d5e0ca; }
@@ -62,7 +62,6 @@ import { availableProducts } from '../data/products';
 		h1 { font-size: clamp(76px, 16vw, 110px); }
 		.hero-copy > .body-copy { margin: 23px 0; max-width: 350px; }
 		.hero-photo { height: 390px; }
-		.hero-photo :global(img) { object-position: center; }
 		.hero-photo > p { padding: 35px 20px 20px; }
 		.benefits-strip > div { grid-template-columns: 1fr; gap: 18px; padding-block: 26px; }
 		.benefits-strip p { padding-left: 0; padding-top: 18px; border-left: 0; border-top: 1px solid #c5ccba; font-size: 21px; }

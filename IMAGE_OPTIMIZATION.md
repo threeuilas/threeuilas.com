@@ -11,7 +11,11 @@ Large camera photos should be converted into responsive web assets before use. T
 
 Each selected photo has 640, 1280, and 1920-pixel-wide versions, named `<photo>-<width>.webp`. Components provide `srcset`, layout-specific `sizes`, explicit dimensions, and asynchronous decoding. Hero photos load eagerly with high fetch priority; other photos load lazily. Product galleries open the 1920-pixel version in PhotoSwipe and retain direct image links without JavaScript.
 
-The Workhorse Pro set contains 17 selected photos. Most are 3:2 landscape images; the action portraits, hydraulic-cylinder photo, panel-latch photo, and headlight photo are 2:3 portraits. `workhorsePhotos` records portrait orientation. The five Sparrow+ photos are 4:3 landscapes. Update component dimensions and PhotoSwipe width/height metadata if replacement images use different proportions.
+The Workhorse Pro set contains 19 selected photos. Most are 3:2 landscape images; the action portraits, hydraulic-cylinder photo, panel-latch photo, and headlight photo are 2:3 portraits. `workhorsePhotos` records portrait orientation. The five Sparrow+ photos are 4:3 landscapes. Update component dimensions and PhotoSwipe width/height metadata if replacement images use different proportions.
+
+The homepage hero uses `public/workhorse-pro/tropical-drive-{640,1280,1920}.webp`, prepared from `../DSCF1691.JPG`. The original JPEG stays outside the served assets. The homepage also uses the 1920px version for social previews. Keep the vehicle centered when adjusting desktop or phone crops.
+
+The Workhorse Pro gallery’s rear view and the homepage’s “From here. Here to help” section use `public/workhorse-pro/rear-drive-{640,1280,1920}.webp`, prepared from `../DSCF1593.JPG`. The full-screen image is a 1920 × 1280 landscape; the gallery and homepage crops favor the right to keep the vehicle visible.
 
 ## Preparing replacement photos
 

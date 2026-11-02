@@ -1,4 +1,6 @@
 export const workhorsePhotos = {
+	'tropical-drive': { alt: 'Green Workhorse Pro parked on a paved drive surrounded by tropical trees.', portrait: false },
+	'rear-drive': { alt: 'Rear view of a green Workhorse Pro on a paved drive, showing the cargo-bed tailgate, rear lights, and tow hitch.', portrait: false },
 	'cabin-front-wide': { alt: 'Green Workhorse Pro parked beside a red A-frame cabin among trees in Hawaiʻi.', portrait: false },
 	'front-right-road-action': { alt: 'Workhorse Pro coming around a bend on a tree-lined private road.', portrait: false },
 	'front-right-far-action': { alt: 'Workhorse Pro approaching along a quiet road beneath tall trees.', portrait: true },

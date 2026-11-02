@@ -6,7 +6,7 @@ Read [README.md](README.md) for routes, source locations, local commands, and ve
 
 - Three Uilas is locally owned and operated in **Hilo, Hawaiʻi**. Do not restore the former Orchidland Estates location.
 - The website and vehicle flyers use **(808) 300-0605**. Call and text links use `+18083000605`; display signs intentionally omit the phone number.
-- Preserve the mission exactly: **“Our mission is to transform Hawaiʻi agriculture with affordable, useful farm vehicles.”**
+- Preserve the mission exactly: **“Our mission is to transform Hawaiʻi agriculture, one uila at a time.”**
 - Our story intentionally has no “What matters to us” section; that content duplicated the rest of the site.
 - Keep prose short, direct, and practical. Emphasize real work, all-steel construction, easy maintenance, and local ownership.
 - Preserve user-edited product copy. When features change, review image alt text and related page specifications alongside it.

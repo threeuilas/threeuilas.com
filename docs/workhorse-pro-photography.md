@@ -4,14 +4,14 @@ The dedicated page is at `/products/workhorse-pro`. Product pricing and specific
 
 ## Photo selection
 
-All 22 photos in `10:22 Workhorse Pro Selected` were reviewed. The page uses 17 of them, balancing images that establish a setting with close-ups that explain a feature.
+All 22 photos in `10:22 Workhorse Pro Selected` were reviewed. The page now combines 15 of those photos with the newer `../DSCF1691.JPG` and `../DSCF1593.JPG`, balancing images that establish a setting with close-ups that explain a feature.
 
-- **Opening image:** `cabin-front-wide`. The red cabin contrasts with the green vehicle, and the left side provides space for the title without covering the cargo bed or front wheel.
-- **Overview:** `front-right-far-action`. The vertical composition gives the property and surrounding trees room in the layout.
+- **Opening image:** `tropical-drive`, prepared from `../DSCF1691.JPG`. The green vehicle sits among tropical trees. The homepage and product page share this photo, including their social previews.
+- **Overview:** `cabin-front-wide`, moved from the opening image into “Made for daily work.” The crop favors the right side to keep the vehicle visible beside the red cabin.
 - **Hauling:** `side-dump`, `hydraulics`, `latch-hand-model`, and `tow-hitch-near`. The side view explains the bed lift; close-ups show the hydraulic cylinder, panel latch, and included hitch.
 - **Electric power:** `front-right-road-action`, `battery`, `motor-and-diff`, and `low-range`. The action image leads into the battery and mechanical components that support the feature description.
 - **Driver details:** `front-left-wide`, `instrument-display`, `left-handle-hand-model`, and `headlights`. These connect the overall cabin design with its display, switches, and lighting.
-- **Gallery:** `front-right-road-action`, `rear-action`, `rear-right-close`, and `rear-right-dump-wide`. These show the vehicle in use and provide additional cargo-bed views. Selecting an image opens the full-screen viewer.
+- **Gallery:** `front-right-road-action`, `rear-drive`, `rear-right-close`, and `rear-right-dump-wide`. The rear view uses `../DSCF1593.JPG`, with a crop toward the right for the tall tile and landscape dimensions in the full-screen viewer. The other photos show the vehicle in use and provide additional cargo-bed views.
 
 `front-right-dump-wide` and `right-left-dump` repeat views already explained by the side and rear dump images. `rear-right-wide` overlaps with the closer cargo-bed image. `brake-lights` and `rear-view-mirror` show supporting details that do not need separate feature sections.
 
