@@ -10,7 +10,7 @@ const currentYear = new Date().getFullYear();
 			<div><h2>Get in touch</h2><a href="mailto:info@threeuilas.com">info@threeuilas.com</a><a href="tel:+18083000605">(808) 300-0605</a><a href="/contact">Contact us</a></div>
 			<div><h2>Follow along</h2><a href="https://www.instagram.com/threeuilas/" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://www.facebook.com/threeuilas/" target="_blank" rel="noopener noreferrer">Facebook</a></div>
 		</div>
-		<div class="footer-bottom"><p>© {currentYear} Three Uilas</p><p>Quality electric tricycles for all.</p></div>
+		<div class="footer-bottom"><p>© {currentYear} Three Uilas</p><a href="/privacy">Privacy Policy</a><p>Quality electric tricycles for all.</p></div>
 	</div>
 </footer>
 
@@ -24,6 +24,8 @@ const currentYear = new Date().getFullYear();
 	.footer-main > div:not(.footer-brand) a { display: block; width: fit-content; font-size: 17px; margin-top: 9px; }
 	.footer-main a:hover { color: #d1ddc3; }
 	.footer-bottom { border-top: 1px solid #49533f; padding-top: 23px; display: flex; justify-content: space-between; gap: 20px; font: 10px/1.7 system-ui, sans-serif; color: #a5b29b; }
+	.footer-bottom a { text-decoration: underline; text-underline-offset: .2em; }
+	.footer-bottom a:hover { color: #d1ddc3; }
 	a:focus-visible { outline: 2px solid white; outline-offset: 4px; }
 	@media (max-width: 850px) { .footer-main { grid-template-columns: 1.4fr 1fr; gap: 30px; } }
 	@media (max-width: 500px) { .site-footer { padding-top: 42px; } .footer-main { grid-template-columns: 1fr 1fr; gap: 28px 20px; } .footer-brand { grid-column: 1 / -1; } .footer-main h2 { margin-bottom: 15px; } .footer-main > div:not(.footer-brand) a { font-size: 16px; } .footer-bottom { flex-direction: column; gap: 8px; } }

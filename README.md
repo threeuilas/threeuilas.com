@@ -35,6 +35,7 @@ The check, development, and build scripts create `.astro/` and generate Worker b
 | `/products/sparrow-plus` | Sparrow+ compact utility, foldable seat, gallery, and specifications | [sparrow-plus.astro](src/pages/products/sparrow-plus.astro) |
 | `/about` | Our story and mission | [about.astro](src/pages/about.astro) |
 | `/contact` | Inquiry form and direct call, text, and email options | [contact.astro](src/pages/contact.astro) |
+| `/privacy` | Privacy policy, payment and cloud providers, and data rights contact information | [privacy.astro](src/pages/privacy.astro) |
 
 The header groups All models, Workhorse Pro, and Sparrow+ under Products, alongside Our story and Get in touch. The logo returns home. Each product page has Overview, Features, Gallery, and Specs navigation; its model name links to `#page-top`, above the global header.
 
