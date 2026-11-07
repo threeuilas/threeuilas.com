@@ -1,0 +1,253 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WorkhorsePhoto from '../components/WorkhorsePhoto.astro';
+import ContactTurnstile from '../components/ContactTurnstile.astro';
+import ConferenceSocial from '../components/ConferenceSocial.astro';
+import ConferenceDisclosures from '../components/ConferenceDisclosures.astro';
+import { workhorsePro, sparrowPlus } from '../data/products';
+import { conference, professions, farmSizes, experienceLevels, islands, modelInterests } from '../data/conference';
+
+export const prerender = true;
+const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const savings = [
+    { name: 'Workhorse Pro', price: workhorsePro.pricing.discountedPrice, amount: workhorsePro.pricing.discountedPrice * .15, href: workhorsePro.learnMoreLink },
+    { name: 'Sparrow+', price: sparrowPlus.pricing.discountedPrice, amount: sparrowPlus.pricing.discountedPrice * .15, href: sparrowPlus.learnMoreLink },
+];
+---
+
+<Layout standalone title="Win 15% Off Your Next Uila | Three Uilas" description="Enter the Hawaiʻi Agriculture Conference drawing for a chance to win 15% off one three uila of your choice, including add-ons. Entries close November 10 at 5 p.m. HST." ogImage="/workhorse-pro/tropical-drive-1280.webp">
+    <section class="conference-hero" aria-labelledby="conference-title">
+        <header class="conference-header">
+            <a class="conference-brand" href="/" aria-label="Three Uilas home"><img src="/logo.svg" alt="" width="42" height="42" /><span>Three Uilas</span></a>
+            <p class="event-name">Hawaiʻi Agriculture Conference<span>November 9–10, 2026</span></p>
+            <a href="/products" class="explore-link">Explore the models <span aria-hidden="true">↗</span></a>
+        </header>
+        <div class="hero-stage">
+            <div class="hero-photo" aria-hidden="true">
+                <WorkhorsePhoto name="tropical-drive" priority sizes="100vw" />
+            </div>
+            <div class="hero-copy">
+                <h1 id="conference-title"><span class="reward-kicker">Enter for a chance to win</span><span class="reward-number">15<span>%</span></span><span class="reward-off">OFF YOUR<br /> NEXT UILA.</span></h1>
+                <p class="hero-description">One winner. One uila of your choice.<br /><strong>Add-ons and delivery included in the discount.</strong></p>
+                <a class="action hero-cta" href="#entry">Enter to win 15% off <span aria-hidden="true">↘</span></a>
+                <a class="hero-details-link" href="#drawing-disclosures">Drawing details and terms</a>
+                <div class="hero-follow" aria-label="Follow Three Uilas">
+                    <p>Follow @threeuilas <span>(optional)</span></p>
+                    <ConferenceSocial />
+                </div>
+            </div>
+            <a class="hero-model-link" href="/products/workhorse-pro">Meet the Workhorse Pro <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-deadline"><p>YOUR CHOICE OF UILA. <span>YOUR CHANCE TO SAVE.</span></p><p>Drawing closes <strong>November 10 · 5:00 p.m. HST</strong></p></div>
+    </section>
+
+    <section class="entry-section" aria-label="Enter the conference drawing">
+        <div class="site-width entry-layout">
+            <aside class="entry-story" aria-labelledby="savings-title">
+                <p class="ui-eyebrow">A little luck. A lot of utility.</p>
+                <h2 id="savings-title">BIG SAVINGS.<br />REAL WORK.</h2>
+                <p class="story-copy">Put your next uila to work for less. If you’re selected, your 15% discount means:</p>
+                <dl class="savings-list">{savings.map(model => <div><dt><a href={model.href}>{model.name}</a><span class="price-comparison">Current price {money.format(model.price)}<br />Winner’s vehicle price {money.format(model.price - model.amount)}</span></dt><dd>{money.format(model.amount)}<span>off</span></dd></div>)}</dl>
+                <p class="savings-note">Vehicle-price examples before tax, calculated from the displayed prices. The 15% discount also applies to all other line items, including add-ons and any quoted delivery charge. Tax is excluded.</p>
+                <div class="how-it-works"><h3>One entry. One winner.</h3><p>Leave your details and tell us a little about your work. We’ll draw one winner when the conference ends and contact them directly.</p><p class="drawing-date">November 10, 2026<br /><strong>5:00 p.m. HST</strong></p></div>
+            </aside>
+		<section id="entry" class="entry-panel" aria-labelledby="entry-title" data-opens-at={conference.opensAt} data-closes-at={conference.closesAt}>
+			<div id="entry-content">
+				<p class="ui-eyebrow">The conference drawing</p>
+				<h2 id="entry-title">ENTER TO WIN 15% OFF.</h2>
+				<p class="panel-copy">Your details. Your work. Your chance to save.</p>
+				<p class="deadline">Entries close <strong>November 10 · 5:00 p.m. HST</strong></p>
+				<p id="entry-window-message" class="window-message" role="status" tabindex="-1" hidden></p>
+				<noscript><p class="window-message">Please enable JavaScript to enter. Need help? Call or text <a href="tel:+18083000605">(808) 300-0605</a>.</p></noscript>
+				<form id="conference-form" novalidate>
+					<input type="hidden" name="termsVersion" value={conference.termsVersion} />
+					<ol class="form-progress" aria-label="Entry progress" hidden><li data-progress="1" aria-current="step"><span>01</span> Contact details</li><li data-progress="2"><span>02</span> Your work</li></ol>
+					<p class="required-note">Fields marked <span>*</span> are required.</p>
+					<div class="honeypot" aria-hidden="true"><label for="conference-website">Website</label><input id="conference-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+					<fieldset data-step="1">
+						<legend class="sr-only">Contact details</legend>
+						<div class="fields">
+							<div class="field"><label for="firstName">First name <span>*</span></label><input id="firstName" name="firstName" autocomplete="given-name" maxlength="80" required /></div>
+							<div class="field"><label for="lastName">Last name <span>*</span></label><input id="lastName" name="lastName" autocomplete="family-name" maxlength="100" required /></div>
+							<div class="field wide"><label for="email">Email address <span>*</span></label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" required /></div>
+							<div class="field wide"><label for="phone">Phone number <span>*</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required aria-describedby="phone-hint" /><p id="phone-hint" class="field-hint">Include your area code.</p></div>
+							<div class="field"><label for="town">Town / city <span>*</span></label><input id="town" name="town" autocomplete="address-level2" maxlength="100" required /></div>
+							<div class="field"><label for="island">Island <span>*</span></label><select id="island" name="island" required><option value="">Select island</option>{islands.map(value => <option>{value}</option>)}</select></div>
+							<div class="field"><label for="postalCode">ZIP / postal code <span class="optional">(optional)</span></label><input id="postalCode" name="postalCode" autocomplete="postal-code" maxlength="20" /></div>
+						</div>
+						<button type="button" id="entry-next" class="action next-action" hidden>Next: your work <span aria-hidden="true">→</span></button>
+					</fieldset>
+					<fieldset data-step="2">
+						<legend class="sr-only">Your work</legend>
+						<div class="fields">
+							<div class="field wide"><label for="organization">Farm / business name <span class="optional">(optional)</span></label><input id="organization" name="organization" autocomplete="organization" maxlength="150" /></div>
+							<div class="field wide"><label for="profession">Profession / role <span>*</span></label><select id="profession" name="profession" required><option value="">Select your role</option>{professions.map(value => <option>{value}</option>)}</select></div>
+							<div class="field wide"><label for="farmSize">Farm / growing area <span>*</span></label><select id="farmSize" name="farmSize" required><option value="">Select acreage</option>{farmSizes.map(value => <option>{value}</option>)}</select></div>
+							<div class="field wide"><label for="experience">Farming experience <span>*</span></label><select id="experience" name="experience" required><option value="">Select experience</option>{experienceLevels.map(value => <option>{value}</option>)}</select></div>
+							<div class="field wide"><label for="vehicle">Which uila interests you? <span>*</span></label><select id="vehicle" name="vehicle" required><option value="">Select a model</option>{modelInterests.map(value => <option>{value}</option>)}</select></div>
+						</div>
+						<div class="consent-fields">
+							<label class="checkbox"><input type="checkbox" id="entryConsent" name="entryConsent" value="yes" required /><span>Three Uilas may contact me about my entry and the drawing result. <span class="required">*</span></span></label>
+							<label class="checkbox"><input type="checkbox" name="emailOptIn" value="yes" /><span>I’d also like occasional Three Uilas news and offers by email. <span class="optional">(optional)</span></span></label>
+						</div>
+						<ContactTurnstile sitekey="0x4AAAAAADJG-0gHq2xwyrGB" />
+					</fieldset>
+					<ConferenceDisclosures />
+					<p id="entry-error" class="form-error" role="alert" tabindex="-1" hidden></p>
+					<div id="entry-submit-actions" class="submit-actions"><button type="button" id="entry-back" class="back-action" hidden>Back</button><button type="submit" id="entry-submit" class="action" disabled>Enter to win 15% off</button></div>
+					<p class="privacy-note">We use your details to manage the drawing and contact you about it. Email updates are optional. <a href="/privacy">Privacy policy</a>.</p>
+				</form>
+				<div class="drawing-details"><h3>What happens next?</h3><p>The initial selection is November 10 at or shortly after 5:00 p.m. HST. Our team will contact the selected entrant personally by email or phone. They have 48 hours after notification to accept.</p></div>
+			</div>
+			<div id="entry-success" class="entry-success" role="status" tabindex="-1" hidden>
+				<span class="success-mark" aria-hidden="true">✓</span><p class="ui-eyebrow">Mahalo for stopping by.</p><h2>YOU’RE IN.</h2>
+				<p class="panel-copy">Your entry is saved. The first selection is November 10 at or shortly after 5:00 p.m. HST. If selected, our team will contact you by email or phone. You’ll have 48 hours after notification to accept, then 30 days to use the discount.</p>
+				<div class="success-follow"><h3>Before you go, follow along.</h3><p class="panel-copy">Keep up with Three Uilas on Instagram or Facebook.</p><ConferenceSocial /></div>
+				<a href="/products" class="inline-link">Explore the Workhorse Pro &amp; Sparrow+</a>
+			</div>
+		</section>
+        </div>
+    </section>
+    <footer class="conference-footer"><div class="site-width"><a class="footer-wordmark" href="/">Three Uilas<span>.</span></a><p>Our mission is to transform Hawaiʻi agriculture, one uila at a time.</p><a href="/privacy">Privacy policy</a><a href="tel:+18083000605">(808) 300-0605</a></div></footer>
+</Layout>
+
+<script>
+    import '../scripts/conference-form';
+</script>
+
+<style>
+    .conference-hero { background: var(--forest); color: var(--paper); min-height: 100svh; display: flex; flex-direction: column; }
+    .conference-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 19px clamp(20px, 4vw, 64px); min-height: 84px; }
+    .conference-brand { display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .conference-brand span { font-size: 31px; font-weight: 800; letter-spacing: -.04em; }
+    .event-name { font: 600 12px/1.65 system-ui, sans-serif; }
+    .event-name span { display: block; font-size: 10px; color: #c0c9b8; font-weight: 400; }
+    .explore-link { font: 500 12px/1.6 system-ui, sans-serif; border-bottom: 1px solid #98a58b; padding-block: 7px; }
+    .explore-link span { margin-left: 15px; }
+    .hero-stage { position: relative; isolation: isolate; display: flex; flex: 1; }
+    .hero-stage::before { content: ''; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, #202020f5 0%, #202020e8 27%, #20202066 55%, #2020200d 80%), linear-gradient(0deg, #202020b3, transparent 65%); pointer-events: none; }
+    .hero-copy { position: relative; padding: clamp(32px, 3.3vw, 52px) clamp(24px, 4vw, 64px); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; width: min(100%, 740px); }
+    h1 { font-weight: 800; letter-spacing: -.035em; }
+    .reward-kicker { display: block; font: 600 12px/1.6 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 25px; }
+    .reward-number { display: block; font-size: clamp(170px, 21vw, 310px); line-height: .74; letter-spacing: -.065em; white-space: nowrap; }
+    .reward-number > span { font-size: .56em; vertical-align: top; display: inline-block; line-height: 1; margin-top: -.04em; margin-left: .02em; }
+    .reward-off { display: block; font-size: clamp(44px, 5vw, 76px); line-height: .94; margin-top: 24px; letter-spacing: -.025em; }
+    .hero-description { font: 14px/1.8 system-ui, sans-serif; margin-top: 24px; }
+    .hero-description strong { font-weight: 600; }
+    .hero-cta { background: var(--paper); color: var(--ink); display: flex; justify-content: space-between; width: min(100%, 330px); margin-top: 28px; font-size: 15px; min-height: 60px; }
+    .hero-cta:hover { background: #e1e5d6; }
+    .hero-cta > span { font-size: 23px; margin-left: 22px; line-height: 1; }
+    .hero-details-link { display: inline-block; margin-top: 10px; padding-block: 10px; font: 500 12px/1.7 system-ui, sans-serif; text-decoration: underline; text-underline-offset: 4px; }
+    .hero-photo { position: absolute; z-index: -2; inset: 0; overflow: hidden; }
+    .hero-photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 58%; }
+    .hero-follow { margin-top: 20px; }
+    .hero-follow > p { font: 600 15px/1.7 system-ui, sans-serif; margin-bottom: 10px; }
+    .hero-follow > p > span { font-size: 11px; font-weight: 400; }
+    .hero-follow :global(.social-links a) { background: #20202099; border-color: #f5f4efb3; }
+    .hero-follow :global(.social-links a:hover) { background: #202020e6; }
+    .hero-model-link { position: absolute; right: clamp(24px, 4vw, 64px); bottom: 35px; font-size: 24px; font-weight: 600; border-bottom: 1px solid currentColor; padding-bottom: 5px; text-shadow: 0 1px 12px #000; }
+    .hero-deadline { display: flex; justify-content: space-between; align-items: center; padding: 23px clamp(20px, 4vw, 64px); gap: 22px; background: var(--accent); }
+    .hero-deadline p:first-child { font-size: clamp(18px, 2vw, 26px); font-weight: 700; letter-spacing: .025em; }
+    .hero-deadline p:first-child > span { color: var(--paper); }
+    .hero-deadline p:last-child { font: 11px/1.7 system-ui, sans-serif; text-align: right; color: var(--paper); flex-shrink: 0; }
+    .hero-deadline strong { color: var(--paper); display: block; font-weight: 600; }
+    .entry-section { padding-block: 96px; background: var(--paper); }
+    .entry-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(40px, 7vw, 100px); align-items: start; }
+    .entry-story { min-width: 0; padding-top: 15px; }
+    .entry-story h2 { font-size: clamp(55px, 6vw, 88px); line-height: .94; font-weight: 800; letter-spacing: -.025em; }
+    .story-copy { font: 15px/1.9 system-ui, sans-serif; color: var(--muted); margin-top: 25px; max-width: 380px; }
+    .savings-list { margin-top: 30px; border-top: 1px solid var(--line); }
+    .savings-list > div { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+    .savings-list dt { font-size: clamp(23px, 2.5vw, 32px); font-weight: 600; }
+    .price-comparison { display: block; margin-top: 10px; font: 11px/1.8 system-ui, sans-serif; color: var(--muted); }
+    .savings-list dt > a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+    .savings-list dd { font-size: clamp(45px, 5vw, 68px); font-weight: 700; color: var(--accent); line-height: 1; white-space: nowrap; }
+    .savings-list dd > span { font-size: .37em; margin-left: 5px; }
+    .savings-note { margin-top: 13px; font: 11px/1.8 system-ui, sans-serif; color: var(--muted); max-width: 350px; }
+    .how-it-works { margin-top: 44px; max-width: 390px; }
+    .how-it-works h3 { font-size: 30px; font-weight: 700; }
+    .how-it-works p { margin-top: 14px; color: var(--muted); font: 13px/1.9 system-ui, sans-serif; }
+    .how-it-works p.drawing-date { color: var(--ink); font-size: 12px; border-left: 3px solid var(--accent); padding-left: 16px; margin-top: 25px; }
+    .entry-panel { background: #e8eae0; border-top: 5px solid var(--accent); padding: clamp(24px, 3vw, 42px); scroll-margin-top: 24px; min-width: 0; }
+    .entry-panel .ui-eyebrow { font-size: 10px; margin-bottom: 15px; }
+    .entry-panel h2 { font-size: clamp(34px, 3.4vw, 46px); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+    .panel-copy { font: 13px/1.8 system-ui, sans-serif; color: #515a49; margin-top: 14px; }
+    .deadline { font: 11px/1.8 system-ui, sans-serif; margin-top: 19px; padding-bottom: 22px; border-bottom: 1px solid #c5ccbb; }
+    .deadline strong { display: block; color: var(--ink); font-weight: 600; }
+    .form-progress { display: flex; gap: 16px; padding-block: 24px 0; }
+    .form-progress li { flex: 1; padding-bottom: 12px; border-bottom: 2px solid #bbc3b2; color: #5d6754; font: 500 11px/1.5 system-ui, sans-serif; }
+    .form-progress li[aria-current] { color: var(--ink); border-color: var(--accent); }
+    .form-progress span { font-size: 10px; margin-right: 5px; }
+    .required-note { margin-block: 19px; font: 10px/1.7 system-ui, sans-serif; color: #59624f; }
+    fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+    .fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 16px; }
+    .field.wide { grid-column: 1 / -1; }
+    .field label { display: block; margin-bottom: 7px; font: 600 12px/1.5 system-ui, sans-serif; }
+    .field label > span:not(.optional), .required, .required-note > span { color: #ac1607; }
+    .optional { font-weight: 400; color: #5d6754; }
+    .field input, .field select { width: 100%; min-width: 0; height: 46px; border: 1px solid #aab49d; border-radius: 0; background: #fafbf7; padding: 10px 11px; color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+    .field select { padding-right: 25px; }
+    .field input:focus, .field select:focus { outline: 2px solid var(--forest); outline-offset: 2px; }
+    .field-hint { margin-top: 6px; color: #5d6754; font: 10px/1.6 system-ui, sans-serif; }
+    .consent-fields { display: grid; gap: 15px; margin-top: 25px; }
+    .checkbox { display: flex; align-items: flex-start; gap: 10px; font: 12px/1.75 system-ui, sans-serif; cursor: pointer; }
+    .checkbox input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--forest); flex: 0 0 auto; }
+    .next-action { display: flex; width: 100%; justify-content: space-between; margin-top: 26px; }
+    .submit-actions { display: flex; gap: 18px; margin-top: 25px; }
+    .submit-actions .action { flex: 1; }
+    .back-action { padding: 10px 3px; font: 600 12px/1.5 system-ui, sans-serif; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+    .action { cursor: pointer; }
+    .privacy-note { margin-top: 15px; color: #5d6754; font: 10px/1.8 system-ui, sans-serif; }
+    .privacy-note a, .window-message a { text-decoration: underline; text-underline-offset: 3px; }
+    .drawing-details { border-top: 1px solid #c5ccbb; margin-top: 25px; padding-top: 22px; }
+    .drawing-details h3 { font-size: 23px; font-weight: 600; }
+    .drawing-details p { font: 11px/1.85 system-ui, sans-serif; color: #515a49; margin-top: 10px; }
+    .form-error, .window-message { padding: 14px; margin-top: 22px; border-left: 3px solid #b80e00; background: #fff5ef; font: 12px/1.8 system-ui, sans-serif; color: #8f170b; }
+    .honeypot { position: absolute; left: -9999px; top: -9999px; }
+    .entry-success { padding-block: 16px 30px; }
+    .success-mark { display: grid; place-items: center; width: 52px; height: 52px; background: var(--forest); color: white; border-radius: 50%; font-size: 27px; margin-bottom: 25px; }
+    .entry-success h2 { font-size: 65px; }
+    .success-follow { border-block: 1px solid #c5ccbb; margin-block: 28px; padding-block: 25px; }
+    .success-follow h3 { font-size: 30px; font-weight: 600; }
+    .success-follow .panel-copy { margin-block: 10px 20px; }
+    .entry-success > .inline-link { font-size: 19px; }
+    .conference-footer { padding-block: 30px; background: #192219; color: var(--paper); }
+    .conference-footer > div { display: flex; align-items: center; gap: 25px; }
+    .footer-wordmark { font-size: 28px; font-weight: 800; white-space: nowrap; }
+    .footer-wordmark span { color: #f44330; }
+    .conference-footer p { max-width: 340px; margin-right: auto; color: #b5c1a9; font: 11px/1.8 system-ui, sans-serif; }
+    .conference-footer > div > a:not(.footer-wordmark) { font: 11px/1.6 system-ui, sans-serif; text-decoration: underline; text-underline-offset: 4px; white-space: nowrap; }
+    a:focus-visible, button:focus-visible, .checkbox input:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 1000px) { .entry-layout { gap: 35px; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } .entry-panel { padding-inline: 24px; } .conference-header { gap: 20px; } .hero-deadline p:first-child > span { display: block; } }
+    @media (max-width: 800px) { .entry-layout { grid-template-columns: minmax(0, 1fr); max-width: 620px; gap: 40px; } .entry-story h2 { font-size: 64px; } .entry-story .story-copy { max-width: 460px; } .how-it-works { display: none; } .entry-section { padding-block: 56px; } .savings-list { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .savings-list > div { display: block; min-width: 0; } .savings-list > div + div { border-left: 1px solid var(--line); padding-left: 22px; } .savings-list dd { margin-top: 15px; font-size: 54px; } .savings-list dt { font-size: 24px; } .savings-note { max-width: none; } .conference-footer > div { flex-wrap: wrap; } .conference-footer p { flex-basis: calc(100% - 175px); } }
+    @media (max-width: 700px) {
+        .conference-header { padding-block: 15px; min-height: 78px; gap: 16px; }
+        .conference-brand { gap: 8px; } .conference-brand img { width: 32px; height: 32px; } .conference-brand span { font-size: 25px; }
+        .event-name { max-width: 150px; font-size: 10px; text-align: right; line-height: 1.45; } .event-name span { font-size: 9px; margin-top: 4px; }
+        .explore-link { display: none; }
+        .hero-stage::before { background: linear-gradient(90deg, #202020e8, #2020209c), linear-gradient(0deg, #202020b3, transparent); }
+        .hero-copy { padding: 35px 24px 34px; }
+        .reward-kicker { font-size: 10px; letter-spacing: .1em; margin-bottom: 24px; }
+        .reward-number { font-size: clamp(170px, 42vw, 270px); }
+        .reward-off { font-size: clamp(46px, 10vw, 68px); margin-top: 20px; }
+        .reward-off br { display: none; }
+        .hero-description { margin-top: 18px; font-size: 12px; }
+        .hero-cta { margin-top: 22px; min-height: 54px; font-size: 13px; width: 100%; }
+        .hero-photo :global(img) { object-position: 57% center; }
+        .hero-model-link { display: none; }
+        .hero-follow { margin-top: 16px; }
+        .hero-deadline { padding-block: 19px; flex-wrap: wrap; gap: 12px; }
+        .hero-deadline p:first-child { font-size: 18px; } .hero-deadline p:first-child > span { display: inline; }
+        .hero-deadline p:last-child { text-align: left; font-size: 10px; }
+        .hero-deadline strong { display: inline; margin-left: 5px; }
+    }
+    @media (max-width: 390px) {
+        .conference-header { gap: 12px; padding-inline: 20px; } .conference-brand { gap: 6px; } .conference-brand span { font-size: 22px; } .conference-brand img { width: 27px; height: 27px; }
+        .event-name { max-width: 130px; font-size: 9px; }
+        .hero-copy { padding-inline: 20px; } .reward-off { font-size: 45px; }
+        .entry-panel { padding-inline: 20px; } .fields { column-gap: 12px; } .form-progress { gap: 12px; } .form-progress li { font-size: 10px; }
+        .entry-story h2 { font-size: 56px; } .savings-list dd { font-size: clamp(36px, 11vw, 44px); } .savings-list dt { font-size: 22px; }
+        .conference-footer p { flex-basis: 100%; order: 1; }
+    }
+</style>

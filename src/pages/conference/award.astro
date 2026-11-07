@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { env } from 'cloudflare:workers';
+import { loadAward } from '../../lib/conference-server';
+import { conferenceDisclosures } from '../../data/conference';
+
+export const prerender = false;
+Astro.response.headers.set('Cache-Control', 'no-store');
+Astro.response.headers.set('Referrer-Policy', 'same-origin');
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+const roundId = Astro.url.searchParams.get('round') ?? '';
+const token = Astro.url.searchParams.get('token') ?? '';
+let unavailable = false;
+let round;
+try { round = await loadAward(env, roundId, token); }
+catch { unavailable = true; Astro.response.status = 503; }
+if (!round && !unavailable) Astro.response.status = 403;
+const format = (value: string) => new Intl.DateTimeFormat('en-US', { timeZone: 'Pacific/Honolulu', dateStyle: 'long', timeStyle: 'short' }).format(new Date(value)) + ' HST';
+const pastAcceptance = round?.accept_by ? Date.now() >= Date.parse(round.accept_by) : false;
+const pastRedemption = round?.redeem_by ? Date.now() >= Date.parse(round.redeem_by) : false;
+const canRespond = round?.status === 'notified' && !pastAcceptance;
+---
+
+<Layout standalone noIndex canonicalUrl="https://threeuilas.com/conference" title="Your Conference Discount | Three Uilas" description="Review and respond to your Three Uilas conference discount selection.">
+	<div class="award-page">
+		<header><a href="/">Three Uilas<span>.</span></a><p>Hawaiʻi Agriculture Conference</p></header>
+		<section class="award-content" aria-label="Review your discount selection">
+			<p class="ui-eyebrow">The conference discount</p>
+			{unavailable ? <><h1>PLEASE TRY AGAIN.</h1><p>We can’t load your selection right now. Refresh this page shortly, or email <a href="mailto:info@threeuilas.com">info@threeuilas.com</a>.</p></> : !round ? <><h1>CHECK YOUR LINK.</h1><p>Open the complete private response link from your Three Uilas notification email.</p></> : round.status === 'accepted' ? <>
+				<h1>{pastRedemption ? 'YOUR USE WINDOW ENDED.' : 'YOU’VE ACCEPTED.'}</h1>
+				<p>{pastRedemption ? 'The 30-day redemption window for this discount has ended.' : 'Your 15% discount is saved. Contact our team to arrange your order.'}</p>
+				{round.redeem_by && <p class="date-box"><strong>Use by</strong><time datetime={round.redeem_by}>{format(round.redeem_by)}</time></p>}
+				<p>{conferenceDisclosures.reward}</p><p>Reference: <code>{round.id}</code></p>
+			</> : round.status === 'pending' ? <><h1>YOUR SELECTION IS BEING PREPARED.</h1><p>Refresh this page shortly to see your response deadline.</p></> : round.status === 'declined' ? <><h1>DECLINED.</h1><p>Your response is saved. A replacement will be selected randomly from the remaining entries.</p></> : !canRespond ? <><h1>THE RESPONSE WINDOW HAS ENDED.</h1><p>The 48-hour acceptance window has closed. A replacement will be selected from the remaining entries.</p></> : <>
+				<h1>YOUR CHANCE AT<br /><span>15% OFF.</span></h1>
+				<p>You were selected. Accept the discount to receive 15% off your entire pre-tax subtotal for one uila, including add-ons and delivery.</p>
+				{round.accept_by && <p class="date-box"><strong>Accept by</strong><time datetime={round.accept_by}>{format(round.accept_by)}</time></p>}
+				<p>{conferenceDisclosures.freeEntry} Using the discount requires purchasing the vehicle. After accepting, you have 30 days to use it. If you decline or miss this deadline, a replacement is drawn from the remaining entries.</p>
+				<form action="/api/conference-award" method="post">
+					<input type="hidden" name="round" value={round.id} /><input type="hidden" name="token" value={token} />
+					<button class="action" name="decision" value="accepted">Accept my 15% discount</button>
+					<button class="decline" name="decision" value="declined">Decline the discount</button>
+				</form>
+			</>}
+			<p class="help">Questions? <a href="mailto:info@threeuilas.com">info@threeuilas.com</a> · <a href="tel:+18083000605">(808) 300-0605</a></p>
+		</section>
+	</div>
+</Layout>
+
+<style>
+	.award-page { min-height: 100svh; background: var(--forest); color: var(--paper); padding-bottom: 60px; }
+	header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; padding: 25px clamp(20px, 5vw, 64px); border-bottom: 1px solid #66735c; }
+	header > a { font-size: 32px; font-weight: 800; } header > a > span { color: #ff5039; }
+	header > p { font: 11px/1.7 system-ui, sans-serif; }
+	.award-content { width: min(700px, calc(100% - 40px)); margin: 65px auto 0; }
+	.ui-eyebrow { color: #b5c1a9; }
+	h1 { font-size: clamp(43px, 7vw, 80px); font-weight: 800; line-height: 1; letter-spacing: -.025em; }
+	h1 > span { color: #ff5039; }
+	.award-content > p { font: 14px/1.9 system-ui, sans-serif; margin-top: 25px; }
+	p a { text-decoration: underline; text-underline-offset: 4px; }
+	.date-box { border-block: 1px solid #66735c; padding-block: 20px; }
+	.date-box strong, .date-box time { display: block; }.date-box time { margin-top: 6px; font-size: 18px; }
+	form { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px; }
+	button { cursor: pointer; }.decline { font: 600 13px/1.6 system-ui, sans-serif; text-decoration: underline; text-underline-offset: 4px; min-height: 48px; padding-inline: 10px; }
+	.help { color: #c3ccb9; padding-top: 20px; border-top: 1px solid #66735c; }
+	code { overflow-wrap: anywhere; } a:focus-visible, button:focus-visible { outline: 3px solid var(--paper); outline-offset: 5px; }
+</style>

@@ -13,6 +13,7 @@ const { sitekey } = Astro.props;
 	interface TurnstileAPI {
 		render(container: HTMLElement, options: { sitekey: string; theme: 'light'; size: WidgetSize }): string;
 		remove(widgetId: string): void;
+		reset(widgetId: string): void;
 	}
 
 	const container = document.querySelector<HTMLElement>('[data-turnstile-widget]');
@@ -34,6 +35,9 @@ const { sitekey } = Astro.props;
 		const observer = new ResizeObserver(render);
 		observer.observe(container);
 		render();
+		container.addEventListener('turnstile:reset', () => {
+			if (api && widgetId !== undefined) api.reset(widgetId);
+		});
 
 		const script = document.createElement('script');
 		script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';

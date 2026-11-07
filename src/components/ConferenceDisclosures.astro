@@ -1,0 +1,26 @@
+---
+import { conferenceDisclosures as disclosure } from '../data/conference';
+
+---
+
+<div id="drawing-disclosures" class="promotion-disclosures" aria-labelledby="drawing-disclosures-title" tabindex="-1">
+	<h3 id="drawing-disclosures-title">Drawing details and terms</h3>
+	<p class="free-entry"><strong>{disclosure.freeEntry}</strong></p>
+	<p>{disclosure.reward}</p>
+	<p><strong>Odds:</strong> {disclosure.odds}</p>
+	<p><strong>Drawing:</strong> {disclosure.selection} {disclosure.nonAward}</p>
+	<p><strong>Acceptance and use:</strong> {disclosure.claim}</p>
+	<p>{disclosure.optionalParticipation}</p>
+	<p><strong>How to enter:</strong> {disclosure.entryInstructions}</p>
+	<p><strong>Promotion information:</strong> Write to {disclosure.sponsor}, {disclosure.informationAddress}, or email <a href="mailto:info@threeuilas.com">info@threeuilas.com</a>. The team will contact the selected winner using their entry details.</p>
+</div>
+
+<style>
+	.promotion-disclosures { font: 13px/1.8 system-ui, sans-serif; border-block: 1px solid #b8c1ad; padding-block: 20px; margin-block: 24px; color: #35432f; overflow-wrap: anywhere; scroll-margin-top: 24px; }
+	h3 { font: 700 24px/1.2 'Asap Condensed', system-ui, sans-serif; margin-bottom: 18px; }
+	p + p { margin-top: 12px; }
+	strong { font-weight: 700; }
+	.free-entry { font-size: 14px; }
+	a { text-decoration: underline; text-underline-offset: 3px; }
+	a:focus-visible, .promotion-disclosures:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+</style>

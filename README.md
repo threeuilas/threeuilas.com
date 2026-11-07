@@ -35,6 +35,8 @@ The check, development, and build scripts create `.astro/` and generate Worker b
 | `/products/sparrow-plus` | Sparrow+ compact utility, foldable seat, gallery, and specifications | [sparrow-plus.astro](src/pages/products/sparrow-plus.astro) |
 | `/about` | Our story and mission | [about.astro](src/pages/about.astro) |
 | `/contact` | Inquiry form and direct call, text, and email options | [contact.astro](src/pages/contact.astro) |
+| `/conference` | Hawaiʻi Agriculture Conference entry form and automatic 15%-off drawing | [conference.astro](src/pages/conference.astro) |
+| `/conference/award` | Legacy private signed response links; new drawing follow-up is handled manually in ops | [award.astro](src/pages/conference/award.astro) |
 | `/privacy` | Privacy policy, payment and cloud providers, and data rights contact information | [privacy.astro](src/pages/privacy.astro) |
 
 The header groups All models, Workhorse Pro, and Sparrow+ under Products, alongside Our story and Get in touch. The logo returns home. Each product page has Overview, Features, Gallery, and Specs navigation; its model name links to `#page-top`, above the global header.
@@ -54,6 +56,8 @@ Shared prices and model specifications live in [products.ts](src/data/products.t
 | [disclosures.ts](src/scripts/disclosures.ts) | Opening and closing animations, state, keyboard compatibility, and reduced motion |
 | [WorkhorseFeatures.astro](src/components/WorkhorseFeatures.astro) | Keyboard-accessible feature tabs with animated images and text |
 | [WorkhorsePhoto.astro](src/components/WorkhorsePhoto.astro), [SparrowPhoto.astro](src/components/SparrowPhoto.astro) | Responsive product photos with model-specific alt text |
+| [ProductPhotoLink.astro](src/components/ProductPhotoLink.astro) | Optional full-size image links and expand indicators for product photos |
+| [product-gallery.ts](src/scripts/product-gallery.ts) | One PhotoSwipe gallery per product page, including feature photos, with repeated images shown once |
 
 Use `QuestionList` for FAQs and `Disclosure` for other inline expanders. The Products menu uses the same disclosure controller with its own layout. Programmatic menu changes should call `setDisclosureOpen`, so closing animations and accessibility state remain synchronized.
 
@@ -73,6 +77,8 @@ Feature tabs, disclosures, indicators, and mobile navigation respect `prefers-re
 
 Current product images are committed as 640, 1280, and 1920-pixel-wide WebP assets in `public/workhorse-pro/` and `public/sparrow-plus/`. Hero images load eagerly; other photos load lazily. Alt text comes from [workhorse-pro.ts](src/data/workhorse-pro.ts) and [sparrow-plus.ts](src/data/sparrow-plus.ts).
 
+Every photo on a dedicated product page opens that model's gallery, including hero, overview, feature, and purchase-section photos. The viewer includes photos in inactive feature tabs and shows repeated images once. Links open the full-size image when JavaScript is unavailable. Workhorse Pro feature lead images preserve their 3:2 proportions, portrait detail images fit inside their tiles, and Sparrow+ feature images retain their 4:3 proportions so feature details remain visible.
+
 The temporary `10:22 Workhorse Pro Selected/` camera folder is not a build dependency and was left untracked. The unused `public/three-uilas-logo-compact-print-transparent.png` was also left local. Preserve those files unless the user asks otherwise.
 
 See [the image guide](IMAGE_OPTIMIZATION.md) for asset preparation and [the Workhorse Pro photo notes](docs/workhorse-pro-photography.md) for the selection rationale.
@@ -90,6 +96,8 @@ The original Workhorse and Sparrow options are labeled “discontinued.” Their
 The form uses `role="alert"` for errors and `role="status"` for success. [ContactTurnstile.astro](src/components/ContactTurnstile.astro) renders a flexible horizontal widget when the form has at least 300px available and a compact widget below that width. It recreates the widget only when resizing crosses that threshold. It still uses `novalidate` and server-side field validation; token reset after submission errors and focus management remain follow-up work.
 
 ## Verification and publication
+
+The conference page has durable D1 entry storage, operations lead forwarding, and a scheduled drawing/reminder email at the end of the conference. See [conference setup and behavior](docs/conference.md). Run `pnpm test:conference` for its database and scheduler tests; these intercept email requests and do not send live messages.
 
 Run `pnpm check` and `pnpm build` after code changes. For UI changes, check relevant pages at phone, tablet, and desktop widths, including 320px and 390px. Verify model inquiry preselection, image loading, gallery controls, keyboard interaction, opening and closing animations, rapid toggling, and reduced-motion behavior.
 

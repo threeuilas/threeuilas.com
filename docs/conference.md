@@ -1,0 +1,69 @@
+# Hawaiʻi Agriculture Conference drawing
+
+## November 7 production release
+
+The owner authorized production deployment, migrations, commit and push, including the gallery improvements. Public Worker `cacb811f-1426-4fea-a91b-e83c99d2689a` is deployed to threeuilas.com and www.threeuilas.com with the five-minute schedule. Ops Worker `3a02c041-06d7-4437-8d6e-1c24431407c0` deployed first, retaining Access authentication, all schedules and both Queue consumers. Conference migration 0003 was applied beforehand, preserving zero entries and selection rounds; the append-only audit table and its two guards are installed with no foreign-key violations. The recovery bookmark is `0000001c-00000000-0000511c-6218b305e824f2979e2f4d052e540df2`. No ops-main-database migration or unreleased commerce work was deployed.
+
+The page uses a neutral charcoal overlay over the Workhorse Pro photo, with red moved to the “Your choice of uila” banner. Instagram/Facebook links are in the opening hero and the post-entry reminder; the lower follow section is removed. Banner text contrast exceeds 4.5:1, including the small deadline text. The current terms version is `2026-11-07-v2`. Entries remain open until November 10 at 5 p.m. HST. Every new entry creates an ops lead with both email and phone and farming details. Drawing emails are internal only; staff manually contact selected entrants and record contact and responses in ops. The 48-hour period starts at actual manual contact, and acceptance starts 30 days for redemption.
+
+The exact public release passes all 16 conference tests, checks/build and mocked form checks at 320/390/768/1440px, including validation, error/retry, focus, single disclosures, background coverage, social placement and no-JavaScript help. Ops passes 166 tests plus the Node SQL regression, type/build checks and clean dependency audit. Two desktop/mobile staff workflows verify contact, acceptance, stale-form handling and persisted history. Both gallery workflows verify every photo, 17/5 unique images, dimensions, zoom, keyboard/focus, touch, no-JavaScript links and narrow layouts. The original ops workspace also passes 190 tests including preserved commerce work. No production test entry or real test message was created. Real inbox delivery and authenticated remote staff acceptance remain unexercised.
+
+Published November 6, 2026 at https://threeuilas.com/conference. Cloudflare deployment `7cddf65c-dbfa-406f-b2ee-814a52c0ff7a` confirmed both custom domains, the production D1 binding, the existing lead queue, and the five-minute Cron Trigger. Live checks returned HTTP 200 for the page and HTTP 400 for an empty API request, rejected before persistence or email. A read-only database check confirmed zero entries and zero draws; no production test entries or messages were created.
+
+Immediately enabled entries at the user’s request in deployment `1a8a949c-e968-42ba-a786-c706959f592b` on November 6. Live browser checks at 320px, 390px, and 1440px confirmed the form is visible at the actual current time, with the original cutoff intact. A request without captcha reached the verification check, confirming the server opening gate is open without saving a test entry. All nine conference tests, project checks, and the production build passed.
+
+The bold, full-width redesign and removal of street address collection were published November 6 in deployment `1d6be922-9774-4dfe-b763-b47d328bd93f`. Live checks at 390px and 1440px confirmed the red offer, 15% headline, computed model savings, open form, absent street address field, preserved cutoff, and no horizontal overflow. The existing database, queue, and scheduled drawing bindings were retained. No live test entry or message was sent.
+
+The landing page is `/conference`. Conference dates are November 9–10, 2026. At the user’s request, entries opened immediately on November 6 at 10:36:59 p.m. HST (`2026-11-07T08:36:59.000Z`) and close November 10 at 5:00 p.m. HST (`2026-11-11T03:00:00.000Z`). The offer is a chance at 15% off one three uila of the winner’s choice, including add-ons.
+
+## Current offer and disclosures
+
+The public Odds and Drawing paragraphs were simplified in deployment `5e79e112-5158-4678-b569-628a66a51ca2`. They explain entry counts, random replacements, the closing time, and the 48-hour response period without formulas or scheduler terminology. Checks/build passed, and live browser checks passed at 320px, 390px, and 1440px. The rules, terms version, and automation are unchanged.
+
+The user-requested disclosure consolidation was published in deployment `2e592d20-ac37-471e-b7ef-8a792aef0487`. The full block appears once before the submit button, with a hero anchor link. Browser checks passed at 320px, 390px, 768px, and 1440px, and the live page was verified to contain exactly one complete block. No promotion terms or drawing logic changed.
+
+The confirmed terms, conspicuous disclosures, signed response flow, and automatic replacement logic were published November 6 in Cloudflare deployment `77bff4c3-d2e2-4b83-8a95-164bc91d9c0e`. Live checks at 390px and 1440px verified the open form and disclosures. The live API rejected a stale terms version before entry creation, and the private award route required a signed link with no-store/noindex headers. A read-only rollout check confirmed zero production entries, zero earlier-terms entries, and zero selection rounds. No test messages were sent to real recipients. The database migration and signing secret are installed; inbox delivery remains untested.
+
+The discount is **15% off the entire pre-tax subtotal for one uila**, including all line items, add-ons, and delivery. Tax is excluded. Delivery is quoted for the requested destination. There is no charge to enter, win, or accept the discount; using it requires purchasing a vehicle.
+
+At the user’s request, the page shows the full disclosures once, visibly before the submit button, with a hero link to `#drawing-disclosures`. The disclosure copy comes from `src/data/conference.ts`: free entry, purchase-dependent redemption, initial and replacement odds, initial selection date and replacement timing, possible non-award, the acceptance/use deadlines, optional social/newsletter participation, and a contact address for participation information. Price comparisons show the reference vehicle price and its price after 15% off. See [the statute review](conference-promotion-review.md); implementation changes are not a legal compliance certification.
+
+The standalone page has an oversized 15% offer over a full-width Workhorse Pro photograph with a neutral charcoal gradient and a red “Your choice of uila” banner. Instagram and Facebook links appear within the opening hero before the form. Other pages retain the standard header and footer. The form collects names, email, phone, town, island, profession, acreage, farming experience, and model interest. Postal code, organization, and marketing consent are optional. Street addresses are not collected in new payloads. Existing stored data and lead-note compatibility remain intact.
+
+## Entry storage and lead forwarding
+
+`CONFERENCE_DB` is a separate D1 database, `threeuilas-conference-production`. `conference_entries` stores structured JSON, normalized email, and server timestamps. The event/email unique constraint makes retries retain the first entry. Both the API and SQL write enforce the entry window, including captcha verification finishing after closing.
+
+Entries also go to `WEBSITE_LEADS_QUEUE`, creating one ops lead with the entry UUID as its lead UUID. New entries carry `leadPayloadVersion: 2`; only those entries add validated conference metadata to the existing contact-message contract. Ops retains email and phone in their own columns, preserves separate first and last names, and records source `threeuilas.com/conference`. Location, profession, acreage, experience, event source, and marketing consent remain in notes and are displayed from the original entry on the authenticated ops lead page. Legacy messages keep their original payload/hash on retry. Forwarding failures retain the entry for scheduled retry with the original ID and timestamp. No mailing-list signup or promotional blast is performed. Deploy the updated ops consumer before publishing the new producer.
+
+New entries record the published `termsVersion`. The API rejects stale forms with a different or missing version so visitors must reload and see the updated disclosures. Bump the version when changing material terms, and review any existing entries before applying restrictions retroactively. A read-only production check before this rollout confirmed zero entries.
+
+## Selection, acceptance, and replacements
+
+The initial selection is due November 10, 2026 at 5:00 p.m. HST. The website Worker delegates HTTP to Astro and checks the drawing every five minutes. Selection uses Web Crypto randomness with rejection sampling. `conference_draws` preserves the first selection snapshot and total accepted entries. `conference_draw_rounds` is the authoritative history of selections, notifications, responses, and deadlines.
+
+The automatic drawing is internal only. All automated drawing emails go exclusively to `info@threeuilas.com` and link to the selected entrant’s authenticated ops lead page. Three Uilas contacts the entrant manually by email or phone, then records the actual notification time in ops. That time starts the **48-hour acceptance period**. A pending selection does not expire before manual contact. Staff record acceptance or decline in ops; acceptance starts the **30-day use period**. Ops requires an active authenticated staff account with sales permissions, same-origin POST and CSRF; an atomic, append-only conference audit records each staff action. No action sends an entrant message. The existing signed public response endpoint remains compatible with previously issued links but no response links are emailed automatically.
+
+A decline or expired response window causes a random replacement from entries that have never been selected. Unique constraints allow only one pending/notified/accepted selection, and each entry can be selected only once. Repeated or overlapping scheduled jobs preserve the active selection. Accepted selections are final; the **30-day use deadline runs from acceptance**, and the sponsor receives that deadline and the instruction to discount all pre-tax line items including delivery. No new drawing occurs merely because an accepted discount later goes unused.
+
+If there are no entries, or all entrants decline or time out, the outcome is recorded and the sponsor receives an email. Internal reminder failures retain the selected entrant and never start or extend the acceptance timer. Stable provider idempotency keys and stored notice status avoid ordinary retry duplicates. Provider acceptance does not prove inbox delivery. Keep the schedule enabled until selection is settled and pending lead/reminder work is complete.
+
+The website records acceptance and the use deadline; vehicle ordering and application of the invoice discount remain with the team. Check `redeem_by` before applying the discount. The site does not collect payment or apply a checkout coupon automatically.
+
+## Configuration and verification
+
+Event dates, the 48-hour window, the 30-day use period, and public disclosure copy live in `src/data/conference.ts`. Changes require rebuilding and deploying. Do not reuse this event ID. `wrangler.jsonc` declares the database, migrations, queue, and schedule. Secret values stay out of source. `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, and **`CONFERENCE_DRAW_SECRET`** must exist in production. Do not rotate the signing secret during active acceptance/redemption windows: it invalidates emailed response links.
+
+`0002_conference_award_claims.sql` preserves an existing selection as a pending response round and does not clear entries. `0003_conference_team_actions.sql` adds immutable staff action history without modifying entries or selections. Apply migrations before deploying ops controls. The public website owns the conference schema; ops retains an identical migration snapshot for independent local/staging setup. The operational `DB` and conference `CONFERENCE_DB` remain separate.
+
+```sh
+pnpm test:conference
+pnpm check
+pnpm build
+```
+
+Sixteen isolated tests use in-memory SQLite and intercept all email requests, asserting every recipient is `info@threeuilas.com`. They cover input/consent validation, SQL deadline boundaries, duplicate prevention, payload limits, versioned producer compatibility, random selection, overlapping jobs, signed-link tampering, acceptance, exact 48-hour expiration, 30-day use deadlines, final accepted awards, decline/timeout replacements, exhausted and empty pools, internal email failures, migration compatibility, and independent lead forwarding. A pending selection remains pending even ten days later if staff have not recorded contact. Ops independently tests lead ingestion, permissions, CSRF/origin, staff deadlines, concurrency and atomic append-only history.
+
+Browser checks use mocked submissions and captcha at 320px, 390px, 768px, and 1440px. No production test entries or live test emails are authorized by these checks. Real inbox delivery and downstream operations ingestion remain live integration checks.
+
+An isolated local Worker with fake credentials and blocked outbound requests verified the actual signed response page and API at 320px, 390px, and 1440px, including JavaScript-disabled native acceptance, decline, exact 30-day use storage, expiration rejection, invalid signatures, same-origin enforcement, no-store/noindex headers, and token-free canonical/Open Graph URLs. The Referrer-Policy is `same-origin` so tokens are not sent to external sites while native response POSTs retain their Origin header. No synthetic rows were added to production.

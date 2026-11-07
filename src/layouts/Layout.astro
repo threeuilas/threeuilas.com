@@ -7,12 +7,18 @@ interface Props {
 	title: string;
 	description?: string;
 	ogImage?: string;
+	standalone?: boolean;
+	noIndex?: boolean;
+	canonicalUrl?: string;
 }
 
 const {
 	title,
 	description = 'Three Uilas - Quality electric tricycles for all. Providing Hawaiʻi with high quality personal and farm vehicles at an affordable price.',
 	ogImage = '/workhorse/workhorse-3-colors-1.jpg',
+	standalone = false,
+	noIndex = false,
+	canonicalUrl = Astro.url.href,
 } = Astro.props;
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://threeuilas.com';
@@ -28,14 +34,16 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImageUrl} />
-		<meta property="og:url" content={Astro.url.href} />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Three Uilas" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
-		<link rel="canonical" href={Astro.url.href} />
+		<link rel="canonical" href={canonicalUrl} />
+		{noIndex && <meta name="robots" content="noindex, nofollow" />}
+		{noIndex && <meta name="referrer" content="same-origin" />}
 		<link rel="icon" type="image/svg+xml" href="/three-uilas-favicon.svg" />
 		<link rel="icon" type="image/png" href="/three-uilas-favicon.png" />
 		<link rel="apple-touch-icon" href="/three-uilas-favicon.png" />
@@ -46,11 +54,11 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`
 		<title>{title}</title>
 	</head>
 	<body id="page-top" class="min-h-screen flex flex-col font-sans">
-		<Navigation />
+		{!standalone && <Navigation />}
 		<main class="grow">
 			<slot />
 		</main>
-		<Footer />
+		{!standalone && <Footer />}
 	</body>
 </html>
 

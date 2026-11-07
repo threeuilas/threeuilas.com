@@ -1,5 +1,5 @@
 {
-	"main": "@astrojs/cloudflare/entrypoints/server",
+	"main": "./src/worker.ts",
 	"name": "threeuilas",
   "compatibility_date": "2025-12-18",
   "compatibility_flags": [
@@ -18,6 +18,15 @@
 			}
 		]
 	},
+	"d1_databases": [
+		{
+			"binding": "CONFERENCE_DB",
+			"database_name": "threeuilas-conference-production",
+			"database_id": "77228fd7-cd6e-4891-91f1-9bd250e657a9",
+			"migrations_dir": "migrations"
+		}
+	],
+	"triggers": { "crons": ["*/5 * * * *"] },
 	"observability": {
     "enabled": true
   },
