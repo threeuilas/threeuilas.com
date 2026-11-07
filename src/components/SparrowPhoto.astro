@@ -1,15 +1,18 @@
 ---
 import { sparrowPhotos, type SparrowPhotoName } from '../data/sparrow-plus';
+import ProductPhotoLink from './ProductPhotoLink.astro';
 
 interface Props {
 	name: SparrowPhotoName;
 	sizes?: string;
 	class?: string;
 	priority?: boolean;
+	gallery?: boolean;
 }
-const { name, sizes = '(max-width: 700px) 100vw, 50vw', class: className, priority = false } = Astro.props;
+const { name, sizes = '(max-width: 700px) 100vw, 50vw', class: className, priority = false, gallery = false } = Astro.props;
 ---
 
+<ProductPhotoLink enabled={gallery} href={`/sparrow-plus/${name}-1920.webp`} width={1920} height={1440} alt={sparrowPhotos[name].alt}>
 <img
 	src={`/sparrow-plus/${name}-1280.webp`}
 	srcset={[640, 1280, 1920].map(width => `/sparrow-plus/${name}-${width}.webp ${width}w`).join(', ')}
@@ -22,3 +25,4 @@ const { name, sizes = '(max-width: 700px) 100vw, 50vw', class: className, priori
 	fetchpriority={priority ? 'high' : 'auto'}
 	decoding="async"
 />
+</ProductPhotoLink>

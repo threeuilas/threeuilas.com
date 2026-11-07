@@ -23,7 +23,11 @@ Permanent assets are in `public/workhorse-pro`, independent of the temporary sou
 
 The page follows an overview → features → gallery → specifications → ownership questions → inquiry progression. It uses the existing red brand accent and typeface with warm neutral and dark green backgrounds drawn from the photography.
 
-The feature explorer supports pointer and keyboard navigation. Without JavaScript, all feature sections remain visible. FAQs use the shared [QuestionList](../src/components/QuestionList.astro) and [Disclosure](../src/components/Disclosure.astro) components. Gallery links work as direct image links without JavaScript. Purchase links open the existing contact form with Workhorse Pro selected.
+The feature explorer supports pointer and keyboard navigation. Without JavaScript, all feature sections remain visible. FAQs use the shared [QuestionList](../src/components/QuestionList.astro) and [Disclosure](../src/components/Disclosure.astro) components. Purchase links open the existing contact form with Workhorse Pro selected.
+
+Every product photo opens the same model gallery, including the opening image, overview, all feature photos, gallery tiles, and purchase-section photo. The shared [gallery script](../src/scripts/product-gallery.ts) includes photos from inactive tabs and shows repeated images once. [ProductPhotoLink](../src/components/ProductPhotoLink.astro) provides full-size image links, expand indicators, and keyboard focus styles; links still open the image without JavaScript. Workhorse Pro has 17 unique gallery images and Sparrow+ has five.
+
+Feature lead photos retain their original 3:2 proportions so the raised bed, roof, and wheels stay in frame. Portrait close-ups of the hydraulic cylinder, panel latch, and headlight fit fully within the detail tiles, with neutral space at the sides. Sparrow+ feature photos use their original 4:3 proportions to preserve the rear-seat and vehicle views.
 
 The section navigation provides Overview, Features, Gallery, and Specs links. The sticky Workhorse Pro name links to `#page-top`, above the global header. Additional section-jump arrows have been removed. Feature tabs animate the indicator, image, copy, and detail photos, with immediate changes for visitors who prefer reduced motion. Cross-page text links use a continuous border instead of underlining separate text and arrow elements.
 

@@ -1,17 +1,21 @@
 ---
 import { workhorsePhotos, type WorkhorsePhotoName } from '../data/workhorse-pro';
+import ProductPhotoLink from './ProductPhotoLink.astro';
 
 interface Props {
 	name: WorkhorsePhotoName;
 	sizes?: string;
 	class?: string;
 	priority?: boolean;
+	gallery?: boolean;
+	fit?: 'cover' | 'contain';
 }
 
-const { name, sizes = '(max-width: 700px) 100vw, 65vw', class: className, priority = false } = Astro.props;
+const { name, sizes = '(max-width: 700px) 100vw, 65vw', class: className, priority = false, gallery = false, fit } = Astro.props;
 const photo = workhorsePhotos[name];
 ---
 
+<ProductPhotoLink enabled={gallery} href={`/workhorse-pro/${name}-1920.webp`} width={1920} height={photo.portrait ? 2880 : 1280} alt={photo.alt}>
 <img
 	src={`/workhorse-pro/${name}-1280.webp`}
 	srcset={[640, 1280, 1920].map(width => `/workhorse-pro/${name}-${width}.webp ${width}w`).join(', ')}
@@ -20,7 +24,9 @@ const photo = workhorsePhotos[name];
 	height={photo.portrait ? 2880 : 1280}
 	alt={photo.alt}
 	class={className}
+	style={{ objectFit: fit }}
 	loading={priority ? 'eager' : 'lazy'}
 	fetchpriority={priority ? 'high' : 'auto'}
 	decoding="async"
 />
+</ProductPhotoLink>

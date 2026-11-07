@@ -1,6 +1,6 @@
 ---
 import WorkhorsePhoto from './WorkhorsePhoto.astro';
-import { workhorseFeatures } from '../data/workhorse-pro';
+import { workhorseFeatures, workhorsePhotos } from '../data/workhorse-pro';
 ---
 
 <div class="feature-explorer" data-feature-explorer>
@@ -16,7 +16,7 @@ import { workhorseFeatures } from '../data/workhorse-pro';
 	{workhorseFeatures.map(feature => (
 		<section id={`feature-${feature.id}`} class="feature-panel" aria-labelledby={`feature-link-${feature.id}`} data-feature-panel>
 			<div class="feature-lead">
-				<WorkhorsePhoto name={feature.image} sizes="(max-width: 800px) 100vw, 65vw" />
+				<WorkhorsePhoto name={feature.image} sizes="(max-width: 800px) 100vw, 65vw" gallery />
 				<div class="feature-copy">
 					<p class="eyebrow">{feature.kicker}</p>
 					<h3>{feature.title}</h3>
@@ -26,7 +26,7 @@ import { workhorseFeatures } from '../data/workhorse-pro';
 			<div class="feature-details">
 				{feature.details.map(detail => (
 					<article>
-						<WorkhorsePhoto name={detail.image} sizes="(max-width: 600px) 100vw, 33vw" />
+						<WorkhorsePhoto name={detail.image} sizes="(max-width: 600px) 100vw, 33vw" gallery fit={workhorsePhotos[detail.image].portrait ? 'contain' : 'cover'} />
 						<h4>{detail.title}</h4>
 						<p>{detail.description}</p>
 					</article>
@@ -65,7 +65,7 @@ import { workhorseFeatures } from '../data/workhorse-pro';
 			if (shouldAnimate) {
 				const panel = panels[index];
 				const nextHeight = panelHost.getBoundingClientRect().height;
-				const image = panel.querySelector('.feature-lead > img');
+				const image = panel.querySelector('.feature-lead img');
 				const copy = panel.querySelector('.feature-copy');
 				const easing = 'cubic-bezier(0.22, 1, 0.36, 1)';
 				animations.push(panelHost.animate([{ height: `${previousHeight}px`, overflow: 'clip' }, { height: `${nextHeight}px`, overflow: 'clip' }], { duration: 420, easing }));
@@ -114,19 +114,20 @@ import { workhorseFeatures } from '../data/workhorse-pro';
 	.feature-panel[hidden] { display: none; }
 	.feature-panel:last-child { margin-bottom: 0; }
 	.feature-lead { display: grid; grid-template-columns: 1.65fr 1fr; background: #e8e8df; overflow: hidden; }
-	.feature-lead > :global(img) { width: 100%; height: 100%; min-height: 410px; object-fit: cover; }
+	.feature-lead > :global(.product-photo-link) { aspect-ratio: 3 / 2; align-self: center; }
+	.feature-lead > :global(.product-photo-link:focus-visible) { outline-offset: -5px; }
+	.feature-lead :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 	.feature-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 4vw, 64px); }
 	.eyebrow { font-family: system-ui, sans-serif; font-size: 10px; font-weight: 650; letter-spacing: .11em; text-transform: uppercase; color: #565b50; }
 	h3 { font-size: clamp(38px, 3.4vw, 54px); font-weight: 700; line-height: 1.05; margin: 20px 0; }
 	.feature-copy > p:not(.eyebrow), .feature-details p { font-family: system-ui, sans-serif; font-size: 14px; line-height: 1.8; color: #50564c; }
 	.feature-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 32px; }
+	.feature-details :global(.product-photo-link) { background: #e8e8df; }
 	.feature-details :global(img) { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
-	.feature-details article:first-child :global(img) { object-position: center 57%; }
 	h4 { font-size: 25px; font-weight: 600; margin: 20px 0 9px; line-height: 1.15; }
 	a:focus-visible, .feature-panel:focus-visible { outline: 3px solid #b80e00; outline-offset: 5px; }
 	@media (max-width: 800px) {
 		.feature-lead { grid-template-columns: 1fr; }
-		.feature-lead > :global(img) { min-height: 0; aspect-ratio: 3 / 2; }
 		.feature-copy { padding: 32px; }
 		.feature-links a { font-size: 18px; gap: 8px; padding: 20px 12px; }
 		.feature-details { gap: 20px; }

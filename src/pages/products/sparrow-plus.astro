@@ -43,6 +43,7 @@ const faqs = [
 ---
 
 <Layout title="Sparrow+ | Compact Electric Utility Tricycle | Three Uilas" description={`Meet the Sparrow+: a compact electric utility tricycle with a ${spec('Motor')} motor, ${spec('Battery Capacity')} lithium battery, and foldable rear seat. ${price}.`} ogImage="/sparrow-plus/side-front-1920.webp">
+	<div data-product-gallery>
 	<section id="overview" class="sparrow-hero site-width" aria-labelledby="sparrow-title">
 		<div class="hero-copy">
 			<a href="/products" class="breadcrumb">Products / Sparrow+</a>
@@ -51,7 +52,7 @@ const faqs = [
 			<p class="body-copy">For daily trips and lighter loads around your property. A compact steel bed, foldable rear seat, and lithium battery keep it practical.</p>
 			<div class="hero-purchase"><p>{price}<span>Wall charger included</span></p><a href={contactLink} class="action">Ask about the Sparrow+</a></div>
 		</div>
-		<SparrowPhoto name="side-front" sizes="(max-width: 700px) 100vw, 55vw" priority />
+		<SparrowPhoto name="side-front" sizes="(max-width: 700px) 100vw, 55vw" priority gallery />
 	</section>
 
 	<nav class="section-nav" aria-label="Sparrow+ sections"><div class="site-width"><a href="#page-top" class="product-nav-name" aria-label="Back to top of Sparrow+ page">SPARROW<span class="plus">+</span></a><div><a href="#overview">Overview</a><a href="#features">Features</a><a href="#gallery">Gallery</a><a href="#specifications">Specs</a></div><a href={contactLink} class="nav-contact">Contact us</a></div></nav>
@@ -61,26 +62,24 @@ const faqs = [
 	<section id="features" class="site-width section-pad" aria-labelledby="features-title">
 		<div class="section-top"><div><p class="ui-eyebrow">Everyday utility</p><h2 id="features-title" class="display-heading">ROOM FOR YOUR DAY.</h2></div><p class="body-copy">Simple features for the trips and tasks around your property.</p></div>
 		<div class="utility-grid">
-			<article><SparrowPhoto name="rear-seat" /><h3>A foldable rear seat.</h3><p class="body-copy">Use the rear seat for a passenger, or fold it away when you need the bed for cargo.</p></article>
-			<article><SparrowPhoto name="side" /><h3>A compact footprint.</h3><p class="body-copy">A smaller vehicle for daily trips and lighter loads around your property, with a 3 ft 6 in bed for tools and supplies.</p></article>
+			<article><SparrowPhoto name="rear-seat" gallery /><h3>A foldable rear seat.</h3><p class="body-copy">Use the rear seat for a passenger, or fold it away when you need the bed for cargo.</p></article>
+			<article><SparrowPhoto name="side" gallery /><h3>A compact footprint.</h3><p class="body-copy">A smaller vehicle for daily trips and lighter loads around your property, with a 3 ft 6 in bed for tools and supplies.</p></article>
 		</div>
 		<div class="electric-note"><div><p class="ui-eyebrow">Plug in. Get going.</p><h3>Electric power, easy upkeep.</h3></div><p class="body-copy">A 1,000W motor and 4.7 kWh lithium iron phosphate battery power the Sparrow+. Charge with the included wall charger, with local parts support when you need it.</p></div>
 	</section>
 
-	<section id="gallery" class="gallery-section section-pad" aria-labelledby="gallery-title"><div class="site-width"><div class="section-top"><div><p class="ui-eyebrow">Sparrow+</p><h2 id="gallery-title" class="display-heading">A CLOSER LOOK.</h2></div></div><div class="sparrow-gallery" aria-label="Sparrow+ photo gallery">{gallery.map(name => <a href={`/sparrow-plus/${name}-1920.webp`} data-pswp-width="1920" data-pswp-height="1440" data-cropped="true" target="_blank" rel="noopener" aria-label={`Enlarge photo: ${sparrowPhotos[name].caption}`}><SparrowPhoto name={name} sizes="(max-width: 700px) 100vw, 33vw" /><span>{sparrowPhotos[name].caption}<span aria-hidden="true">+</span></span></a>)}</div><p class="gallery-note">Select a photo to view full screen.</p></div></section>
+	<section id="gallery" class="gallery-section section-pad" aria-labelledby="gallery-title"><div class="site-width"><div class="section-top"><div><p class="ui-eyebrow">Sparrow+</p><h2 id="gallery-title" class="display-heading">A CLOSER LOOK.</h2></div></div><div class="sparrow-gallery" aria-label="Sparrow+ photo gallery">{gallery.map(name => <a href={`/sparrow-plus/${name}-1920.webp`} data-product-photo data-pswp-width="1920" data-pswp-height="1440" data-cropped="true" target="_blank" rel="noopener" aria-label={`Enlarge photo: ${sparrowPhotos[name].caption}`}><SparrowPhoto name={name} sizes="(max-width: 700px) 100vw, 33vw" /><span>{sparrowPhotos[name].caption}<span aria-hidden="true">+</span></span></a>)}</div><p class="gallery-note">Select a photo to view full screen.</p></div></section>
 
 	<section id="specifications" class="site-width section-pad" aria-labelledby="specifications-title"><div class="section-top"><div><p class="ui-eyebrow">Technical details</p><h2 id="specifications-title" class="display-heading">SPECIFICATIONS.</h2></div></div><div class="spec-groups">{specifications.map(group => <div><h3>{group.title}</h3><dl>{group.rows.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}</dl></div>)}</div><p class="range-note">*Maximum range depends on load, terrain, and driving conditions. Intended for private property, private roads, and off-road use.</p></section>
 
 	<section class="site-width faq-section" aria-labelledby="faq-title"><div><p class="ui-eyebrow">Ownership</p><h2 id="faq-title" class="display-heading">COMMON<br />QUESTIONS.</h2><a href="/products" class="inline-link">Compare all models</a></div><QuestionList questions={faqs} /></section>
 
 	<section class="purchase-band" aria-labelledby="purchase-title"><div class="site-width"><div><p class="ui-eyebrow">Available now</p><h2 id="purchase-title" class="display-heading">SPARROW<span>+</span></h2><p class="body-copy">Lithium battery. Foldable rear seat. All electric.</p></div><div class="purchase-action"><p class="purchase-price">{price}</p><a href={contactLink} class="action">Ask about the Sparrow+</a><p class="delivery-note">Delivery available.</p></div></div></section>
+	</div>
 </Layout>
 
 <script>
-	import PhotoSwipeLightbox from 'photoswipe/lightbox';
-	import 'photoswipe/style.css';
-	const lightbox = new PhotoSwipeLightbox({ gallery: '.sparrow-gallery', children: 'a', bgOpacity: 0.96, pswpModule: () => import('photoswipe') });
-	lightbox.init();
+	import '../../scripts/product-gallery';
 </script>
 
 <style>
@@ -90,7 +89,7 @@ const faqs = [
 	h1 { font-size: clamp(70px, 7.4vw, 116px); font-weight: 800; letter-spacing: -.04em; line-height: 1; white-space: nowrap; }
 	h1 span, .purchase-band h2 > span, .plus { color: #db1100; }
 	.hero-copy > .body-copy { margin-top: 24px; max-width: 430px; }
-	.sparrow-hero > :global(img) { width: 100%; height: 520px; object-fit: cover; object-position: center; }
+	.sparrow-hero :global(img) { width: 100%; height: 520px; object-fit: cover; object-position: 60% center; }
 	.hero-purchase { display: flex; flex-wrap: wrap; align-items: center; gap: 25px; margin-top: 30px; }
 	.hero-purchase > p { font-size: 36px; font-weight: 600; }
 	.hero-purchase > p span { display: block; font: 10px/1.7 system-ui, sans-serif; color: #65715a; margin-top: 4px; }
@@ -110,7 +109,7 @@ const faqs = [
 	.stats .bed-value { font-size: 43px; }
 	.range-note { font: 10px/1.8 system-ui, sans-serif; color: #65715a; margin-top: 26px; }
 	.utility-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-	.utility-grid :global(img) { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+	.utility-grid :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 	h3 { font-size: 32px; font-weight: 600; line-height: 1.15; }
 	.utility-grid h3 { margin: 25px 0 15px; }
 	.utility-grid .body-copy { max-width: 480px; }
@@ -142,12 +141,12 @@ const faqs = [
 	.delivery-note { font: 10px/1.7 system-ui, sans-serif; color: #65715a; margin-top: 12px; }
 	a:focus-visible, summary:focus-visible { outline: 3px solid #b80e00; outline-offset: 5px; }
 	.gallery-section a:focus-visible { outline-color: white; }
-	@media (max-width: 1050px) { .sparrow-hero { gap: 35px; } h1 { font-size: 82px; } .sparrow-hero > :global(img) { height: 490px; } .stats > div { padding-inline: 22px; } .stats dd { font-size: 48px; } .stats .bed-value { font-size: 35px; } .spec-groups { gap: 35px; } }
+	@media (max-width: 1050px) { .sparrow-hero { gap: 35px; } h1 { font-size: 82px; } .sparrow-hero :global(img) { height: 490px; } .stats > div { padding-inline: 22px; } .stats dd { font-size: 48px; } .stats .bed-value { font-size: 35px; } .spec-groups { gap: 35px; } }
 	@media (max-width: 700px) {
 		.sparrow-hero { grid-template-columns: 1fr; padding-block: 32px 35px; gap: 32px; }
 		.breadcrumb { margin-bottom: 32px; }
 		h1 { font-size: clamp(64px, 18vw, 100px); }
-		.sparrow-hero > :global(img) { height: auto; aspect-ratio: 4 / 3; }
+		.sparrow-hero :global(img) { height: auto; aspect-ratio: 4 / 3; }
 		.hero-purchase { gap: 24px; }
 		.section-nav .product-nav-name, .section-nav .nav-contact { display: none; }
 		.section-nav > div { min-height: 60px; }

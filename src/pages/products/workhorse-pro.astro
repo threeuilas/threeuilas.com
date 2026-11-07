@@ -56,9 +56,9 @@ const faqs = [
 	description={`Meet the Three Uilas Workhorse Pro: an all-electric utility tricycle with a 5 ft hydraulic dump bed, ${spec('Motor')} motor, and ${spec('Battery Capacity')} lithium battery. ${price}.`}
 	ogImage="/workhorse-pro/tropical-drive-1920.webp"
 >
-	<div class="workhorse-page">
+	<div class="workhorse-page" data-product-gallery>
 		<section class="hero" aria-labelledby="product-title">
-			<WorkhorsePhoto name="tropical-drive" sizes="100vw" priority class="hero-photo" />
+			<WorkhorsePhoto name="tropical-drive" sizes="100vw" priority class="hero-photo" gallery />
 			<div class="hero-shade" aria-hidden="true"></div>
 			<div class="hero-content page-width">
 				<a class="breadcrumb" href="/products">Products / Workhorse Pro</a>
@@ -102,7 +102,7 @@ const faqs = [
 
 		<section id="overview" class="overview page-width section-space" aria-labelledby="overview-title">
 			<div class="overview-image">
-				<WorkhorsePhoto name="cabin-front-wide" sizes="(max-width: 600px) 100vw, 40vw" />
+				<WorkhorsePhoto name="cabin-front-wide" sizes="(max-width: 600px) 100vw, 40vw" gallery />
 			</div>
 			<div class="overview-copy">
 				<p class="eyebrow"><span class="red-line" aria-hidden="true"></span> Meet the Workhorse Pro</p>
@@ -130,7 +130,7 @@ const faqs = [
 				</div>
 				<div class="pro-gallery" aria-label="Workhorse Pro photo gallery">
 					{gallery.map((photo, index) => (
-						<a href={`/workhorse-pro/${photo.name}-1920.webp`} class={`gallery-photo gallery-photo-${index + 1}`} data-pswp-width="1920" data-pswp-height={workhorsePhotos[photo.name].portrait ? 2880 : 1280} data-cropped="true" target="_blank" rel="noopener" aria-label={`Enlarge photo: ${photo.caption}`}>
+						<a href={`/workhorse-pro/${photo.name}-1920.webp`} class={`gallery-photo gallery-photo-${index + 1}`} data-product-photo data-pswp-width="1920" data-pswp-height={workhorsePhotos[photo.name].portrait ? 2880 : 1280} data-cropped="true" target="_blank" rel="noopener" aria-label={`Enlarge photo: ${photo.caption}`}>
 							<WorkhorsePhoto name={photo.name} sizes={index === 0 ? '(max-width: 700px) 100vw, 70vw' : index === 1 ? '(max-width: 600px) 140vw, 100vw' : '(max-width: 700px) 50vw, 35vw'} />
 							<span class="gallery-caption">{photo.caption}<span aria-hidden="true">+</span></span>
 						</a>
@@ -158,7 +158,7 @@ const faqs = [
 		</section>
 
 		<section class="purchase-section" aria-labelledby="purchase-title">
-			<div class="purchase-photo"><WorkhorsePhoto name="cabin-front-wide" sizes="(max-width: 800px) 100vw, 55vw" /></div>
+			<div class="purchase-photo"><WorkhorsePhoto name="cabin-front-wide" sizes="(max-width: 800px) 100vw, 55vw" gallery /></div>
 			<div class="purchase-copy">
 				<p class="eyebrow light">Available now</p>
 				<h2 id="purchase-title">WORKHORSE<br />PRO.</h2>
@@ -172,16 +172,7 @@ const faqs = [
 </Layout>
 
 <script>
-	import PhotoSwipeLightbox from 'photoswipe/lightbox';
-	import 'photoswipe/style.css';
-
-	const lightbox = new PhotoSwipeLightbox({
-		gallery: '.pro-gallery',
-		children: 'a',
-		bgOpacity: 0.96,
-		pswpModule: () => import('photoswipe'),
-	});
-	lightbox.init();
+	import '../../scripts/product-gallery';
 </script>
 
 <style>
@@ -194,9 +185,13 @@ const faqs = [
 	.eyebrow.light { color: #e0e3d7; }
 	.red-line { display: inline-block; width: 26px; height: 3px; background: #db1100; flex-shrink: 0; }
 	.hero { position: relative; min-height: 680px; height: min(790px, calc(100svh - 88px)); color: white; background: #33382b; overflow: hidden; }
+	.hero > :global(.product-photo-link) { position: absolute; inset: 0; }
+	.hero :global(.photo-expand) { right: 24px; bottom: 24px; }
 	.hero :global(.hero-photo) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 64%; }
-	.hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(12 22 14 / 81%) 0%, rgb(12 22 14 / 52%) 29%, rgb(12 22 14 / 5%) 62%), linear-gradient(0deg, rgb(10 18 12 / 70%), transparent 35%); }
-	.hero-content { position: relative; display: flex; flex-direction: column; height: 100%; min-height: inherit; padding-top: 27px; padding-bottom: 40px; }
+	.hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(12 22 14 / 81%) 0%, rgb(12 22 14 / 52%) 29%, rgb(12 22 14 / 5%) 62%), linear-gradient(0deg, rgb(10 18 12 / 70%), transparent 35%); pointer-events: none; }
+	.hero-content { position: relative; display: flex; flex-direction: column; height: 100%; min-height: inherit; padding-top: 27px; padding-bottom: 40px; pointer-events: none; }
+	.hero-content a, .hero-heading, .hero-purchase > p { pointer-events: auto; }
+	.hero > :global(.product-photo-link:focus-visible) { outline-color: white; outline-offset: -5px; }
 	.breadcrumb { font-family: system-ui, sans-serif; font-size: 10px; letter-spacing: .04em; color: #e0e3d7; align-self: start; }
 	.hero-heading { margin-top: auto; margin-bottom: auto; padding-top: 34px; }
 	.hero h1 { font-size: clamp(80px, 8.8vw, 140px); font-weight: 800; line-height: .84; letter-spacing: -.035em; margin-left: -4px; }
@@ -265,6 +260,7 @@ const faqs = [
 	.faq-section .editorial-link { margin-top: 24px; }
 	.purchase-section { display: grid; grid-template-columns: 1.1fr 1fr; background: #e8e9df; }
 	.purchase-photo :global(img) { width: 100%; height: 100%; min-height: 530px; object-fit: cover; object-position: 57% center; }
+	.purchase-photo :global(.product-photo-link) { height: 100%; }
 	.purchase-copy { padding: 64px clamp(32px, 5vw, 88px); background: #2a3426; color: #f5f4ef; }
 	.purchase-copy h2 { font-size: clamp(56px, 5.3vw, 80px); margin-bottom: 26px; }
 	.purchase-price { display: flex; align-items: baseline; gap: 17px; font-size: 40px; font-weight: 600; margin-bottom: 14px; }
@@ -321,6 +317,7 @@ const faqs = [
 		.section-space { padding-block: 56px; }
 		.hero { height: 760px; max-height: none; }
 		.hero :global(.hero-photo) { height: 69%; top: 31%; object-position: 59% center; }
+		.hero :global(.photo-expand) { bottom: 140px; right: 20px; }
 		.hero-shade { background: linear-gradient(180deg, #1a2619 0%, #1a2619 27%, rgb(26 38 25 / 15%) 50%, transparent 65%, rgb(13 23 13 / 95%) 100%); }
 		.hero-content { padding-top: 20px; padding-bottom: 25px; }
 		.breadcrumb { font-size: 9px; }
